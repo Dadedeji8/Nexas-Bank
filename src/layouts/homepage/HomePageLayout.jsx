@@ -1,22 +1,89 @@
 
-import { Button, Container, Stack, Card, CardHeader, CardContent, Box, Input } from '@mui/material'
+import { Button, Container, Stack, Card, CardHeader, CardContent, Box, Input, Typography, TextField, AccordionSummary, AccordionDetails, Accordion } from '@mui/material'
 import React from 'react'
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import HeroImg from '../../assets/images/heroIMG.png'
 import HeroBanner from '../../assets/images/state.png'
 import cat from '../../assets/images/cat.jpg'
 import cat2 from '../../assets/images/cat2.jpg'
 import cat3 from '../../assets/images/cat3.jpg'
 import cat4 from '../../assets/images/cat4.jpg'
+import man from '../../assets/images/man.jpg'
+import woman from '../../assets/images/woman.jpg'
 import city from '../../assets/images/city.jpg'
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Grid } from "lucide-react";
 import { useState } from "react";
-import { FaBars, FaCreditCard, FaExchangeAlt, FaPiggyBank, FaTimes } from "react-icons/fa";
-import { TransferWithinAStation } from '@mui/icons-material';
+import { FaBars, FaCreditCard, FaExchangeAlt, FaFacebook, FaInstagram, FaLinkedin, FaPiggyBank, FaTimes, FaTwitter } from "react-icons/fa";
+import { ExpandMore, TransferWithinAStation } from '@mui/icons-material';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Carousel from 'react-material-ui-carousel';
+import { Avatar } from '@mui/material';
+import MDInput from 'components/MDInput';
 
 const HomePageLayout = () => {
+    const testimonials = [
+        {
+            name: 'John Doe',
+            image: 'https://randomuser.me/api/portraits/men/32.jpg',
+            review: ' Nexas Bank has completely transformed my banking experience. Fast, secure, and easy to use!'
+        },
+        {
+            name: 'Jane Smith',
+            image: 'https://randomuser.me/api/portraits/women/44.jpg',
+            review: 'Amazing customer support and seamless transactions. Highly recommended!'
+        },
+        {
+            name: 'Michael Johnson',
+            image: 'https://randomuser.me/api/portraits/men/50.jpg',
+            review: 'The best digital banking experience I have ever had. Efficient and trustworthy!'
+        }
+    ];
+
+    const faqs = [
+        {
+            question: 'How secure is Nexas Bank?',
+            answer: 'We use top-tier encryption and security protocols to ensure your transactions and data remain safe.'
+        },
+        {
+            question: 'What services does Nexas Bank offer?',
+            answer: 'We provide online banking, quick transfers, savings accounts, loan options, and more.'
+        },
+        {
+            question: 'How can I contact customer support?',
+            answer: 'You can reach out via our 24/7 support chat or email us at support@nexasbank.com.'
+        },
+        {
+            question: 'How do I open an account?',
+            answer: 'You can open an account online by visiting our website and following the step-by-step registration process.'
+        },
+        {
+            question: 'Are there any hidden fees?',
+            answer: 'No, we pride ourselves on transparency. All our fees are clearly outlined on our pricing page.'
+        },
+        {
+            question: 'Can I apply for a loan through Nexas Bank?',
+            answer: 'Yes, we offer various loan options. Check our loans section for eligibility and application details.'
+        },
+        {
+            question: 'Does Nexas Bank offer business accounts?',
+            answer: 'Yes, we offer business accounts with tailored features to help you manage your finances effectively.'
+        },
+        {
+            question: 'What happens if I forget my password?',
+            answer: 'You can reset your password by clicking on the “Forgot Password” link on the login page.'
+        },
+        {
+            question: 'How long does it take for a transaction to process?',
+            answer: 'Most transactions are processed instantly, but some may take up to 24 hours depending on bank policies.'
+        },
+        {
+            question: 'Can I access Nexas Bank internationally?',
+            answer: 'Yes, you can access your Nexas Bank account from anywhere in the world as long as you have an internet connection.'
+        }
+    ];
+
+
     AOS.init();
     const [isOpen, setIsOpen] = useState(false);
     return (
@@ -99,7 +166,7 @@ const HomePageLayout = () => {
                     At Nexas Bank, we prioritize convenience, security, and accessibility, ensuring that every transaction is seamless and stress-free. Whether you are managing personal finances, making international transfers, or handling business transactions, our robust digital banking platform offers a fast, secure, and efficient experience.
                 </div>
                 <div>
-                    <h1 className="text-4xl text-lime-900 font-extrabold">
+                    <h1 className="text-4xl text-lime-900 font-extrabold text-center">
                         Why Choose Nexas Bank?
                     </h1>
                 </div>
@@ -123,7 +190,6 @@ const HomePageLayout = () => {
                         <CardContent><p className='font-bold text-green-800'> Savings & Investments</p>
                             <ul className='font-light text-sm text-left list-none flex flex-col gap-2 mt-2'>
                                 <li>Earn competitive interest rates on your savings accounts.
-
                                 </li>
                                 <li>Access tailored investment plans to grow your wealth securely.</li>
                                 <li>Automate your savings with smart budgeting tools</li>
@@ -138,13 +204,13 @@ const HomePageLayout = () => {
                         <CardContent>
 
                             <ul className='font-light text-sm text-left list-none flex flex-col gap-2 mt-2'>
-                                <li>Get instant access to credit with our hassle-free application process.
-
-
+                                <li>
+                                    Get instant access to credit with our hassle-free application process.
                                 </li>
                                 <li>Choose from a range of credit cards with cashback and rewards.</li>
                                 <li>
-                                    Flexible loan options with low-interest rates and customized repayment plans.</li>
+                                    Flexible loan options with low-interest rates and customized repayment plans.
+                                </li>
                             </ul>
                         </CardContent>
                     </Card>
@@ -181,28 +247,139 @@ const HomePageLayout = () => {
                         </div>
                     </Container>
                 </div>
+                <section className="w-full flex flex-wrap justify-between items-center gap-4">
+                    <div data className='flex-1' data-aos="flip-down">
+                        <img src={man} className=' w-full object-contain' alt="" />
+                    </div>
+
+                    <section className=' flex-1 md:max-w-80'>
+                        <div className=' w-full'>
+                            <h1 className="text-6xl max-w-[700px] text-green-600 font-bold " data-aos="fade-in"> The Process Behind Smart Banking Solutions.</h1>
+                        </div>
+                    </section>
+                    <div className='flex-1'>
+                        <img src={woman} data-aos="flip-up" data-aos-delay='600' className='object-contain' alt="" />
+                        <div className=' w-full'>
+                            <h1 className="text-3xl md:text-right px-2 md:pr-3 text-green-800 font-bold " data-aos="fade-in"> The Process Where strategic vision meets transformative solutions. We empower the organizations to achieve excellence and navigate success. Mobile banking experience with</h1>
+                        </div>
+                    </div>
+                </section>
+                <section className='w-full'>
+                    <section className='py-16 text-center'>
+                        <h1 className='text-4xl text-lime-900 font-extrabold mb-6'>What Our Customers Say</h1>
+                        <Container maxWidth='md'>
+                            <Carousel indicators={false} navButtonsAlwaysVisible>
+                                {testimonials.map((testimonial, index) => (
+                                    <Card key={index} className='p-6 text-center bg-green-50 border border-solid  border-green-700 shadow-lg'>
+                                        <Avatar src={testimonial.image} alt={testimonial.name} sx={{ width: 80, height: 80, margin: 'auto' }} />
+                                        <CardHeader className='text-xl font-semibold mt-4'>&quot;{testimonial.name}</CardHeader>
+                                        <CardContent className='text-gray-700 italic'>&quot;{testimonial.review}</CardContent>
+                                    </Card>
+                                ))}
+                            </Carousel>
+                        </Container>
+                    </section>
+
+                </section>
                 <div
-                    className="bg-no-repeat bg-center bg-cover h-[200px] flex flex-col justify-center items-center text-center p-4"
+                    className="bg-no-repeat bg-center bg-cover w-screen min-h-[200px] px-2 py-5 flex flex-col justify-center items-center text-center p-4"
                     style={{
                         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${city})`,
                     }}
                     data-aos="fade-up"
                 >
+
                     <h1 className="font-black text-5xl text-white "> Get Started Today!</h1>
                     <p className="text-white">
                         Join the thousands of satisfied customers who trust Nexas Bank for their banking needs. Sign up now and experience the future of digital banking.
                     </p>
-                    <Button variant='contained' size="large" className='text-white'>
+                    <Button variant='contained' size="large" className='text-white cursor-pointer'>
                         SIGN UP NOW
                     </Button>
                 </div>
 
-                <div className='bg-green-800 flex justify-center w-100 items-center h-[400px]'>
-                    <form>
-                        <Input type='' />
+                <div className='text-center mt-20 mb-10'>
+                    <h1 className="text-4xl m-auto text-lime-900 font-extrabold">
+                        Contact Us
+                    </h1>
+                </div>
+
+                <div className='bg-green-800 flex justify-center w-full items-center h-[400px]'>
+                    <form className='flex-1 flex flex-col gap-5 px-5'>
+
+                        <input className='text-white rounded-xl border p-3 border-white' placeholder='Name' />
+                        <input className='text-white rounded-xl border p-3 border-white' placeholder='Email' />
+                        <textarea className='border border-white rounded-xl px-3 text-white' placeholder='leave a message' ></textarea>
+                        <button className='border border-white px-4 py-2 bg-lime-400 text-white rounded-xl cursor-pointer'> Send Message</button>
                     </form>
+                    <div className="flex-1 hidden md:flex bg-black h-full">
+
+                    </div>
                 </div>
             </section >
+            <section>
+                <section className='py-16 bg-green-900 text-white text-center'>
+                    <h1 className='text-4xl font-extrabold mb-6'>Frequently Asked Questions</h1>
+                    <Container maxWidth='md'>
+                        {faqs.map((faq, index) => (
+                            <Accordion key={index} sx={{ backgroundColor: '#1B5E20', color: 'white', marginBottom: 2 }}>
+                                <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'white' }} />}>
+                                    <Typography className='font-bold'>{faq.question}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Typography>{faq.answer}</Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        ))}
+                    </Container>
+                </section>
+
+            </section>
+            <section>
+                <Box component="footer" sx={{ backgroundColor: '#1a4223', color: 'white', py: 6 }}>
+                    <Container maxWidth='lg'>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} md={3}>
+                                <Typography variant='h6' gutterBottom>About Us</Typography>
+                                <Typography variant='body2'>Nexas Bank provides secure and innovative banking solutions for individuals and businesses.</Typography>
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                                <Typography variant='h6' gutterBottom>Quick Links</Typography>
+                                <ul>
+                                    <li>Home</li>
+                                    <li>About</li>
+                                    <li>Services</li>
+                                    <li>Contact</li>
+                                </ul>
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                                <Typography variant='h6' gutterBottom>Resources</Typography>
+                                <ul>
+                                    <li>FAQ</li>
+                                    <li>Terms of Service</li>
+                                    <li>Privacy Policy</li>
+                                    <li>Help Center</li>
+                                </ul>
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                                <Typography variant='h6' gutterBottom>Newsletter</Typography>
+                                <Typography variant='body2'>Subscribe to our newsletter for the latest updates.</Typography>
+                                <Box component='form' sx={{ display: 'flex', mt: 2 }}>
+                                    <TextField size='small' placeholder='Your Email' fullWidth sx={{ backgroundColor: 'white', borderRadius: 1 }} />
+                                    <Button variant='contained' color='secondary' sx={{ ml: 1 }}>Subscribe</Button>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                        <Stack direction='row' spacing={2} justifyContent='center' sx={{ mt: 4 }}>
+                            <FaFacebook size={24} className='cursor-pointer hover:text-lime-300' />
+                            <FaTwitter size={24} className='cursor-pointer hover:text-lime-300' />
+                            <FaInstagram size={24} className='cursor-pointer hover:text-lime-300' />
+                            <FaLinkedin size={24} className='cursor-pointer hover:text-lime-300' />
+                        </Stack>
+                        <Typography variant='body2' align='center' sx={{ mt: 4 }}>© 2025 Nexas Bank. All Rights Reserved.</Typography>
+                    </Container>
+                </Box>
+            </section>
         </section >
     )
 }
