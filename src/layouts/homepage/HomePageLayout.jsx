@@ -1,5 +1,5 @@
 
-import { Button, Container, Stack, Card, CardHeader, CardContent, Box } from '@mui/material'
+import { Button, Container, Stack, Card, CardHeader, CardContent, Box, Input } from '@mui/material'
 import React from 'react'
 import { motion } from "framer-motion";
 import HeroImg from '../../assets/images/heroIMG.png'
@@ -197,6 +197,11 @@ const HomePageLayout = () => {
                     </Button>
                 </div>
 
+                <div className='bg-green-800 flex justify-center w-100 items-center h-[400px]'>
+                    <form>
+                        <Input type='' />
+                    </form>
+                </div>
             </section >
         </section >
     )
