@@ -1,5 +1,5 @@
 
-import { Button, Container, Stack, Card, CardHeader, CardContent, Box, Input, Typography, TextField, AccordionSummary, AccordionDetails, Accordion } from '@mui/material'
+import { Button, Container, Stack, Card, p, CardContent, Box, Input, Typography, TextField, AccordionSummary, AccordionDetails, Accordion } from '@mui/material'
 import React from 'react'
 import { color, motion } from "framer-motion";
 import HeroImg from '../../assets/images/heroIMG.png'
@@ -21,7 +21,9 @@ import Carousel from 'react-material-ui-carousel';
 import { Avatar } from '@mui/material';
 import MDInput from 'components/MDInput';
 
+
 const HomePageLayout = () => {
+    const [readmore, setReadmore] = useState(false)
     const testimonials = [
         {
             name: 'John Doe',
@@ -109,50 +111,52 @@ const HomePageLayout = () => {
                     </div>
                 )}
             </nav>
-            <section className="flex flex-col md:flex-row items-center justify-between px-8 md:px-20 w-full pt-24 bg-[#198754]  ">
-                <div className="text-center md:text-left max-w-2xl  space-y-6" >
-                    <motion.h1
-                        className="text-5xl md:text-5xl lg:text-7xl font-extrabold text-gray-900 leading-tight"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        Revolutionize Your Banking Experience
-                    </motion.h1>
-                    <motion.p
-                        className="text-lg md:text-xl text-gray-200"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+            <section className="md:h-[80dvh] hero-section overflow-y-hidden w-full">
+                <section className='flex flex-col md:flex-row items-center   justify-between px-8 md:px-20 w-full pt-24  max-w-[1200px] m-auto '>
+                    <div className="text-center md:text-left max-w-2xl  space-y-6" >
+                        <motion.h1
+                            className="text-5xl md:text-5xl lg:text-7xl font-extrabold text-gray-200 leading-tight"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            Revolutionize Your Banking Experience
+                        </motion.h1>
+                        <motion.p
+                            className="text-lg md:text-xl text-gray-200"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1 }}
+                        >
+                            Your Trusted Digital Banking Partner
+                        </motion.p>
+                        <div className="mt-8 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
+                            <Button className="bg-lime-400 hover:bg-lime-700 text-white px-8 py-3 rounded-xl text-lg flex items-center gap-2 shadow-md">
+                                Get Started <ArrowRight size={20} />
+                            </Button>
+                            <Button className=" border-solid border-2 border-lime-500 hover:bg-gray-400 text-lime-200 px-8 py-3 rounded-xl text-lg ">
+                                Know About Us
+                            </Button>
+                        </div>
+                    </div>
+                    <motion.div
+                        className="w-full   md:w-1/2 flex justify-center items-end h-full  flex-1 mt-12 md:mt-0"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1 }}
                     >
-                        Your Trusted Digital Banking Partner
-                    </motion.p>
-                    <div className="mt-8 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-                        <Button className="bg-lime-400 hover:bg-lime-700 text-white px-8 py-3 rounded-xl text-lg flex items-center gap-2 shadow-md">
-                            Get Started <ArrowRight size={20} />
-                        </Button>
-                        <Button className=" border-solid border-2 border-lime-500 hover:bg-gray-400 text-lime-200 px-8 py-3 rounded-xl text-lg ">
-                            Know About Us
-                        </Button>
-                    </div>
-                </div>
-                <motion.div
-                    className="w-full   md:w-1/2 flex justify-center items-end h-full flex-1 mt-12 md:mt-0"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1 }}
-                >
-                    <img
-                        src={HeroBanner}
-                        alt="Hero"
-                        className="rounded-3xl w-[50px] md:w-[100px] md:h-[100px] bottom-64 md:top-40 right-20  md:right-[10rem]  z-20  absolute animate-spin  duration-1000 "
-                    />
-                    <img
-                        src={HeroImg}
-                        alt="Hero"
-                        className="rounded-3xl  w-[500px] md:w-[1200px]  relative z-10"
-                    />
-                </motion.div>
+                        <img
+                            src={HeroBanner}
+                            alt="Hero"
+                            className="rounded-3xl w-[50px] md:w-[100px] md:h-[100px] bottom-64 md:top-40 right-20  md:right-[20rem]  z-20  relative animate-spin  duration-1000 "
+                        />
+                        <img
+                            src={HeroImg}
+                            alt="Hero"
+                            className="rounded-3xl  w-[500px] md:w-[1200px]  relative z-10"
+                        />
+                    </motion.div>
+                </section>
             </section>
             <section className='py-16 flex flex-col items-center justify-center bg-green-50'>
                 <div>
@@ -162,92 +166,93 @@ const HomePageLayout = () => {
                 </div>
                 <div className="container px-3 mx-auto py-12 tracking-wider text-center" data-aos="flip-down">
                     Nexas Bank is a forward-thinking financial institution dedicated to redefining banking through innovation, security, and customer-centric services. With a strong commitment to excellence, we provide individuals and businesses with cutting-edge financial solutions tailored to their needs.
+                    {
+                        readmore ? 'At Nexas Bank, we prioritize convenience, security, and accessibility, ensuring that every transaction is seamless and stress-free. Whether you are managing personal finances, making international transfers, or handling business transactions, our robust digital banking platform offers a fast, secure, and efficient experience.' : ''}  <button className='underline text-green-500 cursor-pointer' onClick={() => setReadmore(!readmore)}>
+                        {readmore ? 'Read Less' : 'Read More'}</button>
 
-                    At Nexas Bank, we prioritize convenience, security, and accessibility, ensuring that every transaction is seamless and stress-free. Whether you are managing personal finances, making international transfers, or handling business transactions, our robust digital banking platform offers a fast, secure, and efficient experience.
                 </div>
-                <div>
-                    <h1 className="text-4xl text-lime-900 font-extrabold text-center">
-                        Why Choose Nexas Bank?
+                <div className='text-center'>
+                    <h1 className="text-4xl m-auto text-lime-900 font-extrabold">
+                        Our Core Services
                     </h1>
                 </div>
-                <div className="container px-3 mx-auto py-12 grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="flip-down">
-                    <Card className="p-6 shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300 ">
+                <div className="container max-w-[1000px] text-center m-auto px-3 mx-auto py-12 grid grid-cols-1 md:grid-cols-3 gap-6 " data-aos="flip-down">
+                    <Card className="p-3 shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300  w-[300px] h-[350px]">
 
-                        <div className="text-lime-600 text-4xl mb-4"><FaExchangeAlt className='text-9xl m-auto' /></div>
-                        <CardHeader className="text-xl font-semibold">Money Transfer</CardHeader>
-                        <CardContent><p className='font-bold text-green-800'>Seamless and secure money transfers with Nexas Bank.</p>
-                            <ul className='font-light text-sm text-left list-none flex flex-col gap-2 mt-2'>
+                        <div className="text-lime-600 text-3xl mb-4"><FaExchangeAlt className='text-9xl m-auto' /></div>
+
+                        <CardContent><p className='font-bold text-green-800'>Secure money transfers </p>
+                            <ul className='font-light text-md  list-none flex flex-col gap-2 mt-2 text-center text-sm'>
                                 <li>Instantly send and receive money worldwide with zero hidden fees.</li>
                                 <li>Enjoy real-time transaction tracking and instant notifications.</li>
-                                <li>Multi-currency support for seamless international transactions.</li>
+
                             </ul>
                         </CardContent>
                     </Card>
 
-                    <Card className="p-6  shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300">
+                    <Card className="p-3  shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300 w-[300px] h-[350px]">
                         <div className="text-lime-600 text-4xl mb-4"><FaPiggyBank className='text-9xl m-auto' /></div>
-                        <CardHeader className="text-xl font-semibold">Savings</CardHeader>
+
                         <CardContent><p className='font-bold text-green-800'> Savings & Investments</p>
-                            <ul className='font-light text-sm text-left list-none flex flex-col gap-2 mt-2'>
+                            <ul className='font-light text-md  text-sm list-none flex flex-col gap-2 mt-2 text-center'>
                                 <li>Earn competitive interest rates on your savings accounts.
                                 </li>
                                 <li>Access tailored investment plans to grow your wealth securely.</li>
-                                <li>Automate your savings with smart budgeting tools</li>
+
                             </ul>
 
                         </CardContent>
                     </Card>
 
-                    <Card className="p-6 shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300">
-                        <div className="text-lime-600 text-4xl mb-4"><FaCreditCard className='text-9xl m-auto' /></div>
-                        <CardHeader className="text-xl font-semibold"><p className='font-bold text-green-800'>Credit & Loan Services</p></CardHeader>
-                        <CardContent>
+                    <Card className="p-3 shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300 w-[300px] h-[350px]">
+                        <div className="text-lime-600 text-3xl mb-4"><FaCreditCard className='text-9xl m-auto' /></div>
 
-                            <ul className='font-light text-sm text-left list-none flex flex-col gap-2 mt-2'>
+                        <CardContent>
+                            <p className='font-bold text-green-800'>Credit & Loan Services</p>
+                            <ul className='font-light text-md  list-none flex flex-col gap-2 mt-2 text-center text-sm'>
                                 <li>
                                     Get instant access to credit with our hassle-free application process.
                                 </li>
                                 <li>Choose from a range of credit cards with cashback and rewards.</li>
-                                <li>
-                                    Flexible loan options with low-interest rates and customized repayment plans.
-                                </li>
+
                             </ul>
                         </CardContent>
                     </Card>
                 </div>
 
                 <div data-aos="flip-down">
-                    <div className='text-center'>
-                        <h1 className="text-4xl m-auto text-lime-900 font-extrabold">
-                            Our Core Services
+
+                    <div>
+                        <h1 className="text-4xl text-lime-900 font-extrabold text-center">
+                            Why Choose Nexas Bank?
                         </h1>
                     </div>
                     <Container>
                         <div className="container px-3 mx-auto py-12 grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up">
                             <Card className="p-6 shadow-lg text-center hover:shadow-2xl transition-all ease-in-out duration-300">
                                 <img src={cat} alt="Service 1" className="w-full h-48 object-cover mb-4 rounded-lg" />
-                                <CardHeader className="text-2xl font-bold mb-2">Investment Plans</CardHeader>
+                                <p className="text-2xl text-green-700 font-bold mb-2">Investment Plans</p>
                                 <CardContent>Explore our diverse investment plans to grow your wealth.</CardContent>
                                 <Button variant='contained' className='bg-green-700 text-white'>Learn More</Button>
                             </Card>
 
                             <Card className="p-6 shadow-lg text-center hover:shadow-2xl transition-all ease-in-out duration-300">
                                 <img src={cat2} alt="Service 2" className="w-full h-48 object-cover mb-4 rounded-lg" />
-                                <CardHeader className="text-2xl font-bold mb-2">Retirement Accounts</CardHeader>
+                                <p className="text-green-700 text-2xl font-bold mb-2">Retirement Accounts</p>
                                 <CardContent>Secure your future with our retirement savings options.</CardContent>
                                 <Button variant='contained' className='bg-green-700 text-white'>Learn More</Button>
                             </Card>
 
                             <Card className="p-6 shadow-lg text-center hover:shadow-2xl transition-all ease-in-out duration-300">
                                 <img src={cat3} alt="Service 3" className="w-full h-48 object-cover mb-4 rounded-lg" />
-                                <CardHeader className="text-2xl font-bold mb-2">Insurance Services</CardHeader>
+                                <p className="text-green-700 text-2xl font-bold mb-2">Insurance Services</p>
                                 <CardContent>Protect yourself and your loved ones with our insurance plans.</CardContent>
                                 <Button variant='contained' className='bg-green-700 text-white'>Learn More</Button>
                             </Card>
                         </div>
                     </Container>
                 </div>
-                <section className="w-full flex flex-wrap justify-between items-center gap-4">
+                {/* <section className="w-full flex flex-wrap justify-between items-center gap-4">
                     <div data className='flex-1' data-aos="flip-down">
                         <img src={man} className=' w-full object-contain' alt="" />
                     </div>
@@ -263,7 +268,7 @@ const HomePageLayout = () => {
                             <h1 className="text-3xl md:text-right px-2 md:pr-3 text-green-800 font-bold " data-aos="fade-in"> The Process Where strategic vision meets transformative solutions. We empower the organizations to achieve excellence and navigate success. Mobile banking experience with</h1>
                         </div>
                     </div>
-                </section>
+                </section> */}
                 <section className='w-full'>
                     <section className='py-16 text-center'>
                         <h1 className='text-4xl text-lime-900 font-extrabold mb-6'>What Our Customers Say</h1>
@@ -272,7 +277,7 @@ const HomePageLayout = () => {
                                 {testimonials.map((testimonial, index) => (
                                     <Card key={index} className='p-6 text-center bg-green-50 border border-solid  border-green-700 shadow-lg'>
                                         <Avatar src={testimonial.image} alt={testimonial.name} sx={{ width: 80, height: 80, margin: 'auto' }} />
-                                        <CardHeader className='text-xl font-semibold mt-4'>&quot;{testimonial.name}</CardHeader>
+                                        <p className='text-xl font-semibold mt-4'>&quot;{testimonial.name}</p>
                                         <CardContent className='text-gray-700 italic'>&quot;{testimonial.review}</CardContent>
                                     </Card>
                                 ))}
@@ -284,7 +289,7 @@ const HomePageLayout = () => {
                 <div
                     className="bg-no-repeat bg-center bg-cover w-screen min-h-[200px] px-2 py-5 flex flex-col justify-center items-center text-center p-4"
                     style={{
-                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${city})`,
+                        backgroundImage: `linear-gradient(rgba(8, 167, 8, 0.4), rgba(8, 167, 8, 0.4)), url(${city})`,
                     }}
                     data-aos="fade-up"
                 >
@@ -293,7 +298,7 @@ const HomePageLayout = () => {
                     <p className="text-white">
                         Join the thousands of satisfied customers who trust Nexas Bank for their banking needs. Sign up now and experience the future of digital banking.
                     </p>
-                    <Button variant='contained' size="large" className='text-white cursor-pointer'>
+                    <Button variant='contained' size="large" className='text-white bg-green-600 cursor-pointer'>
                         SIGN UP NOW
                     </Button>
                 </div>
@@ -305,16 +310,16 @@ const HomePageLayout = () => {
                 </div>
 
                 <div className='bg-green-800 flex justify-center w-full items-center h-[400px]'>
-                    <form className='flex-1 flex flex-col gap-5 px-5'>
+                    <form className='flex-1 flex flex-col gap-5 px-5 max-w-[600px]'>
 
                         <input className='text-white rounded-xl border p-3 border-white' placeholder='Name' />
                         <input className='text-white rounded-xl border p-3 border-white' placeholder='Email' />
                         <textarea className='border border-white rounded-xl px-3 text-white' placeholder='leave a message' ></textarea>
-                        <button className='border border-white px-4 py-2 bg-lime-400 text-white rounded-xl cursor-pointer'> Send Message</button>
+                        <button className='border border-white px-4 py-2  border-solid hover:bg-green-800 text-white rounded-xl cursor-pointer'> Send Message</button>
                     </form>
-                    <div className="flex-1 hidden md:flex bg-black h-full">
+                    {/* <div className="flex-1 hidden md:flex bg-black h-full">
 
-                    </div>
+                    </div> */}
                 </div>
             </section >
             <section>
@@ -334,10 +339,10 @@ const HomePageLayout = () => {
                                         }}
                                     >
                                         <AccordionSummary expandIcon={<ExpandMore sx={{ color: "white" }} />}>
-                                            <Typography className="font-bold">{faq.question}</Typography>
+                                            <Typography className="font-bold text-gray-50">{faq.question}</Typography>
                                         </AccordionSummary>
                                         <AccordionDetails>
-                                            <Typography>{faq.answer}</Typography>
+                                            <Typography className='text-gray-50 text-left'>{faq.answer}</Typography>
                                         </AccordionDetails>
                                     </Accordion>
                                 </div>
@@ -389,7 +394,7 @@ const HomePageLayout = () => {
                             <FaInstagram size={24} className='cursor-pointer hover:text-lime-300' />
                             <FaLinkedin size={24} className='cursor-pointer hover:text-lime-300' />
                         </Stack>
-                        <Typography variant='body2' align='center' sx={{ mt: 4 }}>© 2025 Nexas Bank. All Rights Reserved.</Typography>
+                        <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-gray-100'>© 2025 Nexas Bank. All Rights Reserved.</Typography>
                     </Container>
                 </Box>
             </section>
