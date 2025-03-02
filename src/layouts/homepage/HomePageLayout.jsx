@@ -148,7 +148,7 @@ const HomePageLayout = () => {
                         <img
                             src={HeroBanner}
                             alt="Hero"
-                            className="rounded-3xl w-[50px] md:w-[100px] md:h-[100px] bottom-64 md:top-40 right-20  md:right-[20rem]  z-20  relative animate-spin  duration-1000 "
+                            className="rounded-3xl w-[50px] md:w-[100px] md:h-[100px] bottom-64 md:top-40 right-20  md:right-[10rem]  z-20  relative animate-spin  duration-1000 "
                         />
                         <img
                             src={HeroImg}
@@ -176,8 +176,8 @@ const HomePageLayout = () => {
                         Our Core Services
                     </h1>
                 </div>
-                <div className="container max-w-[1000px] text-center m-auto px-3 mx-auto py-12 grid grid-cols-1 md:grid-cols-3 gap-6 " data-aos="flip-down">
-                    <Card className="p-3 shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300  w-[300px] h-[350px]">
+                <div className="container max-w-[1000px] text-center m-auto px-3 mx-auto py-12 grid grid-cols-1 md:grid-cols-3 gap-6 items-center justify-center " data-aos="flip-down">
+                    <Card className="p-3 m-auto shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300  w-[300px] h-[350px]">
 
                         <div className="text-lime-600 text-3xl mb-4"><FaExchangeAlt className='text-9xl m-auto' /></div>
 
@@ -190,7 +190,7 @@ const HomePageLayout = () => {
                         </CardContent>
                     </Card>
 
-                    <Card className="p-3  shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300 w-[300px] h-[350px]">
+                    <Card className="p-3 m-auto shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300 w-[300px] h-[350px]">
                         <div className="text-lime-600 text-4xl mb-4"><FaPiggyBank className='text-9xl m-auto' /></div>
 
                         <CardContent><p className='font-bold text-green-800'> Savings & Investments</p>
@@ -204,7 +204,7 @@ const HomePageLayout = () => {
                         </CardContent>
                     </Card>
 
-                    <Card className="p-3 shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300 w-[300px] h-[350px]">
+                    <Card className="p-3 m-auto shadow-lg text-center hover:border-solid hover:border-2 hover:border-green-500 transition-all ease-in-out duration-300 w-[300px] h-[350px]">
                         <div className="text-lime-600 text-3xl mb-4"><FaCreditCard className='text-9xl m-auto' /></div>
 
                         <CardContent>
