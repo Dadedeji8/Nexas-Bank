@@ -321,7 +321,7 @@ const HomePageLayout = () => {
                 <section className='py-16 bg-green-900 text-white text-center'>
                     <h1 className='text-4xl font-extrabold mb-6'>Frequently Asked Questions</h1>
                     <Container maxWidth="md">
-                        <div className="grid grid-cols-2 gap-5">
+                        <div className="grid md:grid-cols-2 gap-5">
                             {faqs.map((faq, index) => (
                                 <div key={index} className="flex flex-col">
                                     <Accordion
