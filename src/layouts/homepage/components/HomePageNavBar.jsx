@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react'
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const HomePageNavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -9,8 +10,8 @@ const HomePageNavBar = () => {
             <div className="text-2xl font-bold text-lime-600">Nexas Bank</div>
 
             <div className="hidden md:flex space-x-6">
-                <Button variant="border border-solid border-lime-600">Login</Button>
-                <Button className="bg-lime-600 text-white">Sign Up</Button>
+                <Button variant="border border-solid border-lime-600"><Link to={'/authentication/sign-in'}>Login</Link></Button>
+                <Button className="bg-lime-600 text-white"><Link to={'/authentication/sign-up'}>Sign in</Link></Button>
             </div>
 
             <div className="md:hidden">
@@ -21,8 +22,8 @@ const HomePageNavBar = () => {
 
             {isOpen && (
                 <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-center space-y-4 py-4 md:hidden">
-                    <Button variant="border border-solid  border-lime-500" className="w-10/12">Login</Button>
-                    <Button className="bg-lime-600 text-white w-10/12">Sign Up</Button>
+                    <Button variant="border border-solid  border-lime-500" className="w-10/12"><Link to={'/authentication/sign-in'}>Sign In</Link></Button>
+                    <Button className="bg-lime-600 text-white w-10/12"><Link to={'/authentication/sign-up'}>Sign Up</Link></Button>
                 </div>
             )}
         </nav>
