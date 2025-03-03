@@ -20,7 +20,7 @@ import bgImage from 'assets/images/bg-sign-up-cover.jpeg'
 // select country
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
-import { Stack, Box, Button, Grid } from '@mui/material'
+import { Stack, Box, Button, Grid, Typography } from '@mui/material'
 // importing AuthContext
 import { useAuth } from 'context/AuthContext'
 import divider from 'assets/theme/components/divider'
@@ -372,8 +372,8 @@ function Cover() {
         </Container>
       </Box>
       <Box className='w-full bg-[#F7FFD9] min-h-[90dvh]'>
-        <Container className='py-20'>
-          <Grid container spacing={4}>
+        <Container className='py-20 flex flex-col justify-between items='>
+          <Grid container spacing={4} className='my-5'>
             <Grid item md={3}>
               <h1 className='font-bold text-green-700 mb-8 text-2xl'>
                 Nexus Bank
@@ -411,8 +411,15 @@ function Cover() {
               <p className='text-[16px]'>
                 We provide reliable financial solutions to support your goals with security and personalized service. Your success is our priority.
               </p>
+              <div>
+                <input className='p-2 border rounded text-sm focus:border-none w-full' placeholder='Your Email address here' />
+              </div>
             </Grid>
           </Grid>
+          <div>
+            <hr></hr>
+            <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-gray-900 p-5'>© 2025 Nexas Bank. All Rights Reserved.</Typography>
+          </div>
         </Container>
       </Box>
     </div>
