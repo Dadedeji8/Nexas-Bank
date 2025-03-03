@@ -1,5 +1,5 @@
 
-import { Button, Container, Stack, Card, p, CardContent, Box, Input, Typography, TextField, AccordionSummary, AccordionDetails, Accordion } from '@mui/material'
+import { Button, Container, Stack, Card, p, CardContent, Box, Input, Typography, TextField, AccordionSummary, AccordionDetails, Accordion, Grid } from '@mui/material'
 import React from 'react'
 import { color, motion } from "framer-motion";
 import HeroImg from '../../assets/images/heroIMG.png'
@@ -11,7 +11,7 @@ import cat4 from '../../assets/images/cat4.jpg'
 import man from '../../assets/images/man.jpg'
 import woman from '../../assets/images/woman.jpg'
 import city from '../../assets/images/city.jpg'
-import { ArrowRight, Grid } from "lucide-react";
+import { ArrowRight, } from "lucide-react";
 import { useState } from "react";
 import { FaBars, FaCreditCard, FaExchangeAlt, FaFacebook, FaInstagram, FaLinkedin, FaPiggyBank, FaTimes, FaTwitter } from "react-icons/fa";
 import { ExpandMore, TransferWithinAStation } from '@mui/icons-material';
@@ -20,6 +20,7 @@ import 'aos/dist/aos.css';
 import Carousel from 'react-material-ui-carousel';
 import { Avatar } from '@mui/material';
 import MDInput from 'components/MDInput';
+import HomePageNavBar from './components/HomePageNavBar';
 
 
 const HomePageLayout = () => {
@@ -87,30 +88,10 @@ const HomePageLayout = () => {
 
 
     AOS.init();
-    const [isOpen, setIsOpen] = useState(false);
+
     return (
         <section className='w-full overflow-x-hidden'>
-            <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center w-full">
-                <div className="text-2xl font-bold text-lime-600">Nexas Bank</div>
-
-                <div className="hidden md:flex space-x-6">
-                    <Button variant="border border-solid border-lime-600">Login</Button>
-                    <Button className="bg-lime-600 text-white">Sign Up</Button>
-                </div>
-
-                <div className="md:hidden">
-                    <button onClick={() => setIsOpen(!isOpen)} className="text-2xl">
-                        {isOpen ? <FaTimes /> : <FaBars />}
-                    </button>
-                </div>
-
-                {isOpen && (
-                    <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-center space-y-4 py-4 md:hidden">
-                        <Button variant="border border-solid  border-lime-500" className="w-10/12">Login</Button>
-                        <Button className="bg-lime-600 text-white w-10/12">Sign Up</Button>
-                    </div>
-                )}
-            </nav>
+            <HomePageNavBar />
             <section className="md:h-[80dvh] hero-section overflow-y-hidden w-full">
                 <section className='flex flex-col md:flex-row items-center   justify-between px-8 md:px-20 w-full pt-24  max-w-[1200px] m-auto '>
                     <div className="text-center md:text-left max-w-2xl  space-y-6" >
