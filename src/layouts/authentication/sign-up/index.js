@@ -413,6 +413,7 @@ function Cover() {
               </p>
               <div>
                 <input className='p-2 border rounded text-sm focus:border-none w-full' placeholder='Your Email address here' />
+                <button className='p-3 bg-green-600'>  Submit</button>
               </div>
             </Grid>
           </Grid>
