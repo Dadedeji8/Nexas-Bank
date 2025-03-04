@@ -297,7 +297,7 @@ function Cover() {
     // </Card>
     <div className='bg-[#ffffff]'>
       <HomePageNavBar />
-      <div className='w-full min-h-[25dvh] md:h-[60dvh] bg-[#085C44] flex-col flex items-center gap-3 justify-center'>
+      <div className='w-full min-h-[40dvh] md:h-[60dvh] bg-[#085C44] flex-col flex items-center gap-3 justify-center'>
         <div><h1 className='text-3xl md:text-5xl text-white font-black' data-aos="fade-up">Register</h1></div>
         <div className='text-white flex gap-2 text-xl ' data-aos="fade-up" data-aos-easing='ease-out' data-aos-duration='700'>
           <Link><h2>
@@ -327,20 +327,51 @@ function Cover() {
                 <label className=''>
                   Enter Your Name*
                 </label>
-                <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Name' />
+                <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Name' name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange} />
               </div>
               <div className='flex w-full gap-5 flex-col md:flex-row'>
                 <div className='flex flex-1 flex-col gap-1 mt-3'>
                   <label className=' '>
                     Enter Your Email*
                   </label>
-                  <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Email' />
+                  <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Email' name="email"
+                    value={formData.email}
+                    onChange={handleInputChange} />
                 </div>
                 <div className='flex flex-1 flex-col gap-1 mt-3'>
                   <label className=''>
                     Enter Your Number*
                   </label>
-                  <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Number' />
+                  <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Number' name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleInputChange} />
+                </div>
+              </div>
+              <div className='flex w-full gap-5 flex-col md:flex-row'>
+                <div className='flex flex-1 flex-col gap-1 mt-3'>
+                  <label className=' '>
+                    Enter Your Age*
+                  </label>
+                  <input type='number' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Email' name="age"
+                    value={formData.age}
+                    onChange={handleInputChange} />
+                </div>
+                <div className='flex flex-1 items-center gap-5 mt-3'>
+                  <label className=''>
+                    Select SEX*
+                  </label>
+                  <div>
+                    <label>Male</label>   <input type='radio' className='' name='gender' value={'male'}
+
+                      onChange={handleInputChange} />
+                  </div>
+                  <div>
+                    <label>Female</label>   <input type='radio' className='' value={'female'} name="gender"
+
+                      onChange={handleInputChange} />
+                  </div>
                 </div>
               </div>
               <div className='flex w-full gap-5 flex-col md:flex-row'>
@@ -348,13 +379,18 @@ function Cover() {
                   <label className=''>
                     Enter Your Password*
                   </label>
-                  <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Email' />
+                  <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Password'
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange} />
                 </div>
                 <div className='flex flex-1 flex-col gap-1 mt-3'>
                   <label className=''>
                     Comfirm Password*
                   </label>
-                  <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Number' />
+                  <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Password' name="repeatPassword"
+                    value={formData.repeatPassword}
+                    onChange={handleInputChange} />
                 </div>
               </div>
               <div className='mt-10'>
@@ -411,9 +447,9 @@ function Cover() {
               <p className='text-[16px]'>
                 We provide reliable financial solutions to support your goals with security and personalized service. Your success is our priority.
               </p>
-              <div>
+              <div className='flex gap-2'>
                 <input className='p-2 border rounded text-sm focus:border-none w-full' placeholder='Your Email address here' />
-                <button className='p-3 bg-green-600'>  Submit</button>
+                <button className='px-3 py-1 bg-green-600 text-white rounded'>  Submit</button>
               </div>
             </Grid>
           </Grid>
