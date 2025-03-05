@@ -68,7 +68,7 @@ function Footer({ light }) {
                 fontWeight="medium"
                 color={light ? 'white' : 'dark'}
               >
-                &nbsp;MAINSTAY BANK&nbsp;
+                &nbsp;NEXAS BANK&nbsp;
               </MDTypography>
             </Link>
 
