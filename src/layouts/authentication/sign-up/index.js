@@ -408,7 +408,7 @@ function Cover() {
                 </div>
               </div>
               <div className='mt-10'>
-                <Button size='large' className='bg-[#baff5f] py-5 px-10 text-black'>
+                <Button size='large' className='bg-[#baff5f] py-5 px-10 text-black' onClick={handleSubmit}>
                   Submit
                 </Button>
               </div>
