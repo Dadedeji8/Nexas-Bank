@@ -312,9 +312,9 @@ function Cover() {
           <h1 className='text-3xl md:text-5xl text-center max-w-[700px]  m-auto' data-aos="fade-up" data-aos-easing='ease-out' data-aos-duration='700'>
             Open Your Account Today and Enjoy Exclusive Benefits!
           </h1>
-          <div className='flex gap-3 w-full mt-10 flex-wrap md:flex-nowrap items-end' data-aos="fade-up" data-aos-easing='ease-out' data-aos-duration='700'>
-            <div className=' sticky'>
-              <img src={signUpImg} />
+          <div className='flex gap-3 w-full mt-10 flex-wrap md:flex-nowrap items-end relative' data-aos="fade-up" data-aos-easing='ease-out' data-aos-duration='700'>
+            <div className='md:sticky md:top-20 md:self-start md:h-full'>
+              <img src={signUpImg} className='sticky top-20 max-h-screen' />
             </div>
             <div className='flex flex-col bg-[#EDF1EE] w-full rounded-2xl p-10  '>
               <h3 className='font-thin '>
@@ -373,6 +373,17 @@ function Cover() {
                       onChange={handleInputChange} />
                   </div>
                 </div>
+              </div>
+              <div>
+                <Select
+                  className='text-sm bg-white my-2 rounded-xl p-3'
+                  options={options}
+                  value={countryValue}
+                  placeholder={'Select Country'}
+                  onChange={changeHandler}
+                  error={!!errors.country}
+                  helperText={errors.country}
+                />
               </div>
               <div className='flex w-full gap-5 flex-col md:flex-row'>
                 <div className='flex flex-1 flex-col gap-1 mt-3'>

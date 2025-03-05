@@ -337,7 +337,7 @@ const HomePageLayout = () => {
             <section>
                 <Box component="footer" sx={{ backgroundColor: '#1a4223', color: 'white', py: 6 }}>
                     <Container maxWidth='lg'>
-                        <Grid container spacing={4}>
+                        <Grid container spacing={4} className='text-white'>
                             <Grid item xs={12} md={3}>
                                 <Typography variant='h6' gutterBottom>About Us</Typography>
                                 <Typography variant='body2'>Nexas Bank provides secure and innovative banking solutions for individuals and businesses.</Typography>

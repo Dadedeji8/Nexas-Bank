@@ -10,8 +10,8 @@ const HomePageNavBar = () => {
             <div className="text-2xl font-bold text-lime-600">Nexas Bank</div>
 
             <div className="hidden md:flex space-x-6">
-                <Button variant="border border-solid border-lime-600"><Link to={'/authentication/sign-in'}>Login</Link></Button>
-                <Button className="bg-lime-600 text-white"><Link to={'/authentication/sign-up'}>Sign in</Link></Button>
+                <Button variant="border border-solid border-lime-600"><Link to={'/authentication/sign-in'}>Sign In</Link></Button>
+                <Button className="bg-lime-600 hover:bg-lime-900 transition-all duration-300 ease-in-out text-white"><Link to={'/authentication/sign-up'}>Sign up</Link></Button>
             </div>
 
             <div className="md:hidden">
