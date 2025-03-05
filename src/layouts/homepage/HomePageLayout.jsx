@@ -363,9 +363,12 @@ const HomePageLayout = () => {
                             <Grid item xs={12} md={3}>
                                 <Typography variant='h6' className="text-white" gutterBottom>Newsletter</Typography>
                                 <Typography variant='body2'>Subscribe to our newsletter for the latest updates.</Typography>
-                                <Box component='form' sx={{ display: 'flex', mt: 2 }}>
-                                    <TextField size='small' placeholder='Your Email' fullWidth sx={{ backgroundColor: 'white', borderRadius: 1 }} />
-                                    <Button variant='contained' color='#004AAD' className="text-white" sx={{ ml: 1 }}>Subscribe</Button>
+                                <Box component='form' sx={{ display: 'flex', mt: 2, gap: 1 }}>
+                                    <TextField size='small' placeholder='Your Email' fullWidth sx={{ borderRadius: 1, color: 'white' }} />
+
+                                    <button className='color-white bg-lime-900  px-4 rounded'>
+                                        Subscribe
+                                    </button>
                                 </Box>
                             </Grid>
                         </Grid>

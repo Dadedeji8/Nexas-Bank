@@ -418,27 +418,27 @@ function Cover() {
           </div>
         </Container>
       </Box>
-      <Box className='w-full bg-[#F7FFD9] min-h-[90dvh]'>
+      <Box className='w-full bg-[#1a4223] min-h-[90dvh]'>
         <Container className='py-20 flex flex-col justify-between items='>
           <Grid container spacing={4} className='my-5'>
             <Grid item md={3}>
-              <h1 className='font-bold text-green-700 mb-8 text-2xl'>
+              <h1 className='font-bold text-white mb-8 text-2xl'>
                 Nexus Bank
               </h1>
-              <p className='text-[16px]'>
+              <p className='text-[16px] text-white'>
                 We provide reliable financial solutions to support your goals with security and personalized service. Your success is our priority.
               </p>
             </Grid>
-            <Grid item md={3} className='font-bold text-green-900'>
-              <h1 className='font-bold text-green-700 mb-8'>
+            <Grid item md={3} className='font-bold text-white'>
+              <h1 className='font-bold text-white mb-8'>
                 About Us
               </h1>
               <p className='text-[16px]'>
                 We provide reliable financial solutions to support your goals with security and personalized service. Your success is our priority.
               </p>
             </Grid>
-            <Grid item md={3} className='font-bold text-green-900'>
-              <h1 className='font-bold text-green-700 mb-8'>
+            <Grid item md={3} className='font-bold text-white'>
+              <h1 className='font-bold text-white mb-8'>
                 Contact Us
               </h1>
               <p className='text-[16px]'>
@@ -451,8 +451,8 @@ function Cover() {
                 123 the main street Available to everyone ,USA
               </p>
             </Grid>
-            <Grid item md={3} className='font-bold text-green-900'>
-              <h1 className='font-bold text-green-700 mb-8'>
+            <Grid item md={3} className='font-bold text-white'>
+              <h1 className='font-bold text-white mb-8'>
                 About Us
               </h1>
               <p className='text-[16px]'>
@@ -460,13 +460,13 @@ function Cover() {
               </p>
               <div className='flex gap-2'>
                 <input className='p-2 border rounded text-sm focus:border-none w-full' placeholder='Your Email address here' />
-                <button className='px-3 py-1 bg-green-600 text-white rounded'>  Submit</button>
+                <button className='px-3 py-1 bg-white text-white rounded'>  Submit</button>
               </div>
             </Grid>
           </Grid>
           <div>
             <hr></hr>
-            <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-gray-900 p-5'>© 2025 Nexas Bank. All Rights Reserved.</Typography>
+            <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-white p-5'>© 2025 Nexas Bank. All Rights Reserved.</Typography>
           </div>
         </Container>
       </Box>
