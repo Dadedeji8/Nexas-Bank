@@ -339,11 +339,11 @@ const HomePageLayout = () => {
                     <Container maxWidth='lg'>
                         <Grid container spacing={4} className='text-white'>
                             <Grid item xs={12} md={3}>
-                                <Typography variant='h6' gutterBottom>About Us</Typography>
+                                <Typography variant='h6' className="text-white" gutterBottom>About Us</Typography>
                                 <Typography variant='body2'>Nexas Bank provides secure and innovative banking solutions for individuals and businesses.</Typography>
                             </Grid>
                             <Grid item xs={12} md={3}>
-                                <Typography variant='h6' gutterBottom>Quick Links</Typography>
+                                <Typography variant='h6' className="text-white" gutterBottom>Quick Links</Typography>
                                 <ul>
                                     <li>Home</li>
                                     <li>About</li>
@@ -352,7 +352,7 @@ const HomePageLayout = () => {
                                 </ul>
                             </Grid>
                             <Grid item xs={12} md={3}>
-                                <Typography variant='h6' gutterBottom>Resources</Typography>
+                                <Typography variant='h6' className="text-white" gutterBottom>Resources</Typography>
                                 <ul>
                                     <li>FAQ</li>
                                     <li>Terms of Service</li>
@@ -361,11 +361,11 @@ const HomePageLayout = () => {
                                 </ul>
                             </Grid>
                             <Grid item xs={12} md={3}>
-                                <Typography variant='h6' gutterBottom>Newsletter</Typography>
+                                <Typography variant='h6' className="text-white" gutterBottom>Newsletter</Typography>
                                 <Typography variant='body2'>Subscribe to our newsletter for the latest updates.</Typography>
                                 <Box component='form' sx={{ display: 'flex', mt: 2 }}>
                                     <TextField size='small' placeholder='Your Email' fullWidth sx={{ backgroundColor: 'white', borderRadius: 1 }} />
-                                    <Button variant='contained' color='secondary' sx={{ ml: 1 }}>Subscribe</Button>
+                                    <Button variant='contained' color='#004AAD' className="text-white" sx={{ ml: 1 }}>Subscribe</Button>
                                 </Box>
                             </Grid>
                         </Grid>
