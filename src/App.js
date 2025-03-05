@@ -161,7 +161,7 @@ export default function App() {
         <Sidenav
           color={sidenavColor}
           // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-          brandName="MAINSTAY BANK"
+          brandName="NEXAS BANK"
           routes={routes}
           onMouseEnter={handleOnMouseEnter}
           onMouseLeave={handleOnMouseLeave}
