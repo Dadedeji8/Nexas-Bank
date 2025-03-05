@@ -29,6 +29,7 @@ import { } from 'lucide-react'
 import { Container } from '@mui/material'
 import signUpImg from '../../../assets/images/Login.png'
 import AOS from 'aos';
+import '../../../assets/styles/styles.css'
 function Cover() {
 
   AOS.init();
@@ -375,16 +376,18 @@ function Cover() {
                 </div>
               </div>
               <div>
+                <label className="mt-5">Select Country</label>
                 <Select
-                  className='text-sm bg-white my-2 rounded-xl p-3'
+                  className="text-sm bg-[#F3F3FF] text-black my-2 rounded-xl p-3 border border-solid border-gray-300"
+                  classNamePrefix="custom-select bg-[#F3F3FF] text-black"
                   options={options}
                   value={countryValue}
-                  placeholder={'Select Country'}
+                  placeholder="Select Country"
                   onChange={changeHandler}
-                  error={!!errors.country}
-                  helperText={errors.country}
                 />
+                {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
               </div>
+
               <div className='flex w-full gap-5 flex-col md:flex-row'>
                 <div className='flex flex-1 flex-col gap-1 mt-3'>
                   <label className=''>
@@ -460,7 +463,7 @@ function Cover() {
               </p>
               <div className='flex gap-2'>
                 <input className='p-2 border rounded text-sm focus:border-none w-full' placeholder='Your Email address here' />
-                <button className='px-3 py-1 bg-white text-white rounded'>  Submit</button>
+                <button className='px-3 py-1 bg-white text-black text-sm  rounded'>  Submit</button>
               </div>
             </Grid>
           </Grid>
