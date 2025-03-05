@@ -104,7 +104,7 @@ function Basic() {
           <h1 className='text-3xl md:text-5xl text-center max-w-[700px]  m-auto' data-aos="fade-up" data-aos-easing='ease-out' data-aos-duration='700'>
             Access Your Account and Experience Tailored Banking
           </h1>
-          <div className='flex gap-3 w-full mt-10 flex-wrap md:flex-nowrap items-end h-full' data-aos="fade-up" data-aos-easing='ease-out' data-aos-duration='700'>
+          <div className='flex flex-col md:flex-row flex-wrap  gap-3 w-full mt-10  md:flex-nowrap items-end h-full' data-aos="fade-up" data-aos-easing='ease-out' data-aos-duration='700'>
             <div className=' sticky flex-1'>
               <img src={loginHero} className='h-full' />
             </div>
