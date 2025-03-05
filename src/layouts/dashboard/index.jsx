@@ -236,14 +236,12 @@ function AccountOverviewComponent() {
 }
 
 function NotificationComponent() {
-  const [showValue, setShowValue] = useState(false)
-  const { sales, tasks } = reportsLineChartData
-  const { notifications, getNotification } = useAuth()
+  const { notifications } = useAuth()
   return (
     <Card
       padding={2}
       sx={{ padding: 2 }}
-      className="h-[240px]  overf low-y-scroll"
+      className="h-[100px] md:h-[240px]  overf low-y-scroll"
     >
       <Typography color={'primary'} sx={{ fontSize: 15, fontWeight: 800 }}>
         Notification
@@ -260,9 +258,8 @@ function NotificationComponent() {
                 {moment(notification.createdAt).format('MMMM Do h:mm:ss a')}
               </p>
             </Box>
-
           )
-        }) : <Typography color={'textSecondary'} sx={{ fontSize: 20 }}>
+        }) : <Typography color={'textSecondary'} className='mt-2' sx={{ fontSize: 18 }}>
           No notifications yet
         </Typography>
         }
