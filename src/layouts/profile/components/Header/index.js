@@ -16,7 +16,7 @@ import backgroundImage from 'assets/images/bg-profile.jpeg'
 // file upload
 import { FileUploaderRegular } from '@uploadcare/react-uploader';
 import '@uploadcare/react-uploader/core.css';
-import { uploadFile } from '@uploadcare/upload-client'
+// import { uploadFile } from '@uploadcare/upload-client'
 function Header({ children }) {
   const { profile, getProfile, updateProfile } = useAuth()
   const [tabsOrientation, setTabsOrientation] = useState('horizontal')
