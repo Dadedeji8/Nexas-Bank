@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
+
 import PropTypes from 'prop-types'
 import { useAuth } from 'context/AuthContext'
-import { Card, Grid, AppBar, Tabs, Tab, Icon, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { Card, Grid, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
 import { Check, Edit, Money } from '@mui/icons-material'
 import MDBox from 'components/MDBox'
 import MDTypography from 'components/MDTypography'
@@ -12,7 +13,10 @@ import { toast } from 'react-toastify'
 import breakpoints from 'assets/theme/base/breakpoints'
 import ProfileImg from 'assets/images/ProfileIMG.jpg'
 import backgroundImage from 'assets/images/bg-profile.jpeg'
-
+// file upload
+import { FileUploaderRegular } from '@uploadcare/react-uploader';
+import '@uploadcare/react-uploader/core.css';
+import { uploadFile } from '@uploadcare/upload-client'
 function Header({ children }) {
   const { profile, getProfile, updateProfile } = useAuth()
   const [tabsOrientation, setTabsOrientation] = useState('horizontal')
@@ -22,7 +26,9 @@ function Header({ children }) {
   const [profileStage, setProfileStage] = useState({})
   const [updating, setUpdating] = useState(false)
   const [open, setOpen] = useState(false)
-
+  const [openVerify, setOpenVerify] = useState(false)
+  const [uploading, setUploading] = useState(false);
+  const [avatar, setAvatar] = useState(null);
   useEffect(() => {
     function handleTabsOrientation() {
       setTabsOrientation(window.innerWidth < breakpoints.values.sm ? 'vertical' : 'horizontal')
@@ -31,17 +37,34 @@ function Header({ children }) {
     handleTabsOrientation()
     return () => window.removeEventListener('resize', handleTabsOrientation)
   }, [])
-
   const inputFieldSet = [
     { name: 'fullName', label: 'Full Name', type: 'text' },
     { name: 'email', label: 'Email', type: 'email' },
     { name: 'age', label: 'Age', type: 'number' },
-    { name: 'country', label: 'Country', type: 'text' },
-    { name: 'gender', label: 'Sex', type: 'text' },
     { name: 'username', label: 'Username', type: 'text' },
     { name: 'oldPassword', label: 'Old Password', type: 'password' },
     { name: 'newPassword', label: 'New Password', type: 'password' }
   ]
+
+
+  const handleFileUpload = (e) => {
+    if (e.allEntries && e.allEntries.length > 0) {
+      setUploading(true); // Show loading indicator
+
+      const fileEntry = e.allEntries[0]; // Get first uploaded file
+
+      const checkForCDNUrl = setInterval(() => {
+        if (fileEntry.cdnUrl) {
+          clearInterval(checkForCDNUrl); // Stop checking when cdnUrl is available
+          setAvatar(fileEntry.cdnUrl); // Update state with cdnUrl
+          updateProfile({ avatar: fileEntry.cdnUrl })
+          setUploading(false); // Hide loading indicator
+          console.log('File uploaded successfully:', fileEntry.cdnUrl);
+        }
+      }, 500); // Check every 500ms until cdnUrl is available
+    }
+  };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -64,8 +87,15 @@ function Header({ children }) {
       .finally(() => setUpdating(false))
   }
 
+
+
+
+
   const handleClickOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const handleVerifyOpen = () => setOpenVerify(true)
+  const handleVerifyClose = () => setOpenVerify(false)
+
 
   return (
     <MDBox position="relative" mb={5}>
@@ -108,6 +138,11 @@ function Header({ children }) {
               Edit Profile
             </Button>
           </Grid>
+          <Grid item>
+            <Button variant='outlined' className='text-blue-900' onClick={handleVerifyOpen}>
+              Verify Account
+            </Button>
+          </Grid>
         </Grid>
         {children}
         <Dialog open={open} onClose={handleClose}>
@@ -134,6 +169,30 @@ function Header({ children }) {
                 {updating ? 'Submitting' : 'Submit'}
               </MDButton>
               <MDButton onClick={handleClose} color="error">Close</MDButton>
+            </DialogActions>
+          </div>
+        </Dialog>
+        <Dialog open={openVerify} onClose={handleVerifyClose}>
+          <div className='min-w-[350px]'>
+            <DialogTitle className='text-sm'>Upload Valid Government ID</DialogTitle>
+            <DialogContent>
+              <div>
+                <FileUploaderRegular
+                  sourceList="local, camera, gdrive"
+                  cameraModes="photo, video"
+                  classNameUploader="uc-light"
+                  pubkey="de06d3627e924744c45e"
+                  onChange={handleFileUpload} // Handle file upload
+                />
+
+
+              </div>
+            </DialogContent>
+            <DialogActions>
+              <MDButton color="primary" className={`w-full ${updating ? 'bg-green-400' : ''}`} onClick={updateProfileDetails} >
+                {updating ? 'Submitting' : 'Submit'}
+              </MDButton>
+              <MDButton onClick={handleVerifyClose} color="error">Close</MDButton>
             </DialogActions>
           </div>
         </Dialog>
