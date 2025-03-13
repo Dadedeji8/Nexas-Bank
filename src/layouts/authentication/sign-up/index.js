@@ -30,6 +30,7 @@ import { Container } from '@mui/material'
 import signUpImg from '../../../assets/images/Login.png'
 import AOS from 'aos';
 import '../../../assets/styles/styles.css'
+import { toast } from 'react-toastify'
 function Cover() {
 
   AOS.init();
@@ -71,6 +72,7 @@ function Cover() {
     if (!formData.fullName) newErrors.fullName = 'Full Name is required'
     if (!formData.email) newErrors.email = 'Email is required'
     if (!formData.password) newErrors.password = 'Password is required'
+    if (!formData.phoneNumber) newErrors.phoneNumber = 'Phone number is required'
     if (formData.password !== formData.repeatPassword) newErrors.repeatPassword = 'Passwords do not match'
     if (!formData.gender) newErrors.gender = 'Gender is required'
     if (!formData.country) newErrors.country = 'Country is required'
@@ -105,6 +107,7 @@ function Cover() {
         }
 
         setSuccessMessage('Registration successful! Redirecting to dashboard...');
+        toast.success('Account created successfully')
         navigate('/dashboard'); // Only navigate if login succeeds
 
       } catch (error) {
@@ -121,190 +124,7 @@ function Cover() {
 
   return (
 
-    // <Card>
-    //   <MDBox
-    //     variant="gradient"
-    //     bgColor="info"
-    //     borderRadius="lg"
-    //     coloredShadow="success"
-    //     mx={2}
-    //     mt={-3}
-    //     p={3}
-    //     mb={1}
-    //     textAlign="center"
-    //   >
-    //     <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-    //       MAINSTAY BANK
-    //     </MDTypography>
-    //   </MDBox>
-    //   <MDBox pt={4} pb={3} px={3}>
-    //     {successMessage && <Alert severity="success">{successMessage}</Alert>}
-    //     {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-    //     <MDBox component="form" role="form" onSubmit={handleSubmit}>
-    //       <MDBox mb={2}>
-    //         <MDInput
-    //           type="text"
-    //           label="Full Name"
-    //           variant="standard"
-    //           fullWidth
-    //           name="fullName"
-    //           value={formData.fullName}
-    //           onChange={handleInputChange}
-    //           error={!!errors.fullName}
-    //           helperText={errors.fullName}
-    //         />
-    //       </MDBox>
-    //       <MDBox mb={2}>
-    //         <MDInput
-    //           type="email"
-    //           label="Email"
-    //           variant="standard"
-    //           fullWidth
-    //           name="email"
-    //           value={formData.email}
-    //           onChange={handleInputChange}
-    //           error={!!errors.email}
-    //           helperText={errors.email}
-    //         />
-    //       </MDBox>
-    //       <MDBox mb={2}>
-    //         <MDInput
-    //           type="text"
-    //           label="Username"
-    //           variant="standard"
-    //           fullWidth
-    //           name="username"
-    //           value={formData.username}
-    //           onChange={handleInputChange}
-    //           error={!!errors.username}
-    //           helperText={errors.username}
-    //         />
-    //       </MDBox>
-    //       <MDBox mb={2}>
-    //         <MDInput
-    //           type="number"
-    //           label="Phone Number"
-    //           variant="standard"
-    //           fullWidth
-    //           name="phoneNumber"
-    //           value={formData.phoneNumber}
-    //           onChange={handleInputChange}
-    //           error={!!errors.phoneNumber}
-    //           helperText={errors.phoneNumber}
-    //         />
-    //       </MDBox>
-    //       <Stack direction={"row"} gap={2}>
-    //         <MDBox mb={2}>
-    //           <MDInput
-    //             type="number"
-    //             label="Age"
-    //             variant="standard"
-    //             name="age"
-    //             value={formData.age}
-    //             onChange={handleInputChange}
-    //             error={!!errors.age}
-    //             helperText={errors.age}
-    //           />
-    //         </MDBox>
-    //         <span className='flex items-center text-sm gap-1'>
-    //           <input
-    //             type="radio"
-    //             value="Male"
-    //             name="gender"
-    //             checked={formData.gender === 'Male'}
-    //             onChange={handleInputChange}
-    //           />
-    //           Male
-    //         </span>
-    //         <span className='flex items-center text-sm gap-1'>
-    //           <input
-    //             type="radio"
-    //             value="Female"
-    //             name="gender"
-    //             checked={formData.gender === 'Female'}
-    //             onChange={handleInputChange}
-    //           />
-    //           Female
-    //         </span>
-    //       </Stack>
-    //       <MDBox mb={2}>
-    //         <MDInput
-    //           type="password"
-    //           label="Password"
-    //           variant="standard"
-    //           fullWidth
-    //           name="password"
-    //           value={formData.password}
-    //           onChange={handleInputChange}
-    //           error={!!errors.password}
-    //           helperText={errors.password}
-    //         />
-    //       </MDBox>
-    //       <MDBox mb={2}>
-    //         <MDInput
-    //           type="password"
-    //           label="Repeat Password"
-    //           variant="standard"
-    //           fullWidth
-    //           name="repeatPassword"
-    //           value={formData.repeatPassword}
-    //           onChange={handleInputChange}
-    //           error={!!errors.repeatPassword}
-    //           helperText={errors.repeatPassword}
-    //         />
-    //       </MDBox>
-    //       <MDBox mt={2} mb={2} className='z-20'>
-    //         <Select
-    //           className='text-sm bg-white'
-    //           options={options}
-    //           value={countryValue}
-    //           placeholder={'Select Country'}
-    //           onChange={changeHandler}
-    //           error={!!errors.country}
-    //           helperText={errors.country}
-    //         />
-    //       </MDBox>
-    //       <MDBox display="flex" alignItems="center" ml={-1}>
-    //         <Checkbox />
-    //         <MDTypography
-    //           variant="button"
-    //           fontWeight="regular"
-    //           color="text"
-    //           sx={{ cursor: 'pointer', userSelect: 'none', ml: -1 }}
-    //         >
-    //           &nbsp;&nbsp;I agree to the&nbsp;
-    //         </MDTypography>
-    //         <p className='text-sm underline'>
-    //           <a href="#">Terms and Conditions</a>
-    //         </p>
-    //       </MDBox>
-    //       <MDBox mt={4} mb={1}>
-    //         <MDButton variant="gradient" color="info" fullWidth type="submit" disabled={loading}>
-    //           {loading ? 'Signing Up...' : 'Sign Up'}
-    //         </MDButton>
-    //       </MDBox>
-    //       <MDBox mt={3} mb={1} textAlign="center">
-    //         <MDTypography variant="button" color="text">
-    //           Already have an account?{' '}
-    //           <Link to={'/authentication/sign-in'}>
-    //             <span className='underline'>
-    //               Sign In
-    //             </span>
-    //           </Link>
-    //         </MDTypography>
-    //       </MDBox>
-    //     </MDBox>
-    //   </MDBox>
-    // </Card>
-
-
-
-
-
-
     // 
-    // 
-    // alt 1
     <div className='bg-[#ffffff]'>
       <HomePageNavBar />
       <div className='w-full min-h-[40dvh] md:h-[60dvh] bg-[#085C44] flex-col flex items-center gap-3 justify-center'>
@@ -340,6 +160,7 @@ function Cover() {
                 <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Name' name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange} />
+                <p className='text-red-500 text-xs'>{errors.fullName}</p>
               </div>
               <div className='flex w-full gap-5 flex-col md:flex-row'>
                 <div className='flex flex-1 flex-col gap-1 mt-3'>
@@ -349,6 +170,7 @@ function Cover() {
                   <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Email' name="email"
                     value={formData.email}
                     onChange={handleInputChange} />
+                  <p className='text-red-500 text-xs'>{errors.email}</p>
                 </div>
                 <div className='flex flex-1 flex-col gap-1 mt-3'>
                   <label className=''>
@@ -357,6 +179,7 @@ function Cover() {
                   <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Number' name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={handleInputChange} />
+                  <p className='text-red-500 text-xs'>{errors.phoneNumber}</p>
                 </div>
               </div>
               <div className='flex w-full gap-5 flex-col md:flex-row'>
@@ -367,6 +190,7 @@ function Cover() {
                   <input type='number' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Email' name="age"
                     value={formData.age}
                     onChange={handleInputChange} />
+                  <p className='text-red-500 text-xs'>{errors.age}</p>
                 </div>
                 <div className='flex flex-1 items-center gap-5 mt-3'>
                   <label className=''>
@@ -382,6 +206,7 @@ function Cover() {
 
                       onChange={handleInputChange} />
                   </div>
+                  <p className='text-red-500 text-xs'>{errors.gender}</p>
                 </div>
               </div>
               <div>
@@ -406,6 +231,7 @@ function Cover() {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange} />
+                  <p className='text-red-500 text-xs'>{errors.password}</p>
                 </div>
                 <div className='flex flex-1 flex-col gap-1 mt-3'>
                   <label className=''>
@@ -418,7 +244,7 @@ function Cover() {
               </div>
               <div className='mt-10'>
                 <Button size='large' className='bg-[#baff5f] py-5 px-10 text-black' onClick={handleSubmit}>
-                  Submit
+                  {loading ? 'Loading....' : 'Submit'}
                 </Button>
               </div>
               <div>
@@ -471,8 +297,8 @@ function Cover() {
                 We provide reliable financial solutions to support your goals with security and personalized service. Your success is our priority.
               </p>
               <div className='flex gap-2'>
-                <input className='p-2 border rounded text-sm focus:border-none w-full' placeholder='Your Email address here' />
-                <button className='px-3 py-1 bg-white text-black text-sm  rounded'>  Submit</button>
+                <input className='p-2 border rounded text-xs focus:border-none w-full' placeholder='Your Email address here' />
+                <button className='px-3 py-1 bg-white text-black text-xs  rounded'>  Submit</button>
               </div>
             </Grid>
           </Grid>
