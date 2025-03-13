@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Select, Typography } from '@mui/material';
 import MDBox from 'components/MDBox';
 import MDButton from 'components/MDButton';
 import MDInput from 'components/MDInput';
@@ -13,7 +13,7 @@ const MakeTransaction = () => {
     const [open, setOpen] = useState(false);
     const [deposit, setDeposit] = useState({ refNo: '', amount: '', description: '' });
     const [withdraw, setWithdraw] = useState({ number: '', bank: '', name: '', amount: '', description: '', password: '' });
-    const [buttonContent, setButtonContent] = useState('Submit to proceed');
+    const [buttonContent, setButtonContent] = useState('Verify');
     const { makeDeposit, makeWithdrawel } = useAuth();
 
     const handleClickOpen = () => setOpen(true);
@@ -57,7 +57,7 @@ const MakeTransaction = () => {
         setButtonContent('Processing...');
         try {
             await makeDeposit(deposit);
-            setButtonContent('Submit to proceed');
+            setButtonContent('Verify');
             toast.success(`Deposit of $${deposit.amount} has been submitted successfully.`);
         } catch (error) {
             setButtonContent('Submit to proceed');
@@ -84,8 +84,8 @@ const MakeTransaction = () => {
         <DashboardLayout>
             <DashboardNavbar />
             <Card sx={{ padding: 5 }}>
-                <div className="outline rounded-lg flex outline-gray-300">
-                    <div
+                <div className=" rounded-lg flex ">
+                    {/* <div
                         className={`withdraw rounded-l-lg flex-1 outline outline-gray-300 flex p-2 cursor-pointer hover:text-black justify-center items-center ${activeTab ? 'bg-[#1A73E8] text-white' : ''
                             }`}
                         onClick={() => setActiveTab(true)}
@@ -98,7 +98,8 @@ const MakeTransaction = () => {
                         onClick={() => setActiveTab(false)}
                     >
                         <p>Deposit</p>
-                    </div>
+                    </div> */}
+                    <Typography variant="h3" color="initial">Transfer</Typography>
                 </div>
 
                 <MDBox component="form" className="mt-5">
@@ -110,22 +111,6 @@ const MakeTransaction = () => {
                             type={activeTab ? 'number' : 'text'}
                             name={activeTab ? 'number' : 'refNo'}
                         />
-                        <MDInput
-                            fullWidth
-                            label={activeTab ? 'Bank Name' : 'Amount'}
-                            onChange={handleChange}
-                            name={activeTab ? 'bank' : 'amount'}
-                            type={activeTab ? 'text' : 'number'}
-                        />
-                    </div>
-                    {activeTab && (
-                        <div className="flex gap-1 mt-2">
-                            <MDInput fullWidth label="Account Name" type="text" name="name" onChange={handleChange} />
-                            <MDInput fullWidth label="Amount ($)" type="number" name="amount" onChange={handleChange} />
-                        </div>
-                    )}
-                    <div className="flex gap-1 mt-2">
-                        <MDInput fullWidth label="Description" type="text" name="description" onChange={handleChange} />
                     </div>
                     <MDButton
                         size="large"

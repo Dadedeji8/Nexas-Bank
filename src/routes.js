@@ -76,11 +76,19 @@ const Routes = () => {
     }] : []),
     {
       type: 'collapse',
-      name: 'History',
+      name: 'Transaction History',
       key: 'history',
       icon: <Icon fontSize="small">table_view</Icon>,
       route: '/history',
       component: <HistoryPage />,
+    },
+    {
+      type: 'collapse',
+      name: 'Make Transaction',
+      key: 'Make Transaction',
+      icon: <Icon fontSize="small">credit_card</Icon>,
+      route: '/make-transaction',
+      component: <MakeTransaction />,
     },
     // {
     //   type: 'collapse',
@@ -90,6 +98,7 @@ const Routes = () => {
     //   route: '/maketransaction',
     //   component: <MakeTransaction />,
     // },
+
     {
       type: 'collapse',
       name: 'Notifications',

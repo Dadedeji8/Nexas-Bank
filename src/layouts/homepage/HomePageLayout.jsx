@@ -100,9 +100,9 @@ const HomePageLayout = () => {
     return (
         <section className='w-full overflow-x-hidden'>
             <HomePageNavBar />
-            <section className="md:h-[80dvh] hero-section overflow-y-hidden w-full">
-                <section className='flex flex-col md:flex-row items-center   justify-between px-8 md:px-20 w-full pt-24  max-w-[1200px] m-auto '>
-                    <div className="text-center md:text-left max-w-2xl  space-y-6" >
+            <section className="md:h-[80dvh] hero-section overflow-y-hidden  w-full">
+                <section className='flex flex-col h-full md:flex-row items-center relative bottom-0 justify-between px-8 md:px-20 w-full pt-24  max-w-[1200px] m-auto '>
+                    <div className="text-center md:text-left max-w-2xl md:mt-20  space-y-6" >
                         <motion.h1
                             className="text-5xl md:text-5xl lg:text-7xl font-extrabold text-gray-200 leading-tight"
                             initial={{ opacity: 0, y: 20 }}
@@ -129,20 +129,20 @@ const HomePageLayout = () => {
                         </div>
                     </div>
                     <motion.div
-                        className="w-full   md:w-1/2 flex justify-center items-end h-full  flex-1 mt-12 md:mt-0"
+                        className="w-full   md:w-1/2 flex justify-center items-end h-full  flex-1 mt-12 md:mt-0 md:relative"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1 }}
                     >
-                        <img
+                        {/* <img
                             src={HeroBanner}
                             alt="Hero"
                             className="rounded-3xl w-[50px] md:w-[100px] md:h-[100px] bottom-64 md:top-40 right-20  md:right-[10rem]  z-20  relative animate-spin  duration-1000 "
-                        />
+                        /> */}
                         <img
                             src={HeroImg}
                             alt="Hero"
-                            className="rounded-3xl  w-[500px] md:w-[1200px]  relative z-10"
+                            className="rounded-3xl object-contain md:absolute z-10"
                         />
                     </motion.div>
                 </section>

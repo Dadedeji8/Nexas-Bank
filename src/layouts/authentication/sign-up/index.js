@@ -296,6 +296,15 @@ function Cover() {
     //     </MDBox>
     //   </MDBox>
     // </Card>
+
+
+
+
+
+
+    // 
+    // 
+    // alt 1
     <div className='bg-[#ffffff]'>
       <HomePageNavBar />
       <div className='w-full min-h-[40dvh] md:h-[60dvh] bg-[#085C44] flex-col flex items-center gap-3 justify-center'>

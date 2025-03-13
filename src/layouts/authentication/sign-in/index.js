@@ -25,6 +25,7 @@ import bgImage from 'assets/images/bg-sign-in-basic.jpeg'
 import { Container } from '@mui/material'
 import HomePageNavBar from 'layouts/homepage/components/HomePageNavBar'
 import AOS from 'aos';
+import { toast } from 'react-toastify'
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false)
   const [userCredentials, setUserCredentials] = useState({
@@ -44,7 +45,9 @@ function Basic() {
   const validateInput = () => {
     const newErrors = {}
     if (!userCredentials.email) newErrors.email = 'Email is required'
-    if (!userCredentials.password) newErrors.password = 'Password is required'
+    if (!userCredentials.password) {
+      newErrors.password = 'Password is required'
+    }
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -63,13 +66,16 @@ function Basic() {
 
         if (result.success) {
           setSuccessMessage('Login successful! Redirecting to dashboard...');
-          navigate('/dashboard'); // Navigate only on success
+          navigate('/dashboard');
+          toast.success('Sign In Successful')
+          // Navigate only on success
         } else {
           setErrorMessage(result.error); // Display API error message
         }
       } catch (error) {
         console.log('Failed to log in:', error);
         setErrorMessage('An unexpected error occurred. Please try again.');
+        toast.error(errorMessage)
       } finally {
         setLoading(false);
       }
@@ -123,6 +129,7 @@ function Basic() {
                   value={userCredentials.email}
                   onChange={handleInputChange} />
               </div>
+              <p className='text-red-400 text-sm'>{errors.email}</p>
 
               <div className='flex flex-1 flex-col gap-1 mt-3'>
                 <label className=' '>
@@ -132,10 +139,10 @@ function Basic() {
                   value={userCredentials.password}
                   onChange={handleInputChange} />
               </div>
-
+              <p className='text-red-400 text-sm'>{errors.password}</p>
               <div className='mt-10'>
-                <Button size='large' className='bg-[#baff5f] py-5 px-10 text-black' onClick={handleSubmit}>
-                  Submit
+                <Button size='large' className='bg-[#baff5f]  py-5 px-10 text-black' onClick={handleSubmit}>
+                  {!loading ? 'Submit' : "Loading..."}
                 </Button>
               </div>
               <div>

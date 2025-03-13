@@ -10,7 +10,7 @@ import Icon from '@mui/material/Icon'
 
 // Material Dashboard 2 React components
 import MDBox from 'components/MDBox'
-
+import { useAuth } from 'context/AuthContext'
 // Material Dashboard 2 React example components
 import Sidenav from 'examples/Sidenav'
 import Configurator from 'examples/Configurator'
@@ -43,7 +43,6 @@ import {
 // Images
 import brandWhite from 'assets/images/logo-ct.png'
 import brandDark from 'assets/images/logo-ct-dark.png'
-import { useAuth } from 'context/AuthContext'
 import RoutesConfig from './routes';
 export default function App() {
 
@@ -158,14 +157,14 @@ export default function App() {
     <CssBaseline />
     {layout === 'dashboard' && !loading && (
       <>
-        <Sidenav
+        {token ? <Sidenav
           color={sidenavColor}
           // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
           brandName="NEXAS BANK"
           routes={routes}
           onMouseEnter={handleOnMouseEnter}
           onMouseLeave={handleOnMouseLeave}
-        />
+        /> : ''}
         {/* <Configurator />
           {configsButton} */}
       </>
