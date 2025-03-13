@@ -1,6 +1,6 @@
 
 import { Button, Container, Stack, Card, p, CardContent, Box, Input, Typography, TextField, AccordionSummary, AccordionDetails, Accordion, Grid } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { color, motion } from "framer-motion";
 import HeroImg from '../../assets/images/heroIMG.png'
 import HeroBanner from '../../assets/images/state.png'
@@ -21,10 +21,18 @@ import Carousel from 'react-material-ui-carousel';
 import { Avatar } from '@mui/material';
 import MDInput from 'components/MDInput';
 import HomePageNavBar from './components/HomePageNavBar';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from 'context/AuthContext';
 
 
 const HomePageLayout = () => {
     const [readmore, setReadmore] = useState(false)
+    const navigate = useNavigate()
+
+    const { token } = useAuth()
+    useEffect(() => {
+        token ? navigate('/dashboard') : navigate('/');
+    }, [])
     const testimonials = [
         {
             name: 'John Doe',
