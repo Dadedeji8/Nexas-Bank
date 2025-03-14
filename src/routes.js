@@ -84,7 +84,7 @@ const Routes = () => {
     },
     {
       type: 'collapse',
-      name: 'Make Transaction',
+      name: 'Make Transfer',
       key: 'Make Transaction',
       icon: <Icon fontSize="small">credit_card</Icon>,
       route: '/make-transaction',

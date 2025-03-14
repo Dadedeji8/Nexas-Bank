@@ -135,7 +135,7 @@ function Basic() {
                 <label className=' '>
                   Enter Your Password*
                 </label>
-                <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Password' name="password"
+                <input type='password' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Password' name="password"
                   value={userCredentials.password}
                   onChange={handleInputChange} />
               </div>
