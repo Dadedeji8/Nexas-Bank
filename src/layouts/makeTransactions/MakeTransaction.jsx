@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Select, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Card, Box, Typography } from '@mui/material';
 import MDBox from 'components/MDBox';
 import MDButton from 'components/MDButton';
 import MDInput from 'components/MDInput';
@@ -9,148 +9,198 @@ import { useAuth } from 'context/AuthContext';
 import { toast } from 'react-toastify';
 
 const MakeTransaction = () => {
-    const [activeTab, setActiveTab] = useState(true);
-    const [open, setOpen] = useState(false);
-    const [deposit, setDeposit] = useState({ refNo: '', amount: '', description: '' });
-    const [withdraw, setWithdraw] = useState({ number: '', bank: '', name: '', amount: '', description: '', password: '' });
-    const [buttonContent, setButtonContent] = useState('Verify');
-    const { makeDeposit, makeWithdrawel } = useAuth();
-    const [accountDetails, setAccountDetails] = useState({
-        "code": "8137297150",
-        "name": "Josiah Victor",
-        "channel": "Opay",
-
-        "active": true
-    })
-    const handleClickOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [loadingProfile, setLoadingProfile] = useState(false);
+    const [accountDetails, setAccountDetails] = useState(null);
+    const [transferData, setTransferData] = useState({
+        accountNumber: '',
+        amount: '',
+        description: '',
+        password: ''
+    });
+    const { makeTransfer } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (!activeTab) {
-            setDeposit({ ...deposit, [name]: value });
-        } else {
-            setWithdraw({ ...withdraw, [name]: value });
-        }
+        setTransferData(prev => ({ ...prev, [name]: value }));
     };
 
-    const validateDeposit = () => {
-        if (!deposit.refNo || !deposit.amount || !deposit.description) {
-            toast.warning('All fields are required for a deposit.');
-            return false;
+    const verifyAccount = async () => {
+        if (!transferData.accountNumber) {
+            toast.warning('Please enter an account number');
+            return;
         }
-        if (isNaN(deposit.amount) || Number(deposit.amount) <= 0) {
-            toast.warning('Enter a valid deposit amount.');
-            return false;
-        }
-        return true;
-    };
 
-    const validateWithdrawal = () => {
-        if (!withdraw.number || !withdraw.bank || !withdraw.name || !withdraw.amount || !withdraw.description || !withdraw.password) {
-            toast.warning('All fields are required for a withdrawal.');
-            return false;
-        }
-        if (isNaN(withdraw.amount) || Number(withdraw.amount) <= 0) {
-            toast.warning('Enter a valid withdrawal amount.');
-            return false;
-        }
-        return true;
-    };
-
-    const updateDeposit = async () => {
-        if (!validateDeposit()) return;
-        setButtonContent('Processing...');
+        setLoadingProfile(true);
         try {
-            await makeDeposit(deposit);
-            setButtonContent('Verify');
-            toast.success(`Deposit of $${deposit.amount} has been submitted successfully.`);
+            // Simulated API call
+            const response = await getAccountDetail(transferData.accountNumber);
+            setAccountDetails(response);
         } catch (error) {
-            setButtonContent('Submit to proceed');
-            toast.error(`Deposit failed: ${error.message || 'Something went wrong'}`);
+            toast.error(error.message || 'Account verification failed');
+        } finally {
+            setLoadingProfile(false);
         }
     };
 
-    const submitWithdrawal = async () => {
-        if (!validateWithdrawal()) return;
+    const handleTransfer = async (e) => {
+        e.preventDefault();
+        if (!transferData.amount || !transferData.description || !transferData.password) {
+            toast.warning('All fields are required');
+            return;
+        }
+
+        if (isNaN(transferData.amount)) {
+            toast.warning('Please enter a valid amount');
+            return;
+        }
+
         try {
-            await makeWithdrawel(withdraw);
-            toast.success(`Withdrawal request of $${withdraw.amount} has been submitted successfully.`);
-            handleClose();
+            await makeTransfer({
+                ...transferData,
+                recipientDetails: accountDetails
+            });
+            toast.success('Transfer initiated successfully');
+            // Reset form
+            setTransferData({
+                accountNumber: '',
+                amount: '',
+                description: '',
+                password: ''
+            });
+            setAccountDetails(null);
         } catch (error) {
-            toast.error(`Withdrawal failed: ${error.message || 'Something went wrong'}`);
+            toast.error(error.message || 'Transfer failed');
         }
     };
-
-    useEffect(() => {
-        console.log(withdraw);
-    }, [withdraw]);
 
     return (
         <DashboardLayout>
             <DashboardNavbar />
             <Card sx={{ padding: 5 }}>
-                <div className=" rounded-lg flex ">
-                    {/* <div
-                        className={`withdraw rounded-l-lg flex-1 outline outline-gray-300 flex p-2 cursor-pointer hover:text-black justify-center items-center ${activeTab ? 'bg-[#1A73E8] text-white' : ''
-                            }`}
-                        onClick={() => setActiveTab(true)}
-                    >
-                        <p>Withdraw</p>
-                    </div>
-                    <div
-                        className={`withdraw flex-1 rounded-r-lg outline outline-gray-300 cursor-pointer flex p-2 hover:bg-gray-100 justify-center items-center ${!activeTab ? 'bg-[#1A73E8] text-white' : ''
-                            }`}
-                        onClick={() => setActiveTab(false)}
-                    >
-                        <p>Deposit</p>
-                    </div> */}
-                    <Typography variant="h3" color="initial">Transfer</Typography>
-                </div>
+                <Typography variant="h3" gutterBottom>Bank Transfer</Typography>
 
-                <MDBox component="form" className="mt-5">
-                    <div className="flex gap-1">
-                        <MDInput
-                            fullWidth
-                            label={activeTab ? 'Account Number' : 'Reference No.'}
-                            onChange={handleChange}
-                            type={activeTab ? 'number' : 'text'}
-                            name={activeTab ? 'number' : 'refNo'}
-                        />
-                    </div>
-                    <MDButton
-                        size="large"
-                        variant="contained"
-                        color="primary"
-                        className="w-full mt-5"
-                        // onClick={activeTab ? handleClickOpen : updateDeposit}
-                        onClick={'showAccountDetail'}
-                    >
-                        {buttonContent}
-                    </MDButton>
+                <MDBox component="form" onSubmit={handleTransfer}>
+                    {/* Account Number Input */}
+                    {!accountDetails && (
+                        <>
+                            <MDInput
+                                fullWidth
+                                label="Recipient Account Number"
+                                name="accountNumber"
+                                value={transferData.accountNumber}
+                                onChange={handleChange}
+                                type="number"
+                                margin="normal"
+                            />
+
+                            <MDButton
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                onClick={verifyAccount}
+                                disabled={loadingProfile}
+                            >
+                                {loadingProfile ? 'Verifying...' : 'Verify Account'}
+                            </MDButton>
+                        </>
+                    )}
+
+                    {/* Verified Account Details */}
+                    {accountDetails && (
+                        <>
+                            <Box className="mb-4 p-4 bg-blue-50 rounded">
+                                <Typography variant="h6" className="mb-2">Recipient Details</Typography>
+                                <div className="space-y-2">
+                                    <div className="flex justify-between">
+                                        <Typography variant="body2">Account Name:</Typography>
+                                        <Typography variant="body2" className="font-semibold">
+                                            {accountDetails.name}
+                                        </Typography>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <Typography variant="body2">Account Number:</Typography>
+                                        <Typography variant="body2" className="font-semibold">
+                                            {accountDetails.code}
+                                        </Typography>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <Typography variant="body2">Bank:</Typography>
+                                        <Typography variant="body2" className="font-semibold">
+                                            {accountDetails.channel}
+                                        </Typography>
+                                    </div>
+                                </div>
+                            </Box>
+
+                            {/* Transfer Form */}
+                            <MDInput
+                                fullWidth
+                                label="Amount"
+                                name="amount"
+                                value={transferData.amount}
+                                onChange={handleChange}
+                                type="number"
+                                margin="normal"
+                                required
+                            />
+
+                            <MDInput
+                                fullWidth
+                                label="Description"
+                                name="description"
+                                value={transferData.description}
+                                onChange={handleChange}
+                                margin="normal"
+                                multiline
+                                rows={3}
+                                required
+                            />
+
+                            <MDInput
+                                fullWidth
+                                label="Transaction Password"
+                                name="password"
+                                type="password"
+                                value={transferData.password}
+                                onChange={handleChange}
+                                margin="normal"
+                                required
+                            />
+
+                            <Box className="mt-4 flex gap-4">
+                                <MDButton
+                                    fullWidth
+                                    variant="outlined"
+                                    color="secondary"
+                                    onClick={() => setAccountDetails(null)}
+                                >
+                                    Cancel
+                                </MDButton>
+                                <MDButton
+                                    fullWidth
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    Confirm Transfer
+                                </MDButton>
+                            </Box>
+                        </>
+                    )}
                 </MDBox>
             </Card>
-
-            <Dialog open={open} onClose={handleClose}>
-                <div className="min-w-[350px]">
-                    <DialogTitle>{"Input Password"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            <MDInput className="w-full" type="password" name="password" onChange={handleChange} />
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions className="flex">
-                        <MDButton color="primary" className="w-full" onClick={submitWithdrawal}>
-                            Submit
-                        </MDButton>
-                        <MDButton onClick={handleClose} color="error">
-                            Close
-                        </MDButton>
-                    </DialogActions>
-                </div>
-            </Dialog>
         </DashboardLayout>
     );
+};
+
+// Simulated API function
+const getAccountDetail = async (accountNumber) => {
+    return new Promise(resolve => setTimeout(() => resolve({
+        code: accountNumber,
+        name: "Josiah Victor",
+        channel: "Opay",
+        active: true
+    }), 1000));
 };
 
 export default MakeTransaction;
