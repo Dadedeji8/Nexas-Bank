@@ -121,7 +121,7 @@ const HomePageLayout = () => {
                         </motion.p>
                         <div className="mt-8 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
                             <Button className="bg-lime-400 hover:bg-lime-700 text-white px-8 py-3 rounded-xl text-lg flex items-center gap-2 shadow-md">
-                                <Link to={'/authentication/sign-up'} className='text-white'> Get Started <ArrowRight size={20} /></Link>
+                                <Link to={'/authentication/sign-up'} className='text-white'> Get Started </Link><ArrowRight size={20} />
                             </Button>
                             <Button className=" border-solid border-2 border-lime-500 hover:bg-gray-400 text-lime-200 px-8 py-3 rounded-xl text-lg ">
                                 <a href="about-us" className='text-white'>Know About Us</a>
