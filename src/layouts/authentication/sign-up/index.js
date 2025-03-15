@@ -72,6 +72,7 @@ function Cover() {
     if (!formData.fullName) newErrors.fullName = 'Full Name is required'
     if (!formData.email) newErrors.email = 'Email is required'
     if (!formData.password) newErrors.password = 'Password is required'
+    if (!formData.username) newErrors.username = 'username is required'
     if (!formData.phoneNumber) newErrors.phoneNumber = 'Phone number is required'
     if (formData.password !== formData.repeatPassword) newErrors.repeatPassword = 'Passwords do not match'
     if (!formData.gender) newErrors.gender = 'Gender is required'
@@ -111,8 +112,10 @@ function Cover() {
         navigate('/dashboard'); // Only navigate if login succeeds
 
       } catch (error) {
-        console.error('Error:', error.message);
-        setErrorMessage(error.message || 'Error registering user. Please try again.');
+        console.error('Error:', error.error);
+        setErrorMessage(error.error || 'Error occured try again later');
+        toast.error(error.error || 'Error occured try again later');
+
       } finally {
         setLoading(false);
       }
@@ -187,10 +190,49 @@ function Cover() {
                   <label className=' '>
                     Enter Your Age*
                   </label>
-                  <input type='number' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Age' name="age"
+                  <input type='date' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Age' name="age"
                     value={formData.age}
                     onChange={handleInputChange} />
                   <p className='text-red-500 text-xs'>{errors.age}</p>
+                </div>
+                <div className='flex flex-1 flex-col gap-1 mt-3'>
+                  <label className=' '>
+                    Enter Your Username*
+                  </label>
+                  <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Username' name="username"
+                    value={formData.username}
+                    onChange={handleInputChange} />
+                  <p className='text-red-500 text-xs'>{errors.username}</p>
+                </div>
+                {/* <div className='flex flex-1 items-center gap-5 mt-3'>
+                  <label className=''>
+                    Select SEX*
+                  </label>
+                  <div>
+                    <label>Male</label>   <input type='radio' className='' name='gender' value={'male'}
+
+                      onChange={handleInputChange} />
+                  </div>
+                  <div>
+                    <label>Female</label>   <input type='radio' className='' value={'female'} name="gender"
+
+                      onChange={handleInputChange} />
+                  </div>
+                  <p className='text-red-500 text-xs'>{errors.gender}</p>
+                </div> */}
+              </div>
+              <div className='md:flex gap-3 w-full '>
+                <div className='flex-1'>
+                  <label className="mt-5">Select Country</label>
+                  <Select
+                    className="text-sm bg-[#F3F3FF] text-black my-2 rounded-xl p-3 border border-solid border-gray-300"
+
+                    options={options}
+                    value={countryValue}
+                    placeholder="Select Country"
+                    onChange={changeHandler}
+                  />
+                  {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
                 </div>
                 <div className='flex flex-1 items-center gap-5 mt-3'>
                   <label className=''>
@@ -208,18 +250,6 @@ function Cover() {
                   </div>
                   <p className='text-red-500 text-xs'>{errors.gender}</p>
                 </div>
-              </div>
-              <div>
-                <label className="mt-5">Select Country</label>
-                <Select
-                  className="text-sm bg-[#F3F3FF] text-black my-2 rounded-xl p-3 border border-solid border-gray-300"
-           
-                  options={options}
-                  value={countryValue}
-                  placeholder="Select Country"
-                  onChange={changeHandler}
-                />
-                {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
               </div>
 
               <div className='flex w-full gap-5 flex-col md:flex-row'>

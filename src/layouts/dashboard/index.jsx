@@ -107,6 +107,7 @@ function Dashboard() {
                 </div>
 
                 {isAdmin && <UsersTableComponent />}
+
                 <TransactionsTableComponent />
               </div>
             </Grid>
@@ -184,9 +185,12 @@ function AccountOverviewComponent() {
           </Typography>
         </Box>
         <div className="flex flex-row items-center gap-3">
-          <Typography variant="h2" color={'primary'}>
-            {showValue ? profile?.account?.balance : '*****'}
-          </Typography>
+          <div>
+            <Typography variant="h2" color={'primary'}>
+              $ {profile?.account?.balance}
+            </Typography>
+
+          </div>
           <span
             onClick={() => {
               setShowValue(!showValue)
@@ -211,7 +215,10 @@ function AccountOverviewComponent() {
               />
             )}
           </span>
-        </div>
+
+        </div>   <Typography variant="body2" color={'primary'}>
+          {profile?.account?.number}
+        </Typography>
       </div>
       <Box className="flex gap-3">
         <Button
@@ -283,11 +290,11 @@ function InfoComponent({ showAccount }) {
 
       {showAccount && <Card className='w-full p-5'>
         <p className="text-gray-400 font-bold text-[18px]">Account Number </p>
-        <div className="flex">  <input type="Number" disabled={true} value={2217392093} className='p-2 border rounded-[5px] w-full' />
+        <div className="flex">  <input type="Number" disabled={true} value={profile?.account?.number} className='p-2 border rounded-[5px] w-full' />
           <button
             className='bg-[#1a73eb] text-white p-2 rounded-[5px] ml-2 border-none'
             onClick={() => {
-              navigator.clipboard.writeText(2217392093)
+              navigator.clipboard.writeText(profile?.account?.number)
               alert('Account number copied to clipboard')
             }}
           >

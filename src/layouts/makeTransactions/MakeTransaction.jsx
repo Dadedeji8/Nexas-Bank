@@ -15,7 +15,13 @@ const MakeTransaction = () => {
     const [withdraw, setWithdraw] = useState({ number: '', bank: '', name: '', amount: '', description: '', password: '' });
     const [buttonContent, setButtonContent] = useState('Verify');
     const { makeDeposit, makeWithdrawel } = useAuth();
+    const [accountDetails, setAccountDetails] = useState({
+        "code": "8137297150",
+        "name": "Josiah Victor",
+        "channel": "Opay",
 
+        "active": true
+    })
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -117,7 +123,8 @@ const MakeTransaction = () => {
                         variant="contained"
                         color="primary"
                         className="w-full mt-5"
-                        onClick={activeTab ? handleClickOpen : updateDeposit}
+                        // onClick={activeTab ? handleClickOpen : updateDeposit}
+                        onClick={'showAccountDetail'}
                     >
                         {buttonContent}
                     </MDButton>
