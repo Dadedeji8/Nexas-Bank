@@ -187,7 +187,7 @@ function Cover() {
                   <label className=' '>
                     Enter Your Age*
                   </label>
-                  <input type='number' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Email' name="age"
+                  <input type='number' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Age' name="age"
                     value={formData.age}
                     onChange={handleInputChange} />
                   <p className='text-red-500 text-xs'>{errors.age}</p>
