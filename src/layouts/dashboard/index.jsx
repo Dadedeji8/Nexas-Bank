@@ -227,16 +227,16 @@ function AccountOverviewComponent() {
           size="medium"
           color="primary"
         >
-          <Link to={'/maketransaction'}>Transfer</Link>
+          <Link to={'/make-transaction'}>Transfer</Link>
         </Button>
-        <Button
+        {/* <Button
           variant="contained"
           size="medium"
           sx={{ color: '#ffffff' }}
           color="primary"
         >
           <Link to={'/maketransaction'}>Deposit</Link>
-        </Button>
+        </Button> */}
       </Box>
     </div>
   )
