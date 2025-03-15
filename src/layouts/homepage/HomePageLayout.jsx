@@ -21,7 +21,7 @@ import Carousel from 'react-material-ui-carousel';
 import { Avatar } from '@mui/material';
 import MDInput from 'components/MDInput';
 import HomePageNavBar from './components/HomePageNavBar';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from 'context/AuthContext';
 
 
@@ -121,10 +121,10 @@ const HomePageLayout = () => {
                         </motion.p>
                         <div className="mt-8 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
                             <Button className="bg-lime-400 hover:bg-lime-700 text-white px-8 py-3 rounded-xl text-lg flex items-center gap-2 shadow-md">
-                                Get Started <ArrowRight size={20} />
+                                <Link to={'/authentication/sign-up'}> Get Started <ArrowRight size={20} /></Link>
                             </Button>
                             <Button className=" border-solid border-2 border-lime-500 hover:bg-gray-400 text-lime-200 px-8 py-3 rounded-xl text-lg ">
-                                Know About Us
+                                <a href="about-us">Know About Us</a>
                             </Button>
                         </div>
                     </div>
@@ -142,13 +142,13 @@ const HomePageLayout = () => {
                         <img
                             src={HeroImg}
                             alt="Hero"
-                            className="rounded-3xl object-contain md:absolute z-10"
+                            className="rounded-3xl object-contain md:absolute z-10 max-w-[500px]"
                         />
                     </motion.div>
                 </section>
             </section>
             <section className='py-16 flex flex-col items-center justify-center bg-green-50'>
-                <div>
+                <div id="about-us">
                     <h1 className="text-4xl text-lime-900 font-extrabold">
                         About Us
                     </h1>
