@@ -213,7 +213,7 @@ function Cover() {
                 <label className="mt-5">Select Country</label>
                 <Select
                   className="text-sm bg-[#F3F3FF] text-black my-2 rounded-xl p-3 border border-solid border-gray-300"
-                  classNamePrefix="custom-select bg-[#F3F3FF] text-black"
+           
                   options={options}
                   value={countryValue}
                   placeholder="Select Country"
