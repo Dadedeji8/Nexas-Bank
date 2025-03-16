@@ -17,7 +17,7 @@ const MakeTransaction = () => {
         description: '',
         password: ''
     });
-    const { makeTransfer } = useAuth();
+    const { makeTransfer, getAccountDetail } = useAuth();
     useEffect(() => { console.log(transferData) }, [transferData])// checking the data being passed
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,31 +45,39 @@ const MakeTransaction = () => {
 
     const handleTransfer = async (e) => {
         e.preventDefault();
-        if (!transferData.amount || !transferData.description || !transferData.password) {
-            toast.warning('All fields are required');
-            return;
-        }
-
-        if (isNaN(transferData.amount)) {
-            toast.warning('Please enter a valid amount');
-            return;
-        }
-
         try {
+            // Validate inputs
+            if (!transferData.amount ||
+                !transferData.description ||
+                !transferData.password) {
+                toast.warning('All fields are required');
+                return;
+            }
+
+            if (isNaN(transferData.amount) || Number(transferData.amount) <= 0) {
+                toast.warning('Please enter a valid amount');
+                return;
+            }
+
+            // Make transfer
             await makeTransfer({
                 ...transferData,
-                recipientDetails: accountDetails
+                ...accountDetails
             });
-            toast.success('Transfer initiated successfully');
-            // Reset form
+
+            // Reset form on success
+            setAccountDetails(null);
             setTransferData({
                 accountNumber: '',
                 amount: '',
                 description: '',
                 password: ''
             });
-            setAccountDetails(null);
+
+            toast.success('Transfer completed successfully!');
+
         } catch (error) {
+            // Display error message from server
             toast.error(error.message || 'Transfer failed');
         }
     };
@@ -198,34 +206,6 @@ const MakeTransaction = () => {
 };
 
 // Updated API function with proper error handling
-const getAccountDetail = async (accountNumber) => {
-    const token = localStorage.getItem('token');
-    if (!token) throw new Error('Authentication required');
 
-    try {
-        const response = await fetch(
-            `https://nexas-bank-seven.vercel.app/api/bank/details?code=${accountNumber}`,
-            {
-                method: "GET",
-                headers: {
-                    "Authorization": token,
-                    "Content-Type": "application/json"
-                }
-            }
-        );
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Account verification failed');
-        }
-
-        const result = await response.json();
-
-        console.log(result.detail)
-        return result.detail; // Assuming your API returns data in data property
-    } catch (error) {
-        throw new Error(error.message || 'Failed to fetch account details');
-    }
-};
 
 export default MakeTransaction;

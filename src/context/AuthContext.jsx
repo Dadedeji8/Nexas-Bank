@@ -494,6 +494,77 @@ export const AuthProvider = ({ children }) => {
             )
             .catch((error) => console.error(error));
     }
+
+    const getAccountDetail = async (accountNumber) => {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Authentication required');
+
+        try {
+            const response = await fetch(
+                `${endpoint}/bank/details?code=${accountNumber}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization": token,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Account verification failed');
+            }
+
+            const result = await response.json();
+
+            console.log(result.detail)
+            return result.detail; // Assuming your API returns data in data property
+        } catch (error) {
+            throw new Error(error.message || 'Failed to fetch account details');
+        }
+    };
+
+    const makeTransfer = (data) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "amount": data.amount,
+            "description": data.description,
+            "method": "-",
+            "account": {
+                "code": data.code,
+                "name": data.name,
+                "channel": data.channel
+            },
+            "password": data.password
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        // Return the promise chain
+        return fetch(`${endpoint}/bank/transaction`, requestOptions)
+            .then(async (response) => {
+                const data = await response.json();
+                if (!response.ok) {
+                    // Throw error with message from server
+                    throw new Error(data.error || 'Transfer failed');
+                }
+                return data;
+            })
+            .catch(error => {
+                // Re-throw to allow handling in component
+                throw new Error(error.message);
+            });
+    };
+
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin,
@@ -518,6 +589,7 @@ export const AuthProvider = ({ children }) => {
             withdrawals,
             notifications,
             setWithdrawals,
+            getAccountDetail, makeTransfer,
             allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
         }}>
             {children}
