@@ -265,14 +265,21 @@ export const AuthProvider = ({ children }) => {
         return
     }
 
-    function adminUpdateUserWallet({ id, amount }) {
+    function adminUpdateUserWallet(data) {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
-
         myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
-            "amount": amount,
+            "amount": data.amount,
+            "description": data.description,
+            "method": "-",
+            "account": {
+                "code": data.code,
+                "name": data.name,
+                "channel": data.channel
+            },
+            "password": data.password
         });
 
         const requestOptions = {
@@ -282,16 +289,56 @@ export const AuthProvider = ({ children }) => {
             redirect: "follow"
         };
 
-
-        fetch(`${endpoint}/bank/balance/${id}`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                console.log(result)
-                getAllProfile({})
+        // Return the promise chain
+        return fetch(`${endpoint}/bank/transaction/${data.code}`, requestOptions)
+            .then(async (response) => {
+                const data = await response.json();
+                if (!response.ok) {
+                    // Throw error with message from server
+                    throw new Error(data.error || 'Transfer failed');
+                }
+                return data;
             })
-            .catch((error) => console.error(error));
-        return
-    }
+            .catch(error => {
+                // Re-throw to allow handling in component
+                throw new Error(error.message);
+            });
+    };
+    // ({ id, amount }) {
+    //     const myHeaders = new Headers();
+    //     myHeaders.append("Authorization", token);
+
+    //     myHeaders.append("Content-Type", "application/json");
+
+    //     const raw = JSON.stringify({
+    //         "amount": amount,
+    //         "description": 'deposit',
+    //         "method": "+",
+    //         "account": {
+    //             "code": '00000',
+    //             "name": 'Nexas Bank',
+    //             "channel":'Nexas Bank'
+    //         },
+    //         "password": data.password
+    //     });
+
+    //     const requestOptions = {
+    //         method: "PUT",
+    //         headers: myHeaders,
+    //         body: raw,
+    //         redirect: "follow"
+    //     };
+
+
+    //     fetch(`${endpoint}/bank/transaction?id=${id}`, requestOptions)
+    //         .then((response) => response.json())
+    //         .then((result) => {
+    //             console.log(result)
+    //             getAllProfile({})
+    //         })
+    //         .catch((error) => console.error(error));
+    //     return
+    // }
 
     function adminDisableUser({ id }) {
         const myHeaders = new Headers();

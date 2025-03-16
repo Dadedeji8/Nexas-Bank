@@ -1,11 +1,13 @@
 import { useAuth } from 'context/AuthContext'
 import moment from 'moment'
-import React, { useState } from 'react'
-import { Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, Menu, MenuItem, Select } from '@mui/material';
+import React, { useEffect, useState } from 'react'
+import { Checkbox, FormControl, FormControlLabel, IconButton, Input, InputLabel, Menu, MenuItem, Select } from '@mui/material';
 import DataTable from 'examples/Tables/DataTable';
 import { MoreVert } from '@mui/icons-material';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
+import MDInput from 'components/MDInput';
+import { token } from 'stylis';
 
 
 function UsersTableComponent() {
@@ -52,7 +54,7 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
   const { adminUpdateUserWallet, adminDisableUser } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-
+  const [accountDetail, setAccountDetail] = useState(null)
   const [walletAmount, setWalletAmount] = useState(wallet);
   const open = Boolean(anchorEl);
 
@@ -63,7 +65,10 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleUpdateWalletData = (e) => {
+    const { name, value } = e.target
+    setAccountDetail(prev => ({ ...prev, [name]: value }))
+  }
   const handleDialogOpen = () => {
     setOpenDialog(true);
     handleClose();
@@ -76,10 +81,13 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
   const handleWalletUpdate = () => {
     // Logic to update wallet amount
 
-    adminUpdateUserWallet({ id: rowId, amount: walletAmount });
-    console.log(`Updating wallet for user ${rowId} with amount ${walletAmount}`);
+    adminUpdateUserWallet({ code: '1415504426', accountDetail });
+
     handleDialogClose();
   };
+  useEffect(() => {
+    console.log(accountDetail)
+  }, [accountDetail])
 
   return (
     <div>
@@ -119,11 +127,32 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
             label="Wallet Amount"
             type="number"
             fullWidth
+            name='amount'
             variant="standard"
-            value={walletAmount}
-            onChange={(e) => setWalletAmount(e.target.value)}
-          />
 
+            onChange={handleUpdateWalletData}
+          />
+          <div className='flex gap-2 mb-2 flex-col md:flex-row'>
+            <div className='w-full '>
+              <MDInput type="text" name='name' label='input Name' className='w-full' onChange={handleUpdateWalletData} />
+            </div>
+            <div className='w-full '>
+              <MDInput type="text" name='description' label='input description' className='w-full' onChange={handleUpdateWalletData} />
+            </div>
+          </div>
+          <div className=' flex flex-col md:flex-row gap-3  mb-2'>
+            <div className='w-full'>
+              <MDInput type="text" label='input channel / bank' name='channel' className='w-full' onChange={handleUpdateWalletData} />
+            </div>
+            <div className='flex w-full gap-2'  >
+              <div className='flex items-center'><input type="radio" name='method' value={'+'} onChange={handleUpdateWalletData} /> Credit </div>
+              <div className='flex items-center'><input type="radio" name='method' value={'-'} onChange={handleUpdateWalletData} /> debit </div>
+            </div>
+          </div>
+
+          <div className='w-full'>
+            <MDInput type="password" name='password' label='input password' className='w-full' onChange={handleUpdateWalletData} />
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose}>Cancel</Button>
