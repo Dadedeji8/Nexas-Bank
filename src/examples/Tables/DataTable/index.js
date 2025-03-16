@@ -64,10 +64,16 @@ function DataTable({
   const data = useMemo(() => table.rows, [table])
 
   const tableInstance = useTable(
-    { columns, data, initialState: { pageIndex: 0 } },
+    {
+      columns, data, initialState: { pageIndex: 0 },
+      // Disable auto-reset of page index when data changes
+      autoResetPageIndex: false,
+      autoResetPage: false,
+    },
     useGlobalFilter,
     useSortBy,
     usePagination
+
   )
 
   const {
