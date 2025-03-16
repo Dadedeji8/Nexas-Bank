@@ -7,8 +7,7 @@ import { MoreVert } from '@mui/icons-material';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import MDInput from 'components/MDInput';
-import { token } from 'stylis';
-
+import { toast } from 'react-toastify';
 
 function UsersTableComponent() {
   const { allUsers } = useAuth()
@@ -54,10 +53,10 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
   const { adminUpdateUserWallet, adminDisableUser } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const [accountDetail, setAccountDetail] = useState(null)
+  const [accountDetail, setAccountDetail] = useState({})
   const [walletAmount, setWalletAmount] = useState(wallet);
   const open = Boolean(anchorEl);
-
+  const { profile } = useAuth()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -78,12 +77,15 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
     setOpenDialog(false);
   };
 
-  const handleWalletUpdate = () => {
-    // Logic to update wallet amount
-
-    adminUpdateUserWallet({ code: '1415504426', accountDetail });
-
-    handleDialogClose();
+  const handleWalletUpdate = async () => {
+    try {
+      await adminUpdateUserWallet({ id: rowId, ...accountDetail, code: profile?.account?.number });
+      toast.success('account balance updated successfully')
+      handleDialogClose();
+    } catch (error) {
+      console.error("Wallet update failed:", error.message);
+      toast.error('Account balance failed to update')
+    }
   };
   useEffect(() => {
     console.log(accountDetail)
@@ -121,10 +123,10 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
         <DialogContent>
 
           <p> <b> Previous Balance:</b> {wallet.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 2 })}</p>
-          <TextField
+          <MDInput
             autoFocus
             margin="dense"
-            label="Wallet Amount"
+            label="Update Wallet"
             type="number"
             fullWidth
             name='amount'

@@ -266,44 +266,91 @@ export const AuthProvider = ({ children }) => {
     }
 
     function adminUpdateUserWallet(data) {
+
+
+        if (!token) throw new Error("Authorization token is missing");
+
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
         myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
-            "amount": data.amount,
-            "description": data.description,
-            "method": "-",
-            "account": {
-                "code": data.code,
-                "name": data.name,
-                "channel": data.channel
+            amount: data.amount,
+            description: data.description,
+            method: data.method,
+            account: {
+                code: data.code,
+                name: data.name,
+                channel: data.channel
             },
-            "password": data.password
+            password: data.password
         });
 
+        console.log("Token:", token);
+        console.log("Raw Payload:", raw);
+        console.log("API Endpoint:", endpoint);
+
         const requestOptions = {
-            method: "PUT",
+            method: "POST", // Change to PUT if required
             headers: myHeaders,
             body: raw,
             redirect: "follow"
         };
 
-        // Return the promise chain
-        return fetch(`${endpoint}/bank/transaction/${data.code}`, requestOptions)
+        return fetch(`${endpoint}/bank/transaction?id=${data.id}`, requestOptions)
             .then(async (response) => {
-                const data = await response.json();
-                if (!response.ok) {
-                    // Throw error with message from server
-                    throw new Error(data.error || 'Transfer failed');
+                const contentType = response.headers.get("content-type");
+
+                if (!contentType || !contentType.includes("application/json")) {
+                    const errorText = await response.text();
+                    throw new Error(`Unexpected response format: ${errorText}`);
                 }
-                return data;
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.error || `Transfer failed with status ${response.status}`);
+                }
+                return result;
             })
             .catch(error => {
-                // Re-throw to allow handling in component
-                throw new Error(error.message);
+                console.error("Wallet update error:", error.message);
+                throw error;
             });
-    };
+    }
+    // function adminUpdateUserWallet(data) {
+    //     var myHeaders = new Headers();
+    //     myHeaders.append("Content-Type", "application/json");
+    //     myHeaders.append("Authorization", token);
+
+    //     const raw = JSON.stringify({
+    //         "amount": data.amount,
+    //         "description": data.description,
+    //         "method": data.method,
+    //         "account": {
+    //             "code": data.code,
+    //             "name": data.name,
+    //             "channel": data.channel
+    //         },
+    //         "password": data.password
+    //     });
+
+    //     var requestOptions = {
+    //         method: 'POST',
+    //         headers: myHeaders,
+    //         body: raw,
+    //         redirect: 'follow'
+    //     };
+
+    //     try {
+    //         fetch("https://nexas-bank-seven.vercel.app/api/bank/transaction?id=67d5a1346f571679a1b6c13f", requestOptions)
+    //             .then(response => response.json())
+    //             .then(result => console.log(result))
+    //             .catch(error => console.log('error', error));
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // };
+
     // ({ id, amount }) {
     //     const myHeaders = new Headers();
     //     myHeaders.append("Authorization", token);
@@ -648,4 +695,4 @@ AuthProvider.propTypes = { children: PropTypes.node.isRequired, };
 
 export const useAuth = () => {
     return useContext(AuthenticationContext);
-};
+}
