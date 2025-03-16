@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Box, Typography } from '@mui/material';
 import MDBox from 'components/MDBox';
 import MDButton from 'components/MDButton';
@@ -18,7 +18,7 @@ const MakeTransaction = () => {
         password: ''
     });
     const { makeTransfer } = useAuth();
-
+    useEffect(() => { console.log(transferData) }, [transferData])// checking the data being passed
     const handleChange = (e) => {
         const { name, value } = e.target;
         setTransferData(prev => ({ ...prev, [name]: value }));
@@ -32,11 +32,12 @@ const MakeTransaction = () => {
 
         setLoadingProfile(true);
         try {
-            // Simulated API call
             const response = await getAccountDetail(transferData.accountNumber);
             setAccountDetails(response);
+            console.log('this is the new Account details', accountDetails)
         } catch (error) {
             toast.error(error.message || 'Account verification failed');
+            setAccountDetails(null);
         } finally {
             setLoadingProfile(false);
         }
@@ -158,7 +159,7 @@ const MakeTransaction = () => {
 
                             <MDInput
                                 fullWidth
-                                label="Transaction Password"
+                                label="Account Password"
                                 name="password"
                                 type="password"
                                 value={transferData.password}
@@ -172,7 +173,10 @@ const MakeTransaction = () => {
                                     fullWidth
                                     variant="outlined"
                                     color="secondary"
-                                    onClick={() => setAccountDetails(null)}
+                                    onClick={() => {
+                                        setAccountDetails(null);
+                                        setTransferData(prev => ({ ...prev, accountNumber: '' }));
+                                    }}
                                 >
                                     Cancel
                                 </MDButton>
@@ -193,14 +197,35 @@ const MakeTransaction = () => {
     );
 };
 
-// Simulated API function
+// Updated API function with proper error handling
 const getAccountDetail = async (accountNumber) => {
-    return new Promise(resolve => setTimeout(() => resolve({
-        code: accountNumber,
-        name: "Josiah Victor",
-        channel: "Opay",
-        active: true
-    }), 1000));
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('Authentication required');
+
+    try {
+        const response = await fetch(
+            `https://nexas-bank-seven.vercel.app/api/bank/details?code=${accountNumber}`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": token,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Account verification failed');
+        }
+
+        const result = await response.json();
+
+        console.log(result.detail)
+        return result.detail; // Assuming your API returns data in data property
+    } catch (error) {
+        throw new Error(error.message || 'Failed to fetch account details');
+    }
 };
 
 export default MakeTransaction;
