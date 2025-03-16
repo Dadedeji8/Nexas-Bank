@@ -659,6 +659,44 @@ export const AuthProvider = ({ children }) => {
             });
     };
 
+
+    const createDetail = async (data) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
+
+
+        const raw = JSON.stringify({
+            code: data?.code ?? "",
+            name: data?.name ?? "",
+            channel: data?.channel ?? "",
+            active: true
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        try {
+            const response = await fetch(`${endpoint}/bank/details`, requestOptions);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            return result;
+        } catch (error) {
+            console.error("Error creating detail:", error);
+            throw error; // Re-throw to allow error handling by the caller
+        }
+
+    };
+
+
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin,
@@ -668,7 +706,7 @@ export const AuthProvider = ({ children }) => {
             login,
             logout,
             token,
-            endpoint,
+            endpoint, createDetail,
             transactionsHistory,
             getProfile,
             adminDisableUser,

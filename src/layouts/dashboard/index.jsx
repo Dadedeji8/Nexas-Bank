@@ -36,13 +36,44 @@ import UsersTableComponent from 'components/TableComponent/UserTableComponent'
 import { useAuth } from 'context/AuthContext'
 import { Link } from 'react-router-dom'
 import { Copy } from 'lucide-react'
+import MDInput from 'components/MDInput';
+import { toast } from 'react-toastify';
 
 function Dashboard() {
   const { isAdmin, allUsers, deposits, withdrawals } = useAuth()
+  const [newAccount, setNewAccount] = useState({})
+  const [loadinig, setLoading] = useState(false)
+  const { createDetail } = useAuth()
+
   useEffect(() => {
     console.log({ isAdmin })
   }, [isAdmin])
+  useEffect(() => {
+    console.log(newAccount)
+  }, [newAccount])
 
+  // const validate =()=>{}
+
+  // This function handles input changes for a form
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setNewAccount(prev => ({ ...prev, [name]: value }))
+  }
+
+  const submitAccDetails = async () => {
+    setLoading(true);
+    try {
+      // Wait for the API call to complete
+      await createDetail(newAccount);
+      console.log(newAccount, 'this is the data submitted');
+      toast.success('Account Created Successfully');
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast.error(`Failed to register Account: ${error.message}`);
+    } finally {
+      setLoading(false);  // Always reset loading state
+    }
+  };
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -98,6 +129,7 @@ function Dashboard() {
         )}
 
         <MDBox>
+
           <Grid container spacing={3} className="flex-col-reverse md:flex-row">
             <Grid item xs={12} md={6} lg={7.5}>
               <div className="flex flex-col gap-[30px]">
@@ -111,6 +143,7 @@ function Dashboard() {
                 <TransactionsTableComponent />
               </div>
             </Grid>
+
             {!isAdmin ? (
               <Grid
                 item
@@ -157,9 +190,24 @@ function Dashboard() {
                 <MDBox className="flex flex-col gap-[15px] w-full">
                   {/* <AccountOverviewComponent /> */}
                   <NotificationComponent />
+
+                  <Grid item>
+
+                    <Card className='p-2'>
+                      <Typography className='text-sm font-black text-blue-800' color="initial">Create New Account Detail</Typography>
+                      <div className='mt-3 flex flex-col gap-4'>
+                        <MDInput className='w-full ' label='Name' name='name' onChange={handleInputChange} />
+                        <MDInput className='w-full ' label='Account Number' name='code' onChange={handleInputChange} />
+                        <MDInput className='w-full ' label='Bank' name='channel' onChange={handleInputChange} />
+                        <Button variant='contained' className='text-white' onClick={submitAccDetails}> Register </Button>
+                      </div>
+                    </Card>
+
+                  </Grid>
                 </MDBox>
               </Grid>
             )}
+
           </Grid>
         </MDBox>
       </MDBox>
