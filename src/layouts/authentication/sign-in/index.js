@@ -125,7 +125,7 @@ function Basic() {
                 <label className=''>
                   Enter Your Email*
                 </label>
-                <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Email' name="email"
+                <input type='text' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600 text-sm' placeholder='Enter Your Email' name="email"
                   value={userCredentials.email}
                   onChange={handleInputChange} />
               </div>
@@ -135,7 +135,7 @@ function Basic() {
                 <label className=' '>
                   Enter Your Password*
                 </label>
-                <input type='password' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600' placeholder='Enter Your Password' name="password"
+                <input type='password' className='py-3 px-4 rounded-xl border border-solid border-gray-300 bg-[#F3F3FF] focus:outline-none focus:border-gray-600 text-sm' placeholder='Enter Your Password' name="password"
                   value={userCredentials.password}
                   onChange={handleInputChange} />
               </div>
@@ -196,7 +196,7 @@ function Basic() {
                 We provide reliable financial solutions to support your goals with security and personalized service. Your success is our priority.
               </p>
               <div className='flex gap-2'>
-                <input className='p-2 border rounded text-sm focus:border-none w-full' placeholder='Your Email address here' />
+                <input className='p-2 border rounded text-sm focus:border-none w-full ' placeholder='Your Email address here' />
                 <button className='px-3 py-1 bg-white text-white rounded'>  Submit</button>
               </div>
             </Grid>
