@@ -40,7 +40,7 @@ import MDInput from 'components/MDInput';
 import { toast } from 'react-toastify';
 
 function Dashboard() {
-  const { isAdmin, allUsers, deposits, withdrawals } = useAuth()
+  const { isAdmin, allUsers, deposits, withdrawals, allAccountDetails } = useAuth()
   const [newAccount, setNewAccount] = useState({})
   const [loadinig, setLoading] = useState(false)
   const { createDetail } = useAuth()
@@ -51,6 +51,9 @@ function Dashboard() {
   useEffect(() => {
     console.log(newAccount)
   }, [newAccount])
+  useEffect(() => {
+    console.log('these are all the account details created by the admin', allAccountDetails)
+  }, [allAccountDetails])
 
   // const validate =()=>{}
 
@@ -200,6 +203,30 @@ function Dashboard() {
                         <MDInput className='w-full ' label='Account Number' name='code' onChange={handleInputChange} />
                         <MDInput className='w-full ' label='Bank' name='channel' onChange={handleInputChange} />
                         <Button variant='contained' className='text-white' onClick={submitAccDetails}> Register </Button>
+                      </div>
+                    </Card>
+
+                  </Grid>
+
+                  <Grid item>
+
+                    <Card className='p-2'>
+                      <Typography className='text-sm font-black text-blue-800' color="initial">All account details</Typography>
+                      <div className='mt-3 flex flex-col gap-4'>
+                        {allAccountDetails ? allAccountDetails.map((account, index) => {
+                          return <div key={index} className='p-2 bg-blue-100 rounded'>
+                            <Typography className='text-sm font-black text-blue-900 flex justify-between'>
+                              <span> Account Name:</span> <span>{account?.name}</span>
+                            </Typography>
+                            <Typography className='text-sm text-blue-900 flex justify-between'>
+                              <span> Account Number:</span> <span className='font-bold'>{account?.code}</span>
+                            </Typography>
+                            <Typography className='text-sm text-blue-900 flex justify-between'>
+                              <span> Bank Account:</span> <span className='font-bold'>{account?.channel}</span>
+                            </Typography>
+
+                          </div>
+                        }) : 'No account Available'}
                       </div>
                     </Card>
 

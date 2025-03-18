@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState(localStorage.getItem('token') || null);
     const [notifications, setNotifications] = useState([])
-
+    const [allAccountDetails, setAllAccountDetails] = useState([])
 
     const [error, setError] = useState(null)
     const [allUsers, setAllUsers] = useState([])
@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }) => {
 
             // only admin
             getAllProfile({});
+            getAllAccountDetails()
         }
         setLoading(false);
 
@@ -618,6 +619,36 @@ export const AuthProvider = ({ children }) => {
             throw new Error(error.message || 'Failed to fetch account details');
         }
     };
+    const getAllAccountDetails = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Authentication required');
+
+        try {
+            const response = await fetch(
+                `${endpoint}/bank/details`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization": token,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Account verification failed');
+            }
+
+            const result = await response.json();
+
+            console.log(result)
+            setAllAccountDetails(result.details)
+            return result.details; // Assuming your API returns data in data property
+        } catch (error) {
+            throw new Error(error.message || 'Failed to fetch account details');
+        }
+    };
 
     const makeTransfer = (data) => {
         const myHeaders = new Headers();
@@ -709,6 +740,7 @@ export const AuthProvider = ({ children }) => {
             endpoint, createDetail,
             transactionsHistory,
             getProfile,
+            allAccountDetails,
             adminDisableUser,
             updateProfile,
             setTransactionsHistory,
