@@ -62,7 +62,7 @@ export default function App() {
   const [rtlCache, setRtlCache] = useState(null)
   const { pathname } = useLocation()
 
-  const { token, loading } = useAuth()
+  const { token, loading, isActive } = useAuth()
 
 
   // Cache for the rtl
@@ -165,8 +165,7 @@ export default function App() {
           onMouseEnter={handleOnMouseEnter}
           onMouseLeave={handleOnMouseLeave}
         /> : ''}
-        {/* <Configurator />
-          {configsButton} */}
+
       </>
     )}
     {/* {layout === "vr" && <Configurator />} */}

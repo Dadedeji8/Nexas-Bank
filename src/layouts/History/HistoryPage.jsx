@@ -6,9 +6,11 @@ import DepositsTableComponent from 'components/TableComponent/DepositsTableCompo
 import WithdrawalsTableComponent from 'components/TableComponent/WithdrawalsTableComponent'
 import TransactionsTableComponent from 'components/TableComponent/TransactionsTableComponent'
 import { Tabs, Tab, Typography } from '@mui/material'
+import Deactivated from 'layouts/deactivatedPage/Deactivated'
+import { useAuth } from 'context/AuthContext'
 
 const HistoryPage = () => {
-
+  const { isActive } = useAuth()
   const [activeTab, setActiveTab] = useState(0)
 
   const handleTabChange = (event, newValue) => {
@@ -18,7 +20,7 @@ const HistoryPage = () => {
     <DashboardLayout>
       <DashboardNavbar />
 
-      <div className="flex flex-col gap-[30px] pt-10">
+      {isActive ? <div className="flex flex-col gap-[30px] pt-10">
 
 
         {/* <Tabs value={activeTab} onChange={handleTabChange} aria-label="history tabs">
@@ -32,7 +34,7 @@ const HistoryPage = () => {
         {activeTab === 2 && <WithdrawalsTableComponent />}
 
 
-      </div>
+      </div> : <Deactivated />}
       <Footer />
     </DashboardLayout>
   )

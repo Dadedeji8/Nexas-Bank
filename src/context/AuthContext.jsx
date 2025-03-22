@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
 
     const [profile, setProfile] = useState(JSON.parse(localStorage.getItem('profile')) || null);
     const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem("profile"))?.isAdmin || false);
+    const [isActive, setIsActive] = useState(JSON.parse(localStorage.getItem("profile"))?.isActive);
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState(localStorage.getItem('token') || null);
     const [notifications, setNotifications] = useState([])
@@ -38,6 +39,7 @@ export const AuthProvider = ({ children }) => {
         if (storedProfile) {
             setProfile(storedProfile);
             setIsAdmin(storedProfile.isAdmin);
+            setIsActive(storedProfile.isActive);
         }
     }, []); // Runs only on mount
 
@@ -91,6 +93,7 @@ export const AuthProvider = ({ children }) => {
 
                 setProfile(result); //  Update state
                 setIsAdmin(result.isAdmin)
+                setIsActive(result.isActive)
                 localStorage.setItem("profile", JSON.stringify(result));
             })
             .catch((error) => console.error("Error fetching profile:", error));
@@ -466,6 +469,7 @@ export const AuthProvider = ({ children }) => {
             setToken(result.token);
             setProfile(result.user);
             setIsAdmin(result.user.isAdmin);
+            setIsActive(result.user.isActive);
 
 
 
@@ -730,7 +734,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthenticationContext.Provider value={{
-            isAuthenticated, isAdmin,
+            isAuthenticated, isAdmin, isActive,
             getNotification,
 
             registerUser,

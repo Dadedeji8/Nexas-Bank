@@ -38,9 +38,10 @@ import { Link } from 'react-router-dom'
 import { Copy } from 'lucide-react'
 import MDInput from 'components/MDInput';
 import { toast } from 'react-toastify';
+import Deactivated from 'layouts/deactivatedPage/Deactivated';
 
 function Dashboard() {
-  const { isAdmin, allUsers, deposits, withdrawals, allAccountDetails } = useAuth()
+  const { isAdmin, isActive, allUsers, deposits, withdrawals, allAccountDetails } = useAuth()
   const [newAccount, setNewAccount] = useState({})
   const [loadinig, setLoading] = useState(false)
   const { createDetail } = useAuth()
@@ -80,164 +81,165 @@ function Dashboard() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox py={3}>
-        {isAdmin ? (
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={3}>
-              <MDBox mb={1.5}>
-                <ComplexStatisticsCard
-                  color="success"
-                  icon="money"
-                  title="Total Users"
-                  count={allUsers.length}
-                />
-              </MDBox>
+      {isActive ?
+        <MDBox py={3}>
+          {isAdmin ? (
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
+                    color="success"
+                    icon="money"
+                    title="Total Users"
+                    count={allUsers.length}
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
+                    icon="leaderboard"
+                    title="Pending Deposits"
+                    count={
+                      deposits.filter((el) => el.status === 'pending').length
+                    }
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
+                    color="success"
+                    icon="store"
+                    title="Pending Withdrawals"
+                    count={
+                      withdrawals.filter((el) => el.status === 'pending').length
+                    }
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
+                    color="primary"
+                    icon="person"
+                    title="Admins"
+                    count={allUsers.filter((el) => el.isAdmin === true).length}
+                  />
+                </MDBox>
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <MDBox mb={1.5}>
-                <ComplexStatisticsCard
-                  icon="leaderboard"
-                  title="Pending Deposits"
-                  count={
-                    deposits.filter((el) => el.status === 'pending').length
-                  }
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <MDBox mb={1.5}>
-                <ComplexStatisticsCard
-                  color="success"
-                  icon="store"
-                  title="Pending Withdrawals"
-                  count={
-                    withdrawals.filter((el) => el.status === 'pending').length
-                  }
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <MDBox mb={1.5}>
-                <ComplexStatisticsCard
-                  color="primary"
-                  icon="person"
-                  title="Admins"
-                  count={allUsers.filter((el) => el.isAdmin === true).length}
-                />
-              </MDBox>
-            </Grid>
-          </Grid>
-        ) : (
-          ''
-        )}
+          ) : (
+            ''
+          )}
 
-        <MDBox>
+          <MDBox>
 
-          <Grid container spacing={3} className="flex-col-reverse md:flex-row">
-            <Grid item xs={12} md={6} lg={7.5}>
-              <div className="flex flex-col gap-[30px]">
+            <Grid container spacing={3} className="flex-col-reverse md:flex-row">
+              <Grid item xs={12} md={6} lg={7.5}>
+                <div className="flex flex-col gap-[30px]">
 
-                <div className="hidden md:block">
-                  {!isAdmin && <InfoComponent showAccount={true} />}
+                  <div className="hidden md:block">
+                    {!isAdmin && <InfoComponent showAccount={true} />}
+                  </div>
+
+                  {isAdmin && <UsersTableComponent />}
+
+                  <TransactionsTableComponent />
                 </div>
+              </Grid>
 
-                {isAdmin && <UsersTableComponent />}
+              {!isAdmin ? (
+                <Grid
+                  item
+                  rowSpacing={3}
+                  className="inline-flex  -0  md:fix ed top-[96px] right-[3%] "
+                  xs={12}
+                  md={6}
+                  lg={4.5}
+                >
+                  <MDBox className="flex flex-col gap-[15px] w-full">
+                    <div className="md:hidden">
+                      {!isAdmin && <InfoComponent showAccount={false} />}
+                    </div>
 
-                <TransactionsTableComponent />
-              </div>
+                    <AccountOverviewComponent />
+                    <div className="md:hidden">
+                      {!isAdmin && <Card className='w-full p-5'>
+                        <p className="text-gray-400 font-bold text-[18px]">Account Number </p>
+                        <div className="flex">  <input type="Number" disabled={true} value={2217392093} className='p-2 border rounded-[5px] w-full' />
+                          <button
+                            className='bg-[#1a73eb] text-white p-2 rounded-[5px] ml-2 border-none'
+                            onClick={() => {
+                              navigator.clipboard.writeText(2217392093)
+                              alert('Account number copied to clipboard')
+                            }}
+                          >
+                            <Copy className='size-[20px]' />
+                          </button></div>
+                      </Card>}
+                    </div>
+
+                    <NotificationComponent />
+                  </MDBox>
+                </Grid>
+              ) : (
+                <Grid
+                  item
+                  rowSpacing={3}
+                  className="inline-flex  mt-10  md:max-w-[400px]"
+                  xs={12}
+                  md={6}
+                  lg={4.5}
+                >
+                  <MDBox className="flex flex-col gap-[15px] w-full">
+                    {/* <AccountOverviewComponent /> */}
+                    <NotificationComponent />
+
+                    <Grid item>
+
+                      <Card className='p-2'>
+                        <Typography className='text-sm font-black text-blue-800' color="initial">Create New Account Detail</Typography>
+                        <div className='mt-3 flex flex-col gap-4'>
+                          <MDInput className='w-full ' label='Name' name='name' onChange={handleInputChange} />
+                          <MDInput className='w-full ' label='Account Number' name='code' onChange={handleInputChange} />
+                          <MDInput className='w-full ' label='Bank' name='channel' onChange={handleInputChange} />
+                          <Button variant='contained' className='text-white' onClick={submitAccDetails}> Register </Button>
+                        </div>
+                      </Card>
+
+                    </Grid>
+
+                    <Grid item>
+
+                      <Card className='p-2'>
+                        <Typography className='text-sm font-black text-blue-800' color="initial">All account details</Typography>
+                        <div className='mt-3 flex flex-col gap-4'>
+                          {allAccountDetails ? allAccountDetails.map((account, index) => {
+                            return <div key={index} className={`p-2 ${account?.active ? 'bg-blue-100' : 'bg-red-200'} rounded `}>
+                              <Typography className='text-sm font-black text-blue-900 flex justify-between'>
+                                <span> Account Name:</span> <span>{account?.name}</span>
+                              </Typography>
+                              <Typography className='text-sm text-blue-900 flex justify-between'>
+                                <span> Account Number:</span> <span className='font-bold'>{account?.code}</span>
+                              </Typography>
+                              <Typography className='text-sm text-blue-900 flex justify-between'>
+                                <span> Bank Account:</span> <span className='font-bold'>{account?.channel}</span>
+                              </Typography>
+
+                            </div>
+                          }) : 'No account Available'}
+                        </div>
+                      </Card>
+
+                    </Grid>
+                  </MDBox>
+                </Grid>
+              )}
+
             </Grid>
-
-            {!isAdmin ? (
-              <Grid
-                item
-                rowSpacing={3}
-                className="inline-flex  -0  md:fix ed top-[96px] right-[3%] "
-                xs={12}
-                md={6}
-                lg={4.5}
-              >
-                <MDBox className="flex flex-col gap-[15px] w-full">
-                  <div className="md:hidden">
-                    {!isAdmin && <InfoComponent showAccount={false} />}
-                  </div>
-
-                  <AccountOverviewComponent />
-                  <div className="md:hidden">
-                    {!isAdmin && <Card className='w-full p-5'>
-                      <p className="text-gray-400 font-bold text-[18px]">Account Number </p>
-                      <div className="flex">  <input type="Number" disabled={true} value={2217392093} className='p-2 border rounded-[5px] w-full' />
-                        <button
-                          className='bg-[#1a73eb] text-white p-2 rounded-[5px] ml-2 border-none'
-                          onClick={() => {
-                            navigator.clipboard.writeText(2217392093)
-                            alert('Account number copied to clipboard')
-                          }}
-                        >
-                          <Copy className='size-[20px]' />
-                        </button></div>
-                    </Card>}
-                  </div>
-
-                  <NotificationComponent />
-                </MDBox>
-              </Grid>
-            ) : (
-              <Grid
-                item
-                rowSpacing={3}
-                className="inline-flex  mt-10  md:max-w-[400px]"
-                xs={12}
-                md={6}
-                lg={4.5}
-              >
-                <MDBox className="flex flex-col gap-[15px] w-full">
-                  {/* <AccountOverviewComponent /> */}
-                  <NotificationComponent />
-
-                  <Grid item>
-
-                    <Card className='p-2'>
-                      <Typography className='text-sm font-black text-blue-800' color="initial">Create New Account Detail</Typography>
-                      <div className='mt-3 flex flex-col gap-4'>
-                        <MDInput className='w-full ' label='Name' name='name' onChange={handleInputChange} />
-                        <MDInput className='w-full ' label='Account Number' name='code' onChange={handleInputChange} />
-                        <MDInput className='w-full ' label='Bank' name='channel' onChange={handleInputChange} />
-                        <Button variant='contained' className='text-white' onClick={submitAccDetails}> Register </Button>
-                      </div>
-                    </Card>
-
-                  </Grid>
-
-                  <Grid item>
-
-                    <Card className='p-2'>
-                      <Typography className='text-sm font-black text-blue-800' color="initial">All account details</Typography>
-                      <div className='mt-3 flex flex-col gap-4'>
-                        {allAccountDetails ? allAccountDetails.map((account, index) => {
-                          return <div key={index} className={`p-2 ${account?.active ? 'bg-blue-100' : 'bg-red-200'} rounded `}>
-                            <Typography className='text-sm font-black text-blue-900 flex justify-between'>
-                              <span> Account Name:</span> <span>{account?.name}</span>
-                            </Typography>
-                            <Typography className='text-sm text-blue-900 flex justify-between'>
-                              <span> Account Number:</span> <span className='font-bold'>{account?.code}</span>
-                            </Typography>
-                            <Typography className='text-sm text-blue-900 flex justify-between'>
-                              <span> Bank Account:</span> <span className='font-bold'>{account?.channel}</span>
-                            </Typography>
-
-                          </div>
-                        }) : 'No account Available'}
-                      </div>
-                    </Card>
-
-                  </Grid>
-                </MDBox>
-              </Grid>
-            )}
-
-          </Grid>
-        </MDBox>
-      </MDBox>
+          </MDBox>
+        </MDBox> : <Deactivated />}
       <Footer />
     </DashboardLayout>
   )

@@ -7,6 +7,7 @@ import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
 import { useAuth } from 'context/AuthContext';
 import { toast } from 'react-toastify';
+import Deactivated from 'layouts/deactivatedPage/Deactivated';
 
 const MakeTransaction = () => {
     const [loadingProfile, setLoadingProfile] = useState(false);
@@ -17,7 +18,7 @@ const MakeTransaction = () => {
         description: '',
         password: ''
     });
-    const { makeTransfer, getAccountDetail } = useAuth();
+    const { makeTransfer, getAccountDetail, isActive } = useAuth();
     useEffect(() => { console.log(transferData) }, [transferData])// checking the data being passed
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -85,7 +86,7 @@ const MakeTransaction = () => {
     return (
         <DashboardLayout>
             <DashboardNavbar />
-            <Card sx={{ padding: 5 }}>
+            {isActive ? <Card sx={{ padding: 5 }}>
                 <Typography variant="h3" gutterBottom>Bank Transfer</Typography>
 
                 <MDBox component="form" onSubmit={handleTransfer}>
@@ -200,7 +201,7 @@ const MakeTransaction = () => {
                         </>
                     )}
                 </MDBox>
-            </Card>
+            </Card> : <Deactivated />}
         </DashboardLayout>
     );
 };
