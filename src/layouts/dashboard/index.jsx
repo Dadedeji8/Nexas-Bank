@@ -214,7 +214,7 @@ function Dashboard() {
                       <Typography className='text-sm font-black text-blue-800' color="initial">All account details</Typography>
                       <div className='mt-3 flex flex-col gap-4'>
                         {allAccountDetails ? allAccountDetails.map((account, index) => {
-                          return <div key={index} className='p-2 bg-blue-100 rounded'>
+                          return <div key={index} className={`p-2 ${account?.active ? 'bg-blue-100' : 'bg-red-200'} rounded `}>
                             <Typography className='text-sm font-black text-blue-900 flex justify-between'>
                               <span> Account Name:</span> <span>{account?.name}</span>
                             </Typography>
