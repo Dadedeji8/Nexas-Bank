@@ -41,7 +41,7 @@ import { toast } from 'react-toastify';
 import Deactivated from 'layouts/deactivatedPage/Deactivated';
 
 function Dashboard() {
-  const { isAdmin, isActive, allUsers, deposits, withdrawals, allAccountDetails } = useAuth()
+  const { isAdmin, isActive, allUsers, deposits, withdrawals, allAccountDetails, toggleDetailState } = useAuth()
   const [newAccount, setNewAccount] = useState({})
   const [loadinig, setLoading] = useState(false)
   const { createDetail } = useAuth()
@@ -216,7 +216,7 @@ function Dashboard() {
                         <Typography className='text-sm font-black text-blue-800' color="initial">All account details</Typography>
                         <div className='mt-3 flex flex-col gap-4'>
                           {allAccountDetails ? allAccountDetails.map((account, index) => {
-                            return <div key={index} className={`p-2 ${account?.active ? 'bg-blue-100' : 'bg-red-200'} rounded `}>
+                            return <div key={index} className={`p-2 ${account?.active ? 'bg-blue-100' : 'bg-red-50'} rounded `}>
                               <Typography className='text-sm font-black text-blue-900 flex justify-between'>
                                 <span> Account Name:</span> <span>{account?.name}</span>
                               </Typography>
@@ -226,7 +226,12 @@ function Dashboard() {
                               <Typography className='text-sm text-blue-900 flex justify-between'>
                                 <span> Bank Account:</span> <span className='font-bold'>{account?.channel}</span>
                               </Typography>
-
+                              <Typography className='text-sm text-blue-900 flex justify-between'>
+                                <span>Status:</span> <span className='font-bold'>{account?.active ? 'Active' : <span className='text-red-600'>Deactivated</span>}</span>
+                              </Typography>
+                              <Button className={` text-white w-full ${account?.active ? 'bg-red-500' : 'bg-blue-600'}`} onClick={() => { account?.active ? toggleDetailState({ id: account?._id, active: false }) : toggleDetailState({ id: account?._id, active: true }) }} >
+                                {account?.active ? ' Deactivate Account' : 'Activate Account'}
+                              </Button>
                             </div>
                           }) : 'No account Available'}
                         </div>

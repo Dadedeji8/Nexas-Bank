@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, Box, Typography } from '@mui/material';
+import { Card, Box, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import MDBox from 'components/MDBox';
 import MDButton from 'components/MDButton';
 import MDInput from 'components/MDInput';
@@ -18,6 +18,7 @@ const MakeTransaction = () => {
         description: '',
         password: ''
     });
+    const [open, setOpen] = useState(false)
     const { makeTransfer, getAccountDetail, isActive } = useAuth();
     useEffect(() => { console.log(transferData) }, [transferData])// checking the data being passed
     const handleChange = (e) => {
@@ -35,6 +36,7 @@ const MakeTransaction = () => {
         try {
             const response = await getAccountDetail(transferData.accountNumber);
             setAccountDetails(response);
+
             console.log('this is the new Account details', accountDetails)
         } catch (error) {
             toast.error(error.message || 'Account verification failed');
@@ -59,7 +61,12 @@ const MakeTransaction = () => {
                 toast.warning('Please enter a valid amount');
                 return;
             }
+            if (!accountDetails?.active) {
+                setOpen(true)
 
+                return
+
+            }
             // Make transfer
             await makeTransfer({
                 ...transferData,
@@ -200,6 +207,26 @@ const MakeTransaction = () => {
                             </Box>
                         </>
                     )}
+                    <Dialog open={open} onClose={() => { setOpen(false) }} >
+                        <DialogTitle>
+                            <Typography variant="h6" className='text-red-600'>Transaction Declined</Typography>
+
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                <Typography variant="body2" >Please contact the support department</Typography>
+
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button
+                                onClick={() => { setOpen(false) }}
+                                color="primary"
+                            >
+                                close
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </MDBox>
             </Card> : <Deactivated />}
         </DashboardLayout>

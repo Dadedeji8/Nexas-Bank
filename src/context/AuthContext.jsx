@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
     const [profile, setProfile] = useState(JSON.parse(localStorage.getItem('profile')) || null);
     const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem("profile"))?.isAdmin || false);
-    const [isActive, setIsActive] = useState(JSON.parse(localStorage.getItem("profile"))?.isActive);
+    const [isActive, setIsActive] = useState(JSON.parse(localStorage.getItem("profile"))?.isActive || 'unset');
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState(localStorage.getItem('token') || null);
     const [notifications, setNotifications] = useState([])
@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }) => {
             setProfile(storedProfile);
             setIsAdmin(storedProfile.isAdmin);
             setIsActive(storedProfile.isActive);
+
         }
     }, []); // Runs only on mount
 
@@ -63,6 +64,7 @@ export const AuthProvider = ({ children }) => {
             getAllProfile({});
             getAllAccountDetails()
         }
+
         setLoading(false);
 
     }, [token]);
@@ -314,6 +316,51 @@ export const AuthProvider = ({ children }) => {
                 if (!response.ok) {
                     throw new Error(result.error || `Transfer failed with status ${response.status}`);
                 }
+                return result;
+            })
+            .catch(error => {
+                console.error("Wallet update error:", error.message);
+                throw error;
+            });
+    }
+    function toggleDetailState(data) {
+
+
+        if (!token) throw new Error("Authorization token is missing");
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            active: data.active
+        });
+
+        console.log("Token:", token);
+        console.log("Raw Payload:", raw);
+        console.log("API Endpoint:", endpoint);
+
+        const requestOptions = {
+            method: "PUT", // Change to PUT if required
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        return fetch(`${endpoint}/bank/details?id=${data.id}`, requestOptions)
+            .then(async (response) => {
+                const contentType = response.headers.get("content-type");
+
+                if (!contentType || !contentType.includes("application/json")) {
+                    const errorText = await response.text();
+                    throw new Error(`Unexpected response format: ${errorText}`);
+                }
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.error || ` failed to change detail state status ${response.status}`);
+                }
+                getAllAccountDetails()
                 return result;
             })
             .catch(error => {
@@ -758,7 +805,7 @@ export const AuthProvider = ({ children }) => {
             notifications,
             setWithdrawals,
             getAccountDetail, makeTransfer,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, toggleDetailState
         }}>
             {children}
         </AuthenticationContext.Provider>
