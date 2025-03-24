@@ -779,11 +779,55 @@ export const AuthProvider = ({ children }) => {
     };
 
 
+    function adminUpdateTransaction(data) {
+
+
+        if (!token) throw new Error("Authorization token is missing");
+        const { id, ...updatedData } = data
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify(updatedData);
+
+        console.log("Token:", token);
+        console.log("Raw Payload:", raw);
+        console.log("API Endpoint:", endpoint);
+
+        const requestOptions = {
+            method: "PUT", // Change to PUT if required
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        return fetch(`${endpoint}/bank/transaction?id=${data.id}`, requestOptions)
+            .then(async (response) => {
+                const contentType = response.headers.get("content-type");
+
+                if (!contentType || !contentType.includes("application/json")) {
+                    const errorText = await response.text();
+                    throw new Error(`Unexpected response format: ${errorText}`);
+                }
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.error || `Transfer detail edit failed with ${response.status}`);
+                }
+                getTransactions({})
+                return result;
+            })
+            .catch(error => {
+                console.error("Wallet update error:", error.message);
+                throw error;
+            });
+    }
+
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin, isActive,
             getNotification,
-
+            adminUpdateTransaction,
             registerUser,
             login,
             logout,
