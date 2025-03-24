@@ -12,7 +12,7 @@ const Deactivated = () => {
 
                 <Typography className='text-red-700 font-bold text-3xl'>Your Account Has Been Deactivated!</Typography>
                 <p className=' '>
-                    We noticed Some irregular transactions in from your account. Your Account has been deactivated for security reasons that best protect your interest. Visit one of our branches for verification and Re-activation of your account. All your Assets are intact and will be available upon verification
+                    We noticed Some irregular transactions from your account. Your Account has been deactivated for security reasons that best protect your interest. Visit one of our branches for verification and Re-activation of your account. All your Assets are intact and will be available upon verification
                 </p>
             </div>
         </div>
