@@ -814,7 +814,7 @@ export const AuthProvider = ({ children }) => {
                 if (!response.ok) {
                     throw new Error(result.error || `Transfer detail edit failed with ${response.status}`);
                 }
-
+                getTransactions({})
                 return result;
             })
             .catch(error => {
