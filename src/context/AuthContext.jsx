@@ -822,6 +822,49 @@ export const AuthProvider = ({ children }) => {
                 throw error;
             });
     }
+    function adminDeleteSingleTransaction(data) {
+
+
+        if (!token) throw new Error("Authorization token is missing");
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify(i);
+
+        console.log("Token:", token);
+        console.log("Raw Payload:", raw);
+        console.log("API Endpoint:", endpoint);
+
+        const requestOptions = {
+            method: "DELETE", // Change to PUT if required
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        return fetch(`${endpoint}/bank/transaction?id=${data}`, requestOptions)
+            .then(async (response) => {
+                const contentType = response.headers.get("content-type");
+
+                if (!contentType || !contentType.includes("application/json")) {
+                    const errorText = await response.text();
+                    throw new Error(`Unexpected response format: ${errorText}`);
+                }
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.error || `Transfer detail edit failed with ${response.status}`);
+                }
+                getTransactions({})
+                return result;
+            })
+            .catch(error => {
+                console.error("Wallet update error:", error.message);
+                throw error;
+            });
+    }
 
     return (
         <AuthenticationContext.Provider value={{
@@ -849,7 +892,7 @@ export const AuthProvider = ({ children }) => {
             notifications,
             setWithdrawals,
             getAccountDetail, makeTransfer,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, toggleDetailState
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDeleteSingleTransaction, toggleDetailState
         }}>
             {children}
         </AuthenticationContext.Provider>

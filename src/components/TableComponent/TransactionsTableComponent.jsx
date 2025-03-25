@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
 function TransactionsTableComponent() {
-  const { transactionsHistory, isAdmin } = useAuth()
+  const { transactionsHistory, isAdmin, adminDeleteSingleTransaction } = useAuth()
   // const formattedTransactions = transactionsHistory.map((transaction) => ({
   //   ...transaction,
   //   createdAt: moment(transaction.createdAt).format('DD MMM yyy'),
@@ -25,6 +25,15 @@ function TransactionsTableComponent() {
       description={transaction.description}
     />,
   }));
+
+  const deleteTransaction = async (id) => {
+    try {
+      await adminDeleteSingleTransaction(id)
+      toast('transaction record deleted')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="">
@@ -127,7 +136,7 @@ const UserActionMenu = ({ rowId, amount, type, description, status }) => {
         PaperProps={{ style: { maxHeight: 48 * 4.5, width: '20ch' } }}
       >
         <MenuItem onClick={handleDialogOpen}>Edit Transaction</MenuItem>
-        <MenuItem >Delete Transaction </MenuItem>
+        <MenuItem onClick={() => deleteTransaction(rowId)} >Delete Transaction </MenuItem>
       </Menu>
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
         <DialogTitle>Edit Transaction</DialogTitle>
