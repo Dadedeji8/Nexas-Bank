@@ -143,16 +143,14 @@ const UserActionMenu = ({ rowId, amount, type, description, status }) => {
             value={transactionDetail.amount}
             onChange={handleUpdateTransactionData}
           />
-          <MDInput
-            margin="dense"
-            label="Transaction Type"
-            type="text"
-            fullWidth
-            name='type'
-            variant="standard"
-            value={transactionDetail.type}
-            onChange={handleUpdateTransactionData}
-          />
+          <h6>Select Transaction Type</h6>
+          <select name='method' onChange={handleUpdateTransactionData} aria-placeholder='select Transaction type' className='w-full p-3 rounded border-1 border-green-50'>
+            <option value={''}>Select Transaction type</option>
+            <option value={'+'}>Credit</option>
+            <option value={'-'}>Debit</option>
+          </select>
+
+
           <MDInput
             margin="dense"
 
