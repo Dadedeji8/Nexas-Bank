@@ -733,6 +733,7 @@ export const AuthProvider = ({ children }) => {
                     // Throw error with message from server
                     throw new Error(data.error || 'Transfer failed');
                 }
+                getTransactions({ userId: profile._id })
                 return data;
             })
             .catch(error => {
