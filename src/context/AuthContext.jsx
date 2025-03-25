@@ -831,7 +831,7 @@ export const AuthProvider = ({ children }) => {
         myHeaders.append("Authorization", token);
         myHeaders.append("Content-Type", "application/json");
 
-        const raw = JSON.stringify(i);
+        const raw = JSON.stringify(data);
 
         console.log("Token:", token);
         console.log("Raw Payload:", raw);

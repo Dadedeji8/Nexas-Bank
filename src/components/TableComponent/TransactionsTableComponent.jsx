@@ -16,7 +16,7 @@ function TransactionsTableComponent() {
   // }))
   const formattedTransactions = transactionsHistory.map((transaction) => ({
     ...transaction,
-    createdAt: moment(transaction.date).format('DD MMM yyy'),
+    createdAt: moment(transaction.date).format('MMMM Do YYYY, h:mm a'),
     action: <UserActionMenu
       rowId={transaction._id}
       amount={transaction.amount}
@@ -54,7 +54,7 @@ export default TransactionsTableComponent
 // This function creates a UserActionMenu component that takes in rowId, amount, type, and description as props
 const UserActionMenu = ({ rowId, amount, type, description, status }) => {
   // Destructure the adminUpdateTransaction function from the useAuth hook
-  const { adminUpdateTransaction } = useAuth();
+  const { adminUpdateTransaction, adminDeleteSingleTransaction } = useAuth();
   // Set the anchorEl state to null
   const [anchorEl, setAnchorEl] = useState(null);
   // Set the openDialog state to false
