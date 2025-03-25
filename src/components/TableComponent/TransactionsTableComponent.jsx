@@ -26,14 +26,7 @@ function TransactionsTableComponent() {
     />,
   }));
 
-  const deleteTransaction = async (id) => {
-    try {
-      await adminDeleteSingleTransaction(id)
-      toast('transaction record deleted')
-    } catch (error) {
-      console.log(error)
-    }
-  }
+
 
   return (
     <div className="">
@@ -118,7 +111,14 @@ const UserActionMenu = ({ rowId, amount, type, description, status }) => {
       // Show an error toast message
     }
   };
-
+  const deleteTransaction = async (id) => {
+    try {
+      await adminDeleteSingleTransaction(id)
+      toast('transaction record deleted')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div>
       <IconButton
