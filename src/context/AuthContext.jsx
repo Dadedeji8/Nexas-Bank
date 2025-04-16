@@ -10,7 +10,7 @@ const AuthenticationContext = createContext();
  */
 export const AuthProvider = ({ children }) => {
 
-    const endpoint = "https://nexeas-bank-seven.vercel.app/api";
+    const endpoint = "https://Nexeas-bank-seven.vercel.app/api";
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -393,7 +393,7 @@ export const AuthProvider = ({ children }) => {
     //     };
 
     //     try {
-    //         fetch("https://nexeas-bank-seven.vercel.app/api/bank/transaction?id=67d5a1346f571679a1b6c13f", requestOptions)
+    //         fetch("https://Nexeas-bank-seven.vercel.app/api/bank/transaction?id=67d5a1346f571679a1b6c13f", requestOptions)
     //             .then(response => response.json())
     //             .then(result => console.log(result))
     //             .catch(error => console.log('error', error));
@@ -414,8 +414,8 @@ export const AuthProvider = ({ children }) => {
     //         "method": "+",
     //         "account": {
     //             "code": '00000',
-    //             "name": 'nexeas Bank',
-    //             "channel":'nexeas Bank'
+    //             "name": 'Nexeas Bank',
+    //             "channel":'Nexeas Bank'
     //         },
     //         "password": data.password
     //     });
