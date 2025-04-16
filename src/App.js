@@ -160,7 +160,7 @@ export default function App() {
         {token ? <Sidenav
           color={sidenavColor}
           // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-          brandName="NEXAS BANK"
+          brandName="nexeas BANK"
           routes={routes}
           onMouseEnter={handleOnMouseEnter}
           onMouseLeave={handleOnMouseLeave}

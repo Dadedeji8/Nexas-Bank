@@ -37,7 +37,7 @@ const HomePageLayout = () => {
         {
             name: 'John Doe',
             image: 'https://randomuser.me/api/portraits/men/32.jpg',
-            review: ' Nexas Bank has completely transformed my banking experience. Fast, secure, and easy to use!'
+            review: ' nexeas Bank has completely transformed my banking experience. Fast, secure, and easy to use!'
         },
         {
             name: 'Jane Smith',
@@ -53,16 +53,16 @@ const HomePageLayout = () => {
 
     const faqs = [
         {
-            question: 'How secure is Nexas Bank?',
+            question: 'How secure is nexeas Bank?',
             answer: 'We use top-tier encryption and security protocols to ensure your transactions and data remain safe.'
         },
         {
-            question: 'What services does Nexas Bank offer?',
+            question: 'What services does nexeas Bank offer?',
             answer: 'We provide online banking, quick transfers, savings accounts, loan options, and more.'
         },
         {
             question: 'How can I contact customer support?',
-            answer: 'You can reach out via our 24/7 support chat or email us at support@nexasbank.com.'
+            answer: 'You can reach out via our 24/7 support chat or email us at support@nexeasbank.com.'
         },
         {
             question: 'How do I open an account?',
@@ -73,11 +73,11 @@ const HomePageLayout = () => {
             answer: 'No, we pride ourselves on transparency. All our fees are clearly outlined on our pricing page.'
         },
         {
-            question: 'Can I apply for a loan through Nexas Bank?',
+            question: 'Can I apply for a loan through nexeas Bank?',
             answer: 'Yes, we offer various loan options. Check our loans section for eligibility and application details.'
         },
         {
-            question: 'Does Nexas Bank offer business accounts?',
+            question: 'Does nexeas Bank offer business accounts?',
             answer: 'Yes, we offer business accounts with tailored features to help you manage your finances effectively.'
         },
         {
@@ -89,8 +89,8 @@ const HomePageLayout = () => {
             answer: 'Most transactions are processed instantly, but some may take up to 24 hours depending on bank policies.'
         },
         {
-            question: 'Can I access Nexas Bank internationally?',
-            answer: 'Yes, you can access your Nexas Bank account from anywhere in the world as long as you have an internet connection.'
+            question: 'Can I access nexeas Bank internationally?',
+            answer: 'Yes, you can access your nexeas Bank account from anywhere in the world as long as you have an internet connection.'
         }
     ];
 
@@ -154,9 +154,9 @@ const HomePageLayout = () => {
                     </h1>
                 </div>
                 <div className="container px-3 mx-auto py-12 tracking-wider text-center" data-aos="flip-down">
-                    Nexas Bank is a forward-thinking financial institution dedicated to redefining banking through innovation, security, and customer-centric services. With a strong commitment to excellence, we provide individuals and businesses with cutting-edge financial solutions tailored to their needs.
+                    nexeas Bank is a forward-thinking financial institution dedicated to redefining banking through innovation, security, and customer-centric services. With a strong commitment to excellence, we provide individuals and businesses with cutting-edge financial solutions tailored to their needs.
                     {
-                        readmore ? 'At Nexas Bank, we prioritize convenience, security, and accessibility, ensuring that every transaction is seamless and stress-free. Whether you are managing personal finances, making international transfers, or handling business transactions, our robust digital banking platform offers a fast, secure, and efficient experience.' : ''}  <button className='underline text-green-500 cursor-pointer' onClick={() => setReadmore(!readmore)}>
+                        readmore ? 'At nexeas Bank, we prioritize convenience, security, and accessibility, ensuring that every transaction is seamless and stress-free. Whether you are managing personal finances, making international transfers, or handling business transactions, our robust digital banking platform offers a fast, secure, and efficient experience.' : ''}  <button className='underline text-green-500 cursor-pointer' onClick={() => setReadmore(!readmore)}>
                         {readmore ? 'Read Less' : 'Read More'}</button>
 
                 </div>
@@ -213,7 +213,7 @@ const HomePageLayout = () => {
 
                     <div>
                         <h1 className="text-4xl text-lime-900 font-extrabold text-center">
-                            Why Choose Nexas Bank?
+                            Why Choose nexeas Bank?
                         </h1>
                     </div>
                     <Container>
@@ -285,7 +285,7 @@ const HomePageLayout = () => {
 
                     <h1 className="font-black text-5xl text-white "> Get Started Today!</h1>
                     <p className="text-white">
-                        Join the thousands of satisfied customers who trust Nexas Bank for their banking needs. Sign up now and experience the future of digital banking.
+                        Join the thousands of satisfied customers who trust nexeas Bank for their banking needs. Sign up now and experience the future of digital banking.
                     </p>
                     <Button variant='contained' size="large" className='text-white bg-green-600 cursor-pointer'>
                         SIGN UP NOW
@@ -348,7 +348,7 @@ const HomePageLayout = () => {
                         <Grid container spacing={4} className='text-white'>
                             <Grid item xs={12} md={3}>
                                 <Typography variant='h6' className="text-white" gutterBottom>About Us</Typography>
-                                <Typography variant='body2'>Nexas Bank provides secure and innovative banking solutions for individuals and businesses.</Typography>
+                                <Typography variant='body2'>nexeas Bank provides secure and innovative banking solutions for individuals and businesses.</Typography>
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Typography variant='h6' className="text-white" gutterBottom>Quick Links</Typography>
@@ -386,7 +386,7 @@ const HomePageLayout = () => {
                             <FaInstagram size={24} className='cursor-pointer hover:text-lime-300' />
                             <FaLinkedin size={24} className='cursor-pointer hover:text-lime-300' />
                         </Stack>
-                        <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-gray-100'>© 2025 Nexas Bank. All Rights Reserved.</Typography>
+                        <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-gray-100'>© 2025 nexeas Bank. All Rights Reserved.</Typography>
                     </Container>
                 </Box>
             </section>

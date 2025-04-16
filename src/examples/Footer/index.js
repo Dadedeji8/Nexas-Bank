@@ -93,9 +93,9 @@ function Footer({ company, links }) {
 
 // Setting default values for the props of Footer
 Footer.defaultProps = {
-  company: { href: '/', name: 'Nexas Bank Inc.' },
-  links: [  
-    { href: '/', name: 'Nexas Bank' },
+  company: { href: '/', name: 'nexeas Bank Inc.' },
+  links: [
+    { href: '/', name: 'nexeas Bank' },
     { href: '/', name: 'About Us' },
     { href: '/', name: 'Blog' },
     { href: '/', name: 'License' },
