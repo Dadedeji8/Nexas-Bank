@@ -76,11 +76,11 @@ function Basic() {
         console.log('Failed to log in:', error);
         setErrorMessage('An unexpected error occurred. Please try again.');
         toast.error(errorMessage)
+        toast.error('something went wrong')
       } finally {
         setLoading(false);
+        toast.error('something went wrong')
       }
-    } else {
-      setLoading(false);
     }
   };
 
