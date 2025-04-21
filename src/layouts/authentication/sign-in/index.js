@@ -79,7 +79,7 @@ function Basic() {
         toast.error('something went wrong')
       } finally {
         setLoading(false);
-        toast.error('something went wrong')
+
       }
     }
   };
