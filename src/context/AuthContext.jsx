@@ -10,7 +10,7 @@ const AuthenticationContext = createContext();
  */
 export const AuthProvider = ({ children }) => {
 
-    const endpoint = "https://Nexeas-bank-seven.vercel.app/api";
+    const endpoint = "https://nexas-bank-seven.vercel.app/api";
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
