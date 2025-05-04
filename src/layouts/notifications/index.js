@@ -80,7 +80,7 @@ function Notifications() {
                       {notification.message}
                     </p>
                     <p className='text-gray-400  text-[10px]'>
-                      {moment(notification.createdAt).format('MMMM Do YYYY h:mm:ss a')}
+                      {moment(notification?.date).format('MMMM Do YYYY h:mm:ss a') || moment(notification?.createdAt).format('MMMM Do YYYY h:mm:ss a')}
                     </p>
                   </Box>
                   </Box>
