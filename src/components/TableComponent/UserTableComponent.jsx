@@ -19,7 +19,7 @@ function UsersTableComponent() {
     isAdmin: user.isAdmin ? 'Admin' : 'User',
     isActive: user.isActive ? 'Active' : 'Disabled',
     createdAt: moment(user.createdAt).format('DD MMM yyy'),
-    action: <UserActionMenu rowId={user._id} wallet={user.account.balance} isActive={user.isActive} />,
+    action: <UserActionMenu rowId={user._id} wallet={user.account.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 2 })} isActive={user.isActive} />,
   }))
   return (
     <div className="">

@@ -269,7 +269,7 @@ function AccountOverviewComponent() {
         <div className="flex flex-row items-center gap-3">
           <div>
             <Typography variant="h2" color={'primary'}>
-              $ {profile?.account?.balance}
+              $ {profile?.account?.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 2 })}
             </Typography>
 
           </div>
