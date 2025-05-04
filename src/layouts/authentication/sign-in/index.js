@@ -76,11 +76,11 @@ function Basic() {
         console.log('Failed to log in:', error);
         setErrorMessage('An unexpected error occurred. Please try again.');
         toast.error(errorMessage)
+        toast.error('something went wrong')
       } finally {
         setLoading(false);
+
       }
-    } else {
-      setLoading(false);
     }
   };
 
@@ -203,7 +203,7 @@ function Basic() {
           </Grid>
           <div>
             <hr></hr>
-            <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-white p-5'>© 2025 Nexas Bank. All Rights Reserved.</Typography>
+            <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-white p-5'>© 2025 Nexeas Bank. All Rights Reserved.</Typography>
           </div>
         </Container>
       </Box>

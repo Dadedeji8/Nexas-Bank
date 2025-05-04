@@ -334,7 +334,7 @@ function Cover() {
           </Grid>
           <div>
             <hr></hr>
-            <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-white p-5'>© 2025 Nexas Bank. All Rights Reserved.</Typography>
+            <Typography variant='body2' align='center' sx={{ mt: 4 }} className='text-white p-5'>© 2025 Nexeas Bank. All Rights Reserved.</Typography>
           </div>
         </Container>
       </Box>
