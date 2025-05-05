@@ -123,13 +123,14 @@ function Header({ children }) {
               {profile?.fullName || 'User Name'}
             </MDTypography>
             <MDTypography variant="button" color="text" fontWeight="regular">
-              {profile?.email} <span className='underline text-red-500'>{profile?.emailVerified ? 'Verified' : 'Not Verified'}</span>
+              {/* {profile?.email} <span className='underline text-red-500'>{profile?.emailVerified ? 'Verified' : 'Not Verified'}</span> */}
+              {profile?.email} <span className='underline text-green-500'>{'Verified'}</span>
             </MDTypography>
           </Grid>
           <Grid item>
             <Box className='rounded-2xl bg-lime-200 p-1 px-3'>
               <MDTypography variant='body2'>
-                <Money /> Account Balance: <span className='text-blue-950'>${profile?.account?.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 2 }) || 0}</span>
+                <Money /> Account Balance: <span className='text-blue-950'>{profile?.account?.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 2 }) || 0}</span>
               </MDTypography>
             </Box>
           </Grid>

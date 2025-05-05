@@ -185,7 +185,11 @@ export const AuthProvider = ({ children }) => {
 
         fetch(api, requestOptions)
             .then((response) => response.json())
-            .then((result) => setTransactionsHistory(result.transactions))
+            .then((result) => {
+                // check if .delete is false else remove from array
+                const filteredTransactions = result.transactions.filter((transaction) => !transaction.delete);
+                setTransactionsHistory(filteredTransactions)
+            })
             .catch((error) => console.error(error));
     }
 
@@ -816,6 +820,7 @@ export const AuthProvider = ({ children }) => {
                     throw new Error(result.error || `Transfer detail edit failed with ${response.status}`);
                 }
                 getTransactions({})
+                getNotification()
                 return result;
             })
             .catch(error => {

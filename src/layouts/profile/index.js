@@ -64,7 +64,8 @@ function Overview() {
             <CakeOutlined /> Age :<span className='text-blue-950 font-bold'> {profile?.age || 'rather not says'}</span>
           </MDTypography>
           <MDTypography variant={'body2'}>
-            <Check /> Verification Status: <span className='text-blue-950 font-bold'>{profile?.emailVerified ? 'verified' : 'Not Verified'}</span>
+            {/* <Check /> Verification Status: <span className='text-blue-950 font-bold'>{profile?.emailVerified ? 'verified' : 'Not Verified'}</span> */}
+            <Check /> Verification Status: <span className='text-blue-950 font-bold'>{' verified'}</span>
           </MDTypography>
 
         </MDBox>
