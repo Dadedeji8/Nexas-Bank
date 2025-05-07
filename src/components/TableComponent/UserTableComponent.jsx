@@ -50,7 +50,7 @@ function UsersTableComponent() {
 export default UsersTableComponent
 
 const UserActionMenu = ({ rowId, wallet, isActive }) => {
-  const { adminUpdateUserWallet, adminDisableUser } = useAuth()
+  const { adminUpdateUserWallet, adminDisableUser, AdminDeleteUser } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [accountDetail, setAccountDetail] = useState({})
@@ -87,6 +87,15 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
       toast.error('Account balance failed to update')
     }
   };
+  const deleteUser = (id) => async () => {
+    try {
+      await AdminDeleteUser(id);
+      toast.success('User deleted successfully')
+    } catch (error) {
+      console.error("User deletion failed:", error.message);
+      toast.error('User failed to delete')
+    }
+  }
   useEffect(() => {
     console.log(accountDetail)
   }, [accountDetail])
@@ -117,7 +126,7 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
           handleClose()
         }}>{isActive ? "Disable" : "Activate"}</MenuItem>
         <MenuItem onClick={handleDialogOpen}>Update Wallet</MenuItem>
-        <MenuItem onClick={console.log('delete user')}>Delete User</MenuItem>
+        <MenuItem onClick={deleteUser(rowId)}>Delete User</MenuItem>
       </Menu>
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
         <DialogTitle>Update Wallet</DialogTitle>

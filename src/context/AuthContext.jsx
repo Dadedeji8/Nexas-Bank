@@ -372,75 +372,7 @@ export const AuthProvider = ({ children }) => {
                 throw error;
             });
     }
-    // function adminUpdateUserWallet(data) {
-    //     var myHeaders = new Headers();
-    //     myHeaders.append("Content-Type", "application/json");
-    //     myHeaders.append("Authorization", token);
 
-    //     const raw = JSON.stringify({
-    //         "amount": data.amount,
-    //         "description": data.description,
-    //         "method": data.method,
-    //         "account": {
-    //             "code": data.code,
-    //             "name": data.name,
-    //             "channel": data.channel
-    //         },
-    //         "password": data.password
-    //     });
-
-    //     var requestOptions = {
-    //         method: 'POST',
-    //         headers: myHeaders,
-    //         body: raw,
-    //         redirect: 'follow'
-    //     };
-
-    //     try {
-    //         fetch("https://Nexeas-bank-seven.vercel.app/api/bank/transaction?id=67d5a1346f571679a1b6c13f", requestOptions)
-    //             .then(response => response.json())
-    //             .then(result => console.log(result))
-    //             .catch(error => console.log('error', error));
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // };
-
-    // ({ id, amount }) {
-    //     const myHeaders = new Headers();
-    //     myHeaders.append("Authorization", token);
-
-    //     myHeaders.append("Content-Type", "application/json");
-
-    //     const raw = JSON.stringify({
-    //         "amount": amount,
-    //         "description": 'deposit',
-    //         "method": "+",
-    //         "account": {
-    //             "code": '00000',
-    //             "name": 'Nexeas Bank',
-    //             "channel":'Nexeas Bank'
-    //         },
-    //         "password": data.password
-    //     });
-
-    //     const requestOptions = {
-    //         method: "PUT",
-    //         headers: myHeaders,
-    //         body: raw,
-    //         redirect: "follow"
-    //     };
-
-
-    //     fetch(`${endpoint}/bank/transaction?id=${id}`, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((result) => {
-    //             console.log(result)
-    //             getAllProfile({})
-    //         })
-    //         .catch((error) => console.error(error));
-    //     return
-    // }
 
     function adminDisableUser({ id }) {
         const myHeaders = new Headers();
@@ -909,6 +841,37 @@ export const AuthProvider = ({ children }) => {
 
 
     }
+
+    const AdminDeleteUser = async (id) => {
+        try {
+            const myHeaders = new Headers();
+            myHeaders.append("Authorization", token);
+
+            const requestOptions = {
+                method: "DELETE",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+
+            // Wait for the DELETE request to complete
+            const response = await fetch(`${endpoint}/user?userId=${id}`, requestOptions);
+
+            // Check if the response was successful
+            if (!response.ok) {
+                throw new Error(`Delete request failed with status: ${response.status}`);
+            }
+
+            // Get the result (if needed)
+            const result = await response.text();
+            console.log(result);
+
+            // Refresh the user list after successful deletion
+            await getAllProfile({}); // Ensure this is awaited if it's async
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
+    };
+
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin, isActive,
@@ -935,7 +898,7 @@ export const AuthProvider = ({ children }) => {
             notifications,
             setWithdrawals,
             getAccountDetail, makeTransfer,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDeleteSingleTransaction, toggleDetailState, deleteAccountDetail
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDeleteSingleTransaction, toggleDetailState, deleteAccountDetail, AdminDeleteUser
         }}>
             {children}
         </AuthenticationContext.Provider>
