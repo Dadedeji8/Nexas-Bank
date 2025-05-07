@@ -117,6 +117,7 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
           handleClose()
         }}>{isActive ? "Disable" : "Activate"}</MenuItem>
         <MenuItem onClick={handleDialogOpen}>Update Wallet</MenuItem>
+        <MenuItem onClick={console.log('delete user')}>Delete User</MenuItem>
       </Menu>
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
         <DialogTitle>Update Wallet</DialogTitle>

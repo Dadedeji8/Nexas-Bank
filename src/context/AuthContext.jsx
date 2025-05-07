@@ -837,14 +837,16 @@ export const AuthProvider = ({ children }) => {
         myHeaders.append("Authorization", token);
         myHeaders.append("Content-Type", "application/json");
 
-        const raw = JSON.stringify(data);
+        const raw = JSON.stringify({ deleted: true });
 
         console.log("Token:", token);
+
         console.log("Raw Payload:", raw);
         console.log("API Endpoint:", endpoint);
 
         const requestOptions = {
-            method: "DELETE", // Change to PUT if required
+            // method: "DELETE", // Change to PUT if required
+            method: "PUT", // Change to PUT if required
             headers: myHeaders,
             body: raw,
             redirect: "follow"
@@ -871,7 +873,42 @@ export const AuthProvider = ({ children }) => {
                 throw error;
             });
     }
+    const deleteAccountDetail = async (id) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
 
+
+        // const raw = JSON.stringify({
+        //     code: data?.code ?? "",
+        //     name: data?.name ?? "",
+        //     channel: data?.channel ?? "",
+        //     active: true
+        // });
+
+        const requestOptions = {
+            method: "DELETE",
+            headers: myHeaders,
+            // body: raw,
+            redirect: "follow"
+        };
+
+        try {
+            const response = await fetch(`${endpoint}/bank/details?id=${id}`, requestOptions);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            return result;
+        } catch (error) {
+            console.error("Error deleting details:", error);
+            throw error; // Re-throw to allow error handling by the caller
+        }
+
+
+    }
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin, isActive,
@@ -898,7 +935,7 @@ export const AuthProvider = ({ children }) => {
             notifications,
             setWithdrawals,
             getAccountDetail, makeTransfer,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDeleteSingleTransaction, toggleDetailState
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDeleteSingleTransaction, toggleDetailState, deleteAccountDetail
         }}>
             {children}
         </AuthenticationContext.Provider>

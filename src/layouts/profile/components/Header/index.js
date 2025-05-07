@@ -29,6 +29,7 @@ function Header({ children }) {
   const [openVerify, setOpenVerify] = useState(false)
   const [uploading, setUploading] = useState(false);
   const [avatar, setAvatar] = useState(null);
+  const [userProfileImg, setUserProfileImg] = useState('')
   useEffect(() => {
     function handleTabsOrientation() {
       setTabsOrientation(window.innerWidth < breakpoints.values.sm ? 'vertical' : 'horizontal')
@@ -46,7 +47,11 @@ function Header({ children }) {
     { name: 'newPassword', label: 'New Password', type: 'password' }
   ]
 
-
+  useEffect(() => {
+    return () => {
+      getProfile()
+    };
+  }, [uploading])
   const handleFileUpload = (e) => {
     if (e.allEntries && e.allEntries.length > 0) {
       setUploading(true); // Show loading indicator
@@ -60,6 +65,27 @@ function Header({ children }) {
           updateProfile({ avatar: fileEntry.cdnUrl })
           setUploading(false); // Hide loading indicator
           console.log('File uploaded successfully:', fileEntry.cdnUrl);
+        }
+      }, 500); // Check every 500ms until cdnUrl is available
+    }
+  };
+
+
+  const handleProfileChange = async (e) => {
+    if (e.allEntries && e.allEntries.length > 0) {
+      setUploading(true); // Show loading indicator
+
+      const fileEntry = e.allEntries[0]; // Get first uploaded file
+
+      const checkForCDNUrl = setInterval(() => {
+        if (fileEntry.cdnUrl) {
+          clearInterval(checkForCDNUrl); // Stop checking when cdnUrl is available
+          // setAvatar(fileEntry.cdnUrl); // Update state with cdnUrl
+          updateProfile({ profilePhoto: fileEntry.cdnUrl })
+          setUserProfileImg(fileEntry.cdnUrl)
+          setUploading(false); // Hide loading indicator
+          console.log('File uploaded successfully:', fileEntry.cdnUrl);
+          getProfile()
         }
       }, 500); // Check every 500ms until cdnUrl is available
     }
@@ -95,7 +121,7 @@ function Header({ children }) {
   const handleClose = () => setOpen(false)
   const handleVerifyOpen = () => setOpenVerify(true)
   const handleVerifyClose = () => setOpenVerify(false)
-
+  // const openProfilePictureBox =()=>setOpenProfileImage(true)
 
   return (
     <MDBox position="relative" mb={5}>
@@ -116,7 +142,7 @@ function Header({ children }) {
       <Card sx={{ position: 'relative', mt: -8, mx: 3, py: 2, px: 2 }}>
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={ProfileImg} alt="profile-image" size="xl" shadow="sm" />
+            <MDAvatar src={userProfileImg || profile?.profilePhoto} alt="profile-image" size="xl" shadow="sm" />
           </Grid>
           <Grid item>
             <MDTypography variant="h5" fontWeight="medium">
@@ -126,6 +152,7 @@ function Header({ children }) {
               {/* {profile?.email} <span className='underline text-red-500'>{profile?.emailVerified ? 'Verified' : 'Not Verified'}</span> */}
               {profile?.email} <span className='underline text-green-500'>{'Verified'}</span>
             </MDTypography>
+
           </Grid>
           <Grid item>
             <Box className='rounded-2xl bg-lime-200 p-1 px-3'>
@@ -144,12 +171,48 @@ function Header({ children }) {
               Verify Account
             </Button>
           </Grid>
+          <Grid item>
+            {/* <Button variant='outlined' className='text-blue-900' onClick={openProfilePictureBox}>
+              Update Profile Picture
+            </Button> */}
+            <Dialog>
+              {/* 
+              <FileUploaderRegular
+                label='update profile photo'
+                sourceList="local, camera, gdrive"
+                cameraModes="photo, video"
+                classNameUploader="uc-light"
+                pubkey="de06d3627e924744c45e"
+                onChange={handleFileUpload} // Handle file upload
+              /> */}
+
+
+            </Dialog>
+          </Grid>
         </Grid>
         {children}
         <Dialog open={open} onClose={handleClose}>
           <div className='min-w-[350px]'>
             <DialogTitle>Update Profile</DialogTitle>
+
             <DialogContent>
+              <Box className='flex w-full gap-2 justify-between items-center mb-2'>
+                <MDAvatar src={profile?.profilePhoto || ProfileImg} alt="profile-image" size="xl" shadow="sm" />
+                <Box>
+                  <Typography className='text-[14px]'>
+                    update Profile Picture
+                  </Typography>
+
+                  <FileUploaderRegular
+                    sourceList="local, camera, gdrive"
+                    cameraModes="photo, video"
+                    classNameUploader="uc-light"
+                    pubkey="de06d3627e924744c45e"
+                    onChange={handleProfileChange} // Handle file upload
+                  />
+                </Box>
+
+              </Box>
               {inputFieldSet.map((input) => (
                 <Box className='flex gap-2 items-center mb-2' key={input.name}>
                   {fieldEdited === input.name ? (

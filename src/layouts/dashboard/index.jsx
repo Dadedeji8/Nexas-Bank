@@ -39,9 +39,10 @@ import { Copy } from 'lucide-react'
 import MDInput from 'components/MDInput';
 import { toast } from 'react-toastify';
 import Deactivated from 'layouts/deactivatedPage/Deactivated';
+import { BsTrash3Fill } from "react-icons/bs";
 
 function Dashboard() {
-  const { isAdmin, isActive, allUsers, deposits, withdrawals, allAccountDetails, toggleDetailState } = useAuth()
+  const { isAdmin, isActive, allUsers, deposits, withdrawals, allAccountDetails, toggleDetailState, deleteAccountDetail } = useAuth()
   const [newAccount, setNewAccount] = useState({})
   const [loadinig, setLoading] = useState(false)
   const { createDetail } = useAuth()
@@ -78,6 +79,16 @@ function Dashboard() {
       setLoading(false);  // Always reset loading state
     }
   };
+  const deleteDetail = async (id) => {
+    try {
+
+      await deleteAccountDetail(id);
+      allAccountDetails()
+      toast.success('Account detail deleted successfully');
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -229,9 +240,15 @@ function Dashboard() {
                               <Typography className='text-sm text-blue-900 flex justify-between'>
                                 <span>Status:</span> <span className='font-bold'>{account?.active ? 'Active' : <span className='text-red-600'>Deactivated</span>}</span>
                               </Typography>
-                              <Button className={` text-white w-full ${account?.active ? 'bg-red-500' : 'bg-blue-600'}`} onClick={() => { account?.active ? toggleDetailState({ id: account?._id, active: false }) : toggleDetailState({ id: account?._id, active: true }) }} >
-                                {account?.active ? ' Deactivate Account' : 'Activate Account'}
-                              </Button>
+                              <div className='flex justify-content-between gap-2 align-items-center'>
+                                <Button className={` text-white w-full ${account?.active ? 'bg-red-500' : 'bg-blue-600'}`} onClick={() => { account?.active ? toggleDetailState({ id: account?._id, active: false }) : toggleDetailState({ id: account?._id, active: true }) }} >
+                                  {account?.active ? ' Deactivate Account' : 'Activate Account'}
+                                </Button>
+                                <Button className=' text-white  bg-red-700' onClick={() => { deleteAccountDetail(account?._id) }} >
+                                  <BsTrash3Fill />
+                                </Button>
+                              </div>
+
                             </div>
                           }) : 'No account Available'}
                         </div>
