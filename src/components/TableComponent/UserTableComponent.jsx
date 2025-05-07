@@ -90,6 +90,7 @@ const UserActionMenu = ({ rowId, wallet, isActive }) => {
   const deleteUser = (id) => async () => {
     try {
       await AdminDeleteUser(id);
+      handleDialogClose();
       toast.success('User deleted successfully')
     } catch (error) {
       console.error("User deletion failed:", error.message);

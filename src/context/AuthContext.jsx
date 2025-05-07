@@ -833,6 +833,7 @@ export const AuthProvider = ({ children }) => {
             }
 
             const result = await response.json();
+            getAllAccountDetails()
             return result;
         } catch (error) {
             console.error("Error deleting details:", error);

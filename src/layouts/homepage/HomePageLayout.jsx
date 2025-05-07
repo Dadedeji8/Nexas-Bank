@@ -153,7 +153,7 @@ const HomePageLayout = () => {
                         About Us
                     </h1>
                 </div>
-                <div className="container px-3 mx-auto py-12 tracking-wider text-center" data-aos="flip-down">
+                <div className="container px-3 mx-auto py-12 tracking-wider text-center max-w-[1000px]" data-aos="flip-down">
                     Nexeas Bank is a forward-thinking financial institution dedicated to redefining banking through innovation, security, and customer-centric services. With a strong commitment to excellence, we provide individuals and businesses with cutting-edge financial solutions tailored to their needs.
                     {
                         readmore ? 'At Nexeas Bank, we prioritize convenience, security, and accessibility, ensuring that every transaction is seamless and stress-free. Whether you are managing personal finances, making international transfers, or handling business transactions, our robust digital banking platform offers a fast, secure, and efficient experience.' : ''}  <button className='underline text-green-500 cursor-pointer' onClick={() => setReadmore(!readmore)}>
