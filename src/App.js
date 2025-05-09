@@ -44,6 +44,7 @@ import {
 import brandWhite from 'assets/images/logo-ct.png'
 import brandDark from 'assets/images/logo-ct-dark.png'
 import RoutesConfig from './routes';
+import { Receipt } from '@mui/icons-material'
 export default function App() {
 
 
@@ -172,6 +173,8 @@ export default function App() {
     <Routes>
       <Route element={<ProtectedRoute />}>
         {getRoutes(routes)}
+        <Route path='/reciept/:id' component={<Receipt />} />
+
       </Route>
 
 

@@ -760,51 +760,47 @@ export const AuthProvider = ({ children }) => {
                 throw error;
             });
     }
-    function adminDeleteSingleTransaction(data) {
+    async function adminDeleteSingleTransaction(data) {
+        // Validate transaction ID
 
 
-        if (!token) throw new Error("Authorization token is missing");
+        // Security Note: In real applications, store tokens in secure storage (not hardcoded)
 
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", token);
-        myHeaders.append("Content-Type", "application/json");
 
-        const raw = JSON.stringify({ deleted: true });
-
-        console.log("Token:", token);
-
-        console.log("Raw Payload:", raw);
-        console.log("API Endpoint:", endpoint);
-
-        const requestOptions = {
-            // method: "DELETE", // Change to PUT if required
-            method: "PUT", // Change to PUT if required
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-
-        return fetch(`${endpoint}/bank/transaction?id=${data}`, requestOptions)
-            .then(async (response) => {
-                const contentType = response.headers.get("content-type");
-
-                if (!contentType || !contentType.includes("application/json")) {
-                    const errorText = await response.text();
-                    throw new Error(`Unexpected response format: ${errorText}`);
-                }
-
-                const result = await response.json();
-                if (!response.ok) {
-                    throw new Error(result.error || `Transfer detail edit failed with ${response.status}`);
-                }
-                getTransactions({})
-                return result;
-            })
-            .catch(error => {
-                console.error("Wallet update error:", error.message);
-                throw error;
+        try {
+            const headers = new Headers({
+                'Authorization': token,
+                'Content-Type': 'application/json'
             });
-    }
+
+            const requestOptions = {
+                method: 'DELETE',
+                headers: headers,
+                // body: JSON.stringify({ deleted: true }),
+                redirect: 'follow'
+            };
+
+            const response = await fetch(
+                `${endpoint}/bank/transaction?id=${data}`,
+                requestOptions
+            );
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to delete transaction');
+            }
+
+            const result = await response.json();
+            getTransactions({})
+            return result;
+
+        } catch (error) {
+            console.error('Transaction deletion error:', error);
+            throw error; // Re-throw for proper error handling upstream
+        }
+    };
+
+
     const deleteAccountDetail = async (id) => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);

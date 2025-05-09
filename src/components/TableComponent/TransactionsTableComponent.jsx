@@ -111,14 +111,18 @@ const UserActionMenu = ({ rowId, amount, type, description, status }) => {
       // Show an error toast message
     }
   };
+
   const deleteTransaction = async (id) => {
     try {
       await adminDeleteSingleTransaction(id)
-      toast('transaction record deleted')
+      toast.success('Transaction record deleted')
+      handleDialogClose();
     } catch (error) {
       console.log(error)
+      toast.error('Transaction update failed');
     }
   }
+
   return (
     <div>
       <IconButton
