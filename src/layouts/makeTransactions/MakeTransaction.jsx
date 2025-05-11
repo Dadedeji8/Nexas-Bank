@@ -35,7 +35,7 @@ const MakeTransaction = () => {
         setLoadingProfile(true);
         try {
             const response = await getAccountDetail(transferData.accountNumber);
-            setAccountDetails(response);
+            await setAccountDetails(response);
 
             console.log('this is the new Account details', accountDetails)
         } catch (error) {

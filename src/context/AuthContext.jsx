@@ -428,24 +428,58 @@ export const AuthProvider = ({ children }) => {
             .catch((error) => console.error(error));
     }
 
-    const login = async (data) => {
-        console.log('This is the data being submitted for login:', data);
+    // const login = async (data) => {
+    //     console.log('This is the data being submitted for login:', data);
 
+    //     try {
+    //         const response = await fetch(`${endpoint}/auth/login`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify(data),
+    //         });
+
+    //         const result = await response.json(); // Parse JSON first
+
+    //         if (!response.ok) {
+    //             throw new Error(result.error || 'Failed to log in'); // Use API error message if available
+    //         }
+    //         // return console.log({ result })
+
+    //         localStorage.setItem('token', result.token);
+    //         localStorage.setItem('profile', JSON.stringify(result.user));
+    //         setToken(result.token);
+    //         setProfile(result.user);
+    //         setIsAdmin(result.user.isAdmin);
+    //         setIsActive(result.user.isActive);
+
+
+
+    //         console.log('Login successful. Token:', result.token);
+    //         return { success: true, data: result }; // Return success status
+
+    //     } catch (error) {
+    //         console.error('Error logging in:', error);
+    //         setError('Failed to log in');
+    //         return { success: false, error: error.message }; // Return error for handling
+    //     }
+    // };
+
+    const login = async (data) => {
         try {
             const response = await fetch(`${endpoint}/auth/login`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
 
-            const result = await response.json(); // Parse JSON first
+            const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.error || 'Failed to log in'); // Use API error message if available
+                // Throw error with server message directly
+                throw new Error(result.error || 'Failed to log in');
             }
-            // return console.log({ result })
 
             localStorage.setItem('token', result.token);
             localStorage.setItem('profile', JSON.stringify(result.user));
@@ -454,15 +488,14 @@ export const AuthProvider = ({ children }) => {
             setIsAdmin(result.user.isAdmin);
             setIsActive(result.user.isActive);
 
-
-
-            console.log('Login successful. Token:', result.token);
-            return { success: true, data: result }; // Return success status
-
+            return { success: true, data: result };
         } catch (error) {
-            console.error('Error logging in:', error);
-            setError('Failed to log in');
-            return { success: false, error: error.message }; // Return error for handling
+            console.error('Login error:', error);
+            // Return server error message directly
+            return {
+                success: false,
+                error: error.message || 'Connection failed. Check your network'
+            };
         }
     };
 
@@ -637,12 +670,12 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const makeTransfer = (data) => {
+    const makeTransfer = async (data) => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
         myHeaders.append("Content-Type", "application/json");
 
-        const raw = JSON.stringify({
+        const raw = await JSON.stringify({
             "amount": data.amount,
             "description": data.description,
             "method": "-",
@@ -661,24 +694,20 @@ export const AuthProvider = ({ children }) => {
             redirect: "follow"
         };
 
-        // Return the promise chain
         return fetch(`${endpoint}/bank/transaction`, requestOptions)
             .then(async (response) => {
                 const data = await response.json();
                 if (!response.ok) {
-                    // Throw error with message from server
                     throw new Error(data.error || 'Transfer failed');
                 }
-                getTransactions({ userId: profile._id })
+                // Await the getTransactions call to ensure state updates
+                await getTransactions({ userId: profile._id });
                 return data;
             })
             .catch(error => {
-                // Re-throw to allow handling in component
                 throw new Error(error.message);
             });
     };
-
-
     const createDetail = async (data) => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);

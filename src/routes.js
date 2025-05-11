@@ -51,6 +51,7 @@ import Icon from '@mui/material/Icon'
 import HistoryPage from 'layouts/History/HistoryPage'
 import UsersPage from 'layouts/Users/UsersPage'
 import { useAuth } from 'context/AuthContext'
+import DepositIntoCard from 'layouts/depositIntoCard/DepositIntoCard'
 // import Reciept from 'layouts/recieptPage/Reciept'
 
 
@@ -89,6 +90,14 @@ const Routes = () => {
       icon: <Icon fontSize="small">credit_card</Icon>,
       route: '/make-transaction',
       component: <MakeTransaction />,
+    },
+    {
+      type: 'collapse',
+      name: 'Deposit into Debit Card',
+      key: 'Deposit To Card',
+      icon: <Icon fontSize="small">credit_card</Icon>,
+      route: '/Deposit-into-card',
+      component: <DepositIntoCard />,
     },
     // {
     //   type: 'collapse',

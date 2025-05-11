@@ -7,6 +7,7 @@ import { MoreVert } from '@mui/icons-material';
 import MDInput from 'components/MDInput';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 function TransactionsTableComponent() {
   const { transactionsHistory, isAdmin, adminDeleteSingleTransaction } = useAuth()
@@ -40,7 +41,7 @@ function TransactionsTableComponent() {
             { Header: 'Type', accessor: 'type' },
             { Header: 'Date', accessor: 'createdAt', width: '12%' },
             { Header: 'Status', accessor: 'status', width: '12%' },
-            ...isAdmin ? [{ Header: 'Actions', accessor: 'action' }] : [],
+            { Header: 'Actions', accessor: 'action' },
           ],
           rows: [...formattedTransactions],
         }}
@@ -52,7 +53,7 @@ function TransactionsTableComponent() {
 export default TransactionsTableComponent
 
 // This function creates a UserActionMenu component that takes in rowId, amount, type, and description as props
-const UserActionMenu = ({ rowId, amount, type, description, status }) => {
+const UserActionMenu = ({ rowId, amount, type, description, status, isAdmin }) => {
   // Destructure the adminUpdateTransaction function from the useAuth hook
   const { adminUpdateTransaction, adminDeleteSingleTransaction } = useAuth();
   // Set the anchorEl state to null
@@ -133,7 +134,7 @@ const UserActionMenu = ({ rowId, amount, type, description, status }) => {
       >
         <MoreVert />
       </IconButton>
-      <Menu
+      {isAdmin ? <Menu
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -141,7 +142,15 @@ const UserActionMenu = ({ rowId, amount, type, description, status }) => {
       >
         <MenuItem onClick={handleDialogOpen}>Edit Transaction</MenuItem>
         <MenuItem onClick={() => deleteTransaction(rowId)} >Delete Transaction </MenuItem>
-      </Menu>
+        <MenuItem ><Link to={`/receipt/${rowId}`}>View Receipt</Link></MenuItem>
+      </Menu> : <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{ style: { maxHeight: 48 * 4.5, width: '20ch' } }}
+      >
+        <MenuItem ><Link to={`/receipt/${rowId}`}>View Receipt</Link></MenuItem>
+      </Menu>}
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
         <DialogTitle>Edit Transaction</DialogTitle>
         <DialogContent>
@@ -244,4 +253,5 @@ UserActionMenu.propTypes = {
   type: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };

@@ -54,6 +54,35 @@ function Basic() {
 
   const { login } = useAuth()
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setSuccessMessage('');
+  //   setErrorMessage('');
+
+  //   if (validateInput()) {
+  //     try {
+  //       const result = await login(userCredentials); // Get login result
+
+  //       if (result.success) {
+  //         setSuccessMessage('Login successful! Redirecting to dashboard...');
+  //         navigate('/dashboard');
+  //         toast.success('Sign In Successful')
+  //         // Navigate only on success
+  //       } else {
+  //         setErrorMessage(result.error); // Display API error message
+  //       }
+  //     } catch (error) {
+  //       console.log('Failed to log in:', error);
+  //       setErrorMessage('An unexpected error occurred. Please try again.');
+  //       toast.error(errorMessage)
+  //       toast.error('something went wrong')
+  //     } finally {
+  //       setLoading(false);
+
+  //     }
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -62,28 +91,25 @@ function Basic() {
 
     if (validateInput()) {
       try {
-        const result = await login(userCredentials); // Get login result
+        const result = await login(userCredentials);
 
         if (result.success) {
-          setSuccessMessage('Login successful! Redirecting to dashboard...');
+          toast.success('Sign In Successful');
           navigate('/dashboard');
-          toast.success('Sign In Successful')
-          // Navigate only on success
         } else {
-          setErrorMessage(result.error); // Display API error message
+          setErrorMessage(result.error);
+          toast.error(result.error); // Add this line to show API errors
         }
       } catch (error) {
-        console.log('Failed to log in:', error);
-        setErrorMessage('An unexpected error occurred. Please try again.');
-        toast.error(errorMessage)
-        toast.error('something went wrong')
+        console.error('Login error:', error);
+        const message = error.message || 'An unexpected error occurred';
+        setErrorMessage(message);
+        toast.error(message); // Show actual error message
       } finally {
         setLoading(false);
-
       }
     }
   };
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -144,6 +170,16 @@ function Basic() {
                 <Button size='large' className='bg-[#baff5f]  py-5 px-10 text-black' onClick={handleSubmit}>
                   {!loading ? 'Submit' : "Loading..."}
                 </Button>
+              </div>
+              {errorMessage && (
+                <div className="mt-3 text-red-500 text-sm">
+                  {errorMessage}
+                </div>
+              )}
+              <div className='mt-10'>
+
+                {/* Add error message display */}
+
               </div>
               <div>
                 <p className='mt-2 text-gray-600 md:text-right text-[14px]'>

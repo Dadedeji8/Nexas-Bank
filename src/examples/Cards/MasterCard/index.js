@@ -27,6 +27,7 @@ import MDTypography from 'components/MDTypography'
 // Images
 import pattern from 'assets/images/illustrations/pattern-tree.svg'
 import masterCardLogo from 'assets/images/logos/mastercard.png'
+import { Typography } from '@mui/material'
 
 function MasterCard({ color, number, holder, expires }) {
   const numbers = [...`${number}`]
@@ -69,18 +70,22 @@ function MasterCard({ color, number, holder, expires }) {
         }}
       />
       <MDBox position="relative" zIndex={2} p={2}>
-        <MDBox color="white" p={1} lineHeight={0} display="inline-block">
-          <Icon fontSize="default">wifi</Icon>
+        <MDBox color="white" py={1} lineHeight={1} display="inline-block">
+          NEXEAS BANK
+          <Typography className='text-[8px] text-white'>Debit Card</Typography>
         </MDBox>
+
         <MDTypography
           variant="h5"
           color="white"
           fontWeight="medium"
+          className='text-sm md:text-2xl'
           sx={{ mt: 3, mb: 5, pb: 1 }}
         >
           {num1}&nbsp;&nbsp;&nbsp;{num2}&nbsp;&nbsp;&nbsp;{num3}
           &nbsp;&nbsp;&nbsp;{num4}
         </MDTypography>
+
         <MDBox
           display="flex"
           justifyContent="space-between"

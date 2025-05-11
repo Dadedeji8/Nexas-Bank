@@ -200,7 +200,7 @@ export default function App() {
 
       </Route>
 
-      <Route path='/reciept/:id' element={<Reciept />} />
+      <Route path='/receipt/:id' element={<Reciept />} />
       <Route path="/" element={<HomePageLayout />} />
       <Route path="/authentication/sign-in" element={<SignIn />} />
       <Route path="/authentication/sign-up" element={<SignUp />} />
