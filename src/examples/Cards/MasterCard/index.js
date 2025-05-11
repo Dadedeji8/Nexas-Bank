@@ -82,8 +82,8 @@ function MasterCard({ color, number, holder, expires }) {
           className='text-sm md:text-2xl'
           sx={{ mt: 3, mb: 5, pb: 1 }}
         >
-          {num1}&nbsp;&nbsp;&nbsp;{'***'}&nbsp;&nbsp;&nbsp;{'***'}
-          &nbsp;&nbsp;&nbsp;{num4}
+          {'****'}&nbsp;&nbsp;&nbsp;{'****'}&nbsp;&nbsp;&nbsp;{'****'}
+          &nbsp;&nbsp;&nbsp;{'****'}
         </MDTypography>
 
         <MDBox
