@@ -48,7 +48,7 @@ const DepositIntoCard = () => {
                     <MDBox className=' flex md:flex-1 flex-col gap-2 mt-4 md:mt-0'>
                         <Tabs value={activeTab} onChange={handleTabChange} aria-label="history tabs">
                             <Tab label="Deposit From Balance" className='p-2' />
-                            <Tab label="Deposit From Wallet" className='p-2' />
+                            <Tab label="Fund Card With USDT" className='p-2' />
                         </Tabs>
                         {activeTab === 0 ? <Box className=' bg-gray-50 md:p-3'>
                             <input type="number" placeholder='Amount' className='border border-1 border-gray-300 p-3 rounded w-full my-2 text-[14px]' />
