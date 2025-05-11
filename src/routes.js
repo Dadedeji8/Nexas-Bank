@@ -51,7 +51,7 @@ import Icon from '@mui/material/Icon'
 import HistoryPage from 'layouts/History/HistoryPage'
 import UsersPage from 'layouts/Users/UsersPage'
 import { useAuth } from 'context/AuthContext'
-
+// import Reciept from 'layouts/recieptPage/Reciept'
 
 
 const Routes = () => {
@@ -92,11 +92,11 @@ const Routes = () => {
     },
     // {
     //   type: 'collapse',
-    //   name: 'Make Transaction',
-    //   key: 'make transaction',
-    //   icon: <Icon fontSize="small">table_view</Icon>,
-    //   route: '/maketransaction',
-    //   component: <MakeTransaction />,
+    //   name: 'Receipt',
+    //   key: 'Receipt',
+    //   icon: <Icon fontSize="small">notifications</Icon>,
+    //   route: '/reciept/:id',
+    //   component: <Reciept />,
     // },
 
     {

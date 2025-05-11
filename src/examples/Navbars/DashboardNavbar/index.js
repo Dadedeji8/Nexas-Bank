@@ -50,6 +50,8 @@ import {
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
+import { AuthProvider } from 'context/AuthContext'
+import { useAuth } from 'context/AuthContext'
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState()
@@ -61,7 +63,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
     darkMode,
   } = controller
   const route = useLocation().pathname.split('/').slice(1)
-
+  const { profile } = useAuth()
   useEffect(() => {
     // Setting the navbar type
     if (fixedNavbar) {
@@ -120,26 +122,30 @@ function DashboardNavbar({ absolute, light, isMini }) {
         <MDBox color={light ? 'white' : 'inherit'} className="flex items-center">
           <Link to="/profile">
             <IconButton sx={navbarIconButton} disableRipple>
+              {
+                profile?.profilePhoto ? <img src={profile?.profilePhoto} className='rounded-full' style={{ width: '30px', height: '30px' }} /> :
 
-              <AccountCircleIcon className='size-[30px]' />
-                </IconButton>
-              </Link>
-              <IconButton
+                  <AccountCircleIcon className='size-[30px]' />
+              }
+
+            </IconButton>
+          </Link>
+          <IconButton
             size="large"
-                disableRipple
-                color="inherit"
-                sx={navbarMobileMenu}
-                onClick={handleMiniSidenav}
-              >
+            disableRipple
+            color="inherit"
+            sx={navbarMobileMenu}
+            onClick={handleMiniSidenav}
+          >
             {miniSidenav ?
               <MenuOpenIcon className='size-[30px] ' />
               :
               <MenuIcon className='size-[30px] ' />
             }
 
-              </IconButton>
+          </IconButton>
 
-            </MDBox>
+        </MDBox>
       </MDBox>
 
     </AppBar>

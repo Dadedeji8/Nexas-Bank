@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import ProtectedRoute from 'components/ProtectedRoutes/ProtectedRoutes'
 // react-router components
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-
+import Reciept from './layouts/recieptPage/Reciept.jsx'
 // @mui material components
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -160,7 +160,7 @@ export default function App() {
       <>
         {token ? <Sidenav
           color={sidenavColor}
-          // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+
           brandName="Nexeas BANK"
           routes={routes}
           onMouseEnter={handleOnMouseEnter}
@@ -169,15 +169,38 @@ export default function App() {
 
       </>
     )}
+
+    {/* {layout === 'dashboard' && !loading && (
+      <>
+        {token ? <Sidenav
+          color={sidenavColor}
+          brandName="Nexeas BANK"
+          routes={routes.filter(route => route.key !== 'Receipt')} // Filter out Receipt
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseLeave}
+        /> : ''}
+      </>
+    )} */}
+
+    {/* {layout === 'dashboard' && !loading && (
+      <>
+        {token ? <Sidenav
+          color={sidenavColor}
+          brandName="Nexeas BANK"
+          routes={routes.filter(route => route.key !== 'Receipt')} // Filter out Receipt route
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseLeave}
+        /> : ''}
+      </>
+    )} */}
     {/* {layout === "vr" && <Configurator />} */}
     <Routes>
       <Route element={<ProtectedRoute />}>
         {getRoutes(routes)}
-        <Route path='/reciept/:id' component={<Receipt />} />
 
       </Route>
 
-
+      <Route path='/reciept/:id' element={<Reciept />} />
       <Route path="/" element={<HomePageLayout />} />
       <Route path="/authentication/sign-in" element={<SignIn />} />
       <Route path="/authentication/sign-up" element={<SignUp />} />
