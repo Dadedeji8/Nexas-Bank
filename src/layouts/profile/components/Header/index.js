@@ -39,8 +39,8 @@ function Header({ children }) {
     return () => window.removeEventListener('resize', handleTabsOrientation)
   }, [])
   const inputFieldSet = [
-    { name: 'fullName', label: 'Full Name', type: 'text' },
-    { name: 'email', label: 'Email', type: 'email' },
+    // { name: 'fullName', label: 'Full Name', type: 'text' },
+    // { name: 'email', label: 'Email', type: 'email' },
     { name: 'age', label: 'Age', type: 'number' },
     { name: 'username', label: 'Username', type: 'text' },
     { name: 'oldPassword', label: 'Old Password', type: 'password' },
