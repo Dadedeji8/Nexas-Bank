@@ -14,7 +14,7 @@ const DepositIntoCard = () => {
     const [activeTab, setActiveTab] = useState(0)
     const { profile } = useAuth()
     const cardDetails = {
-        cardNumber: 1234567890123456,
+        cardNumber: 54567890123456,
         cardHolderName: profile.fullName,
         expiryDate: '12/27',
         cvv: '123',
@@ -60,13 +60,15 @@ const DepositIntoCard = () => {
                             <p className='text-[10px] font-bold mb-2'>
                                 Linked Wallet Address:
                             </p>
-                            <span className='text-[14px] text-gray-500 p-2 rounded bg-blue-100 overflow-hidden break-words' ref={textRef}>
+                            <span className='text-[14px] text-gray-500 p-2 rounded bg-blue-100 overflow-hidden break-words max-w-[400px]' ref={textRef}>
                                 0x3rwerbnt0gwivskdvjcskvbsfkvbskfvbsfvhsfbhulxmfmvlsfmglsnglfngljnsfkgnkgnsdkrgnfngkdngktngkfldfnvdfknvdfk
                             </span>
-                            <button onClick={copyToClipboard} className='border-none bg-blue-500 cursor-pointer hover:bg-[#1f1f77] transition-all duration-300 ease-in-out text-white p-3 rounded my-2 text-[12px]'>
-                                <Copy className='w-4 h-4 inline-block mr-2' />
-                                Copy Wallet Address
-                            </button>
+                            <div className='flex'>
+                                <button onClick={copyToClipboard} className='border-none bg-blue-500 cursor-pointer hover:bg-[#1f1f77] transition-all duration-300 ease-in-out text-white p-3 rounded my-2 text-[12px]'>
+                                    <Copy className='w-4 h-4 inline-block mr-2' />
+                                    Copy Wallet Address
+                                </button>
+                            </div>
                         </Box>}
                     </MDBox>
                 </MDBox>
