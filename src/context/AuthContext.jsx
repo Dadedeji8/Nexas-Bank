@@ -898,6 +898,49 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const makeCardTransaction = async (data) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        console.log('card deposit credentails from authcontext', data)
+        try {
+            const response = await fetch(`${endpoint}/bank/transaction/card`, {
+                method: "POST",
+                headers: myHeaders,
+                body: JSON.stringify({
+                    amount: data.amount,
+                    method: "wallet",
+                    account: {
+                        code: 'Wallet',
+                        name: profile.fullName,
+                        channel: "wallet"
+                    },
+                    password: data.password
+                }),
+                redirect: "follow"
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Transaction failed');
+            }
+
+            return result;
+        } catch (error) {
+            console.error('Transaction error:', error);
+            throw new Error(error.message || 'Failed to complete transaction');
+        }
+    };
+
+
+
+
+    // makeCardTransaction(transactionData)
+    //     .then(result => console.log("Transaction successful:", result))
+    //     .catch(error => console.error("Transaction failed:", error.message));
+
+
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin, isActive,
@@ -924,7 +967,7 @@ export const AuthProvider = ({ children }) => {
             notifications,
             setWithdrawals,
             getAccountDetail, makeTransfer,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDeleteSingleTransaction, toggleDetailState, deleteAccountDetail, AdminDeleteUser
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDeleteSingleTransaction, toggleDetailState, deleteAccountDetail, AdminDeleteUser, makeCardTransaction
         }}>
             {children}
         </AuthenticationContext.Provider>

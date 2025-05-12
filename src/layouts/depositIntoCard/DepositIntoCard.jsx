@@ -7,18 +7,57 @@ import DashboardLayout from 'examples/LayoutContainers/DashboardLayout'
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar'
 import { Copy } from 'lucide-react';
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const DepositIntoCard = () => {
+    const Navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
     const [activeTab, setActiveTab] = useState(0)
-    const { profile } = useAuth()
+    const { profile, makeCardTransaction } = useAuth()
     const cardDetails = {
         cardNumber: 54567890123456,
         cardHolderName: profile.fullName,
         expiryDate: '12/27',
         cvv: '123',
     };
+
+    const [depositDetails, setDepositDetails] = useState({
+        amount: 0,
+        password: ''
+    });
+    useEffect(() => {
+        console.log(depositDetails)
+    }, [depositDetails]);
+    const handleInputChange = (e) => {
+        e.preventDefault();
+
+        const { name, value } = e.target;
+        setDepositDetails(prevDetails => ({
+            ...prevDetails,
+            [name]: value
+        }));
+    };
+    const submitCardDeposit = async () => {
+        setLoading(true);
+        if (!depositDetails.amount || !depositDetails.password) {
+            toast.error('Please fill in all fields');
+            setLoading(false);
+            return;
+        }
+        try {
+            const result = await makeCardTransaction(depositDetails);
+            console.log('card deposit details', depositDetails)
+            if (result) {
+                toast.success('Deposit successful!');
+                Navigate(`/receipt/result/${result?.transaction?._id}`);
+            }
+        } catch (error) {
+            toast.error(error.message || 'Deposit failed');
+            setLoading(false);
+        }
+    }
     const textRef = useRef(null);
 
     const copyToClipboard = () => {
@@ -34,6 +73,7 @@ const DepositIntoCard = () => {
     const handleTabChange = (event, newValue) => {
         setActiveTab(newValue)
     }
+
 
     return (
         <div>
@@ -51,10 +91,10 @@ const DepositIntoCard = () => {
                             <Tab label="Deposit With USDT" className='p-2' />
                         </Tabs>
                         {activeTab === 0 ? <Box className=' bg-gray-50 md:p-3'>
-                            <input type="number" placeholder='Amount' className='border border-1 border-gray-300 p-3 rounded w-full my-2 text-[14px]' />
+                            <input type="number" placeholder='Amount' name="amount" onChange={handleInputChange} className='border border-1 border-gray-300 p-3 rounded w-full my-2 text-[14px]' />
                             <div className='flex flex-col md:flex-row gap-2'>
-                                <input type="password" placeholder='Password' className='border border-1 border-gray-300 p-3 rounded w-full my-2 text-[14px]' />
-                                <button className='border-none bg-blue-500 cursor-pointer hover:bg-[#1f1f77] transition-all duration-300 ease-in-out text-white p-3 rounded w-full my-2 text-[14px]'>Deposit</button>
+                                <input type="password" onChange={handleInputChange} placeholder='Password' name="password" className='border border-1 border-gray-300 p-3 rounded w-full my-2 text-[14px]' />
+                                <button className='border-none bg-blue-500 cursor-pointer hover:bg-[#1f1f77] transition-all duration-300 ease-in-out text-white p-3 rounded w-full my-2 text-[14px]' onClick={() => submitCardDeposit()}>{loading ? 'Processing...' : 'Deposit'}</button>
                             </div>
                         </Box> : <Box className=' bg-gray-50 md:p-3 flex flex-col gap-2'>
                             <p className='text-[10px] font-bold mb-2'>
