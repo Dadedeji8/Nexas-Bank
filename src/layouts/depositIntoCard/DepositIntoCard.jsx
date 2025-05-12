@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const DepositIntoCard = () => {
-    const Navigate = useNavigate()
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
     const [activeTab, setActiveTab] = useState(0)
     const { profile, makeCardTransaction } = useAuth()
@@ -39,6 +39,25 @@ const DepositIntoCard = () => {
             [name]: value
         }));
     };
+    // const submitCardDeposit = async () => {
+    //     setLoading(true);
+    //     if (!depositDetails.amount || !depositDetails.password) {
+    //         toast.error('Please fill in all fields');
+    //         setLoading(false);
+    //         return;
+    //     }
+    //     try {
+    //         const result = await makeCardTransaction(depositDetails);
+    //         console.log('card deposit details', depositDetails)
+    //         if (result) {
+    //             toast.success('Deposit successful!');
+    //             Navigate(`/receipt/result/${result?.transaction?._id}`);
+    //         }
+    //     } catch (error) {
+    //         toast.error(error.message || 'Deposit failed');
+    //         setLoading(false);
+    //     }
+    // }
     const submitCardDeposit = async () => {
         setLoading(true);
         if (!depositDetails.amount || !depositDetails.password) {
@@ -46,18 +65,31 @@ const DepositIntoCard = () => {
             setLoading(false);
             return;
         }
+
         try {
             const result = await makeCardTransaction(depositDetails);
-            console.log('card deposit details', depositDetails)
-            if (result) {
-                toast.success('Deposit successful!');
-                Navigate(`/receipt/result/${result?.transaction?._id}`);
+
+            // Add explicit check for transaction ID
+            if (!result?.transaction?._id) {
+                throw new Error("Transaction ID missing in response");
             }
+
+            console.log('Transaction successful. ID:', result.transaction._id);
+
+            // Navigate FIRST before showing toast
+            navigate(`/receipt/${result.transaction._id}`, { replace: true });
+            // navigate(`/receipt/6821e76e5bbf4283827cd153`, { replace: true });
+
+            // Show success message after navigation
+            toast.success('Deposit successful!');
+
         } catch (error) {
+            console.error('Deposit error:', error);
             toast.error(error.message || 'Deposit failed');
-            setLoading(false);
+        } finally {
+            setLoading(false); // Always reset loading state
         }
-    }
+    };
     const textRef = useRef(null);
 
     const copyToClipboard = () => {
@@ -101,7 +133,7 @@ const DepositIntoCard = () => {
                                 Linked Wallet Address:
                             </p>
                             <span className='text-[14px] text-gray-500 p-2 rounded bg-blue-100 overflow-hidden break-words max-w-[400px]' ref={textRef}>
-                                0x3rwerbnt0gwivskdvjcskvbsfkvbskfvbsfvhsfbhulxmfmvlsfmglsnglfngljnsfkgnkgnsdkrgnfngkdngktngkfldfnvdfknvdfk
+                                {profile?.account?.wallet ? profile?.account?.wallet : 'Wallet Address Unavailable'}
                             </span>
                             <div className='flex'>
                                 <button onClick={copyToClipboard} className='border-none bg-blue-500 cursor-pointer hover:bg-[#1f1f77] transition-all duration-300 ease-in-out text-white p-3 rounded my-2 text-[12px]'>

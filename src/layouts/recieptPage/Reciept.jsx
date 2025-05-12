@@ -305,7 +305,7 @@ const Receipt = () => {
                     </h1>
                     <div>
                         <p>Date: {new Date(transactionData.date).toLocaleDateString()}</p>
-                        <p>Transaction ID: NXB-{transactionData._id.toUpperCase()}</p>
+                        <p className='break-words '>Transaction ID: NXB-{transactionData._id.toUpperCase()}</p>
                     </div>
                 </div>
 
@@ -317,8 +317,8 @@ const Receipt = () => {
                     <p style={{ marginBlockEnd: '5px' }}>Account Number:{transactionData.account.code}</p>
                     <p style={{ marginBlockEnd: '5px' }}>Amount: ${transactionData.amount.toLocaleString()}.00</p>
                     <p style={{ marginBlockEnd: '5px' }}>Bank: {transactionData.account.channel}</p>
-                    <p style={{ marginBlockEnd: '5px' }}>Transaction Type: {transactionData.type == 'debit' ? 'Transfer' : 'Credit'}</p>
-                    <p style={{ marginBlockEnd: '5px' }}>Description: {transactionData.description}</p>
+                    <p style={{ marginBlockEnd: '5px' }}>Transaction Type: {transactionData.type == 'debit' ? 'Transfer' : 'card' ? 'Card Deposit' : 'Credit'}</p>
+                    <p style={{ marginBlockEnd: '5px' }}>Description: {transactionData.description == 'Transfer to card from External wallet' ? 'Deposit to Debit Card' : transactionData.description}</p>
                     <p style={{ marginBlockEnd: '5px' }}>Status: {transactionData.status}</p>
                 </div>
 

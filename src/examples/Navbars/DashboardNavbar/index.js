@@ -123,7 +123,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
           <Link to="/profile">
             <IconButton sx={navbarIconButton} disableRipple>
               {
-                profile?.profilePhoto ? <img src={profile?.profilePhoto} className='rounded-full' style={{ width: '30px', height: '30px' }} /> :
+                profile?.profilePhoto ? <img src={profile?.profilePhoto} className='rounded-full' style={{ width: '30px', height: '30px', objectFit: 'cover' }} /> :
 
                   <AccountCircleIcon className='size-[30px]' />
               }

@@ -8,7 +8,7 @@ import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
 import { useAuth } from 'context/AuthContext';
 import { toast } from 'react-toastify';
 import Deactivated from 'layouts/deactivatedPage/Deactivated';
-
+import { useNavigate } from 'react-router-dom';
 const MakeTransaction = () => {
     const [loadingProfile, setLoadingProfile] = useState(false);
     const [accountDetails, setAccountDetails] = useState(null);
@@ -18,6 +18,7 @@ const MakeTransaction = () => {
         description: '',
         password: ''
     });
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false)
     const { makeTransfer, getAccountDetail, isActive } = useAuth();
     useEffect(() => { console.log(transferData) }, [transferData])// checking the data being passed
@@ -35,9 +36,10 @@ const MakeTransaction = () => {
         setLoadingProfile(true);
         try {
             const response = await getAccountDetail(transferData.accountNumber);
-            await setAccountDetails(response);
+            setAccountDetails(response);
 
             console.log('this is the new Account details', accountDetails)
+
         } catch (error) {
             toast.error(error.message || 'Account verification failed');
             setAccountDetails(null);
@@ -68,11 +70,11 @@ const MakeTransaction = () => {
 
             }
             // Make transfer
-            await makeTransfer({
+            const response = await makeTransfer({
                 ...transferData,
                 ...accountDetails
             });
-
+            navigate(`/receipt/${response.transaction._id}`, { replace: true });
             // Reset form on success
             setAccountDetails(null);
             setTransferData({

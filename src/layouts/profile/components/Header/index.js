@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import PropTypes from 'prop-types'
 import { useAuth } from 'context/AuthContext'
-import { Card, Grid, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { Card, Grid, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, DialogContentText, CircularProgress } from '@mui/material'
 import { Check, Edit, Money } from '@mui/icons-material'
 import MDBox from 'components/MDBox'
 import MDTypography from 'components/MDTypography'
@@ -18,7 +18,7 @@ import { FileUploaderRegular } from '@uploadcare/react-uploader';
 import '@uploadcare/react-uploader/core.css';
 // import { uploadFile } from '@uploadcare/upload-client'
 function Header({ children }) {
-  const { profile, getProfile, updateProfile } = useAuth()
+  const { profile, getProfile, updateProfile, updateUserWallet } = useAuth()
   const [tabsOrientation, setTabsOrientation] = useState('horizontal')
   const [tabValue, setTabValue] = useState(0)
   const [isEditing, setIsEditing] = useState(false)
@@ -46,12 +46,14 @@ function Header({ children }) {
     { name: 'oldPassword', label: 'Old Password', type: 'password' },
     { name: 'newPassword', label: 'New Password', type: 'password' }
   ]
-
+  const [walletAddress, setWalletAddress] = useState('')
+  const [openWalletDialog, setOpenWalletDialog] = useState(false)
   useEffect(() => {
     return () => {
       getProfile()
     };
   }, [uploading])
+  const [loading, setLoading] = useState(false)
   const handleFileUpload = (e) => {
     if (e.allEntries && e.allEntries.length > 0) {
       setUploading(true); // Show loading indicator
@@ -114,9 +116,45 @@ function Header({ children }) {
   }
 
 
+  // const UpdateWalletAddress = async () => {
+  //   setLoading(true)
+  //   try {
+
+  //     const result = await updateUserWallet(walletAddress)
+  //     toast.success('Wallet Updated Successfully')
+  //     setLoading(false)
+  //     setOpenWalletDialog(false)
+  //   } catch (error) {
+  //     console.log(error)
+  //     toast.error(error)
+  //     // setOpenWalletDialog(false)
+  //   }
+  // }
+
+  const UpdateWalletAddress = async () => {
+    try {
+      setLoading(true);
+      await updateUserWallet(walletAddress);
+      toast.success('Wallet Updated Successfully');
+      setOpenWalletDialog(false); // Close on success
+    } catch (error) {
+      console.error('Wallet Update Error:', error);
+      const errorMessage = error.message || 'Failed to update wallet address';
+      toast.error(errorMessage);
+      // Keep dialog open on error to let user retry
+      // Remove next line if you want to close dialog on error
+      setOpenWalletDialog(true);
+    } finally {
+      setLoading(false); // Always reset loading state
+    }
+  };
 
 
-
+  useEffect(() => { console.log(walletAddress) }, [walletAddress])
+  const handleWalletInputChange = (e) => {
+    const { name, value } = e.target
+    setWalletAddress(value)
+  }
   const handleClickOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const handleVerifyOpen = () => setOpenVerify(true)
@@ -169,6 +207,11 @@ function Header({ children }) {
           <Grid item>
             <Button variant='outlined' className='text-blue-900' onClick={handleVerifyOpen}>
               Verify Account
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button variant='outlined' className='text-blue-900' onClick={() => setOpenWalletDialog(true)}>
+              Update Wallet Address
             </Button>
           </Grid>
           <Grid item>
@@ -261,6 +304,70 @@ function Header({ children }) {
           </div>
         </Dialog>
       </Card>
+      {/* <Dialog open={openWalletDialog} onClose={() => { setOpenWalletDialog(false) }} >
+        <DialogTitle >
+          Update Wallet Address
+        </DialogTitle>
+        <DialogContent>
+          <MDInput className='w-full mt-3' label={'Wallet Address'} type={'text'} onChange={handleWalletInputChange} />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant='outlined'
+            color="primary"
+            className='text-blue-500'
+            onClick={() => UpdateWalletAddress}
+          >
+            {loading ? 'Updating Wallet' : 'Update Wallet'}
+          </Button>
+          <Button
+
+            color="primary"
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog> */}
+
+      <Dialog
+        open={openWalletDialog}
+        onClose={() => setOpenWalletDialog(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Update Wallet Address</DialogTitle>
+        <DialogContent>
+          <MDInput
+            className="w-full mt-3"
+            label="Wallet Address"
+            type="text"
+            onChange={handleWalletInputChange}
+            disabled={loading}
+            autoFocus
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            className='text-white'
+            onClick={UpdateWalletAddress}
+            disabled={loading}
+            startIcon={loading ? <CircularProgress size={20} /> : null}
+          >
+            {loading ? 'Updating...' : 'Update'}
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            className='text-black'
+            onClick={() => setOpenWalletDialog(false)}
+            disabled={loading}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </MDBox>
   )
 }

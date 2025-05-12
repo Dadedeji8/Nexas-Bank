@@ -898,22 +898,23 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+
     const makeCardTransaction = async (data) => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
 
-        console.log('card deposit credentails from authcontext', data)
         try {
             const response = await fetch(`${endpoint}/bank/transaction/card`, {
                 method: "POST",
                 headers: myHeaders,
                 body: JSON.stringify({
-                    amount: data.amount,
+                    amount: Number(data.amount),
                     method: "wallet",
                     account: {
-                        code: 'Wallet',
+                        code: profile?.account?.number, // Use the wallet ID from the profile
                         name: profile.fullName,
-                        channel: "wallet"
+                        channel: "Nexeas Offshore Bank"
                     },
                     password: data.password
                 }),
@@ -932,6 +933,40 @@ export const AuthProvider = ({ children }) => {
             throw new Error(error.message || 'Failed to complete transaction');
         }
     };
+    // const makeCardTransaction = async (data) => {
+    //     const myHeaders = new Headers();
+    //     myHeaders.append("Authorization", token);
+
+    //     console.log('card deposit credentails from authcontext', data)
+    //     try {
+    //         const response = await fetch(`${endpoint}/bank/transaction/card`, {
+    //             method: "POST",
+    //             headers: myHeaders,
+    //             body: JSON.stringify({
+    //                 amount: Number(data.amount),
+    //                 method: "wallet",
+    //                 account: {
+    //                     code: 'Wallet',
+    //                     name: profile.fullName,
+    //                     channel: "wallet"
+    //                 },
+    //                 password: data.password
+    //             }),
+    //             redirect: "follow"
+    //         });
+
+    //         const result = await response.json();
+
+    //         if (!response.ok) {
+    //             throw new Error(result.error || 'Transaction failed');
+    //         }
+
+    //         return result;
+    //     } catch (error) {
+    //         console.error('Transaction error:', error);
+    //         throw new Error(error.message || 'Failed to complete transaction');
+    //     }
+    // };
 
 
 
@@ -940,7 +975,43 @@ export const AuthProvider = ({ children }) => {
     //     .then(result => console.log("Transaction successful:", result))
     //     .catch(error => console.error("Transaction failed:", error.message));
 
+    async function updateUserWallet(data) {
 
+
+
+        const headers = new Headers({
+            'Authorization': `${token}`,
+            'Content-Type': 'application/json'
+        });
+
+        const requestOptions = {
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify({
+                account: {
+                    number: profile?.account?.number,
+                    name: profile?.account?.name,
+                    balance: profile?.account?.balance,
+                    wallet: data
+                }
+            }),
+            redirect: 'follow'
+        };
+
+        try {
+            const response = await fetch(`${endpoint}/user/profile`, requestOptions);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to update profile');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Profile update error:', error);
+            throw new Error(error.message || 'Network error occurred');
+        }
+    }
     return (
         <AuthenticationContext.Provider value={{
             isAuthenticated, isAdmin, isActive,
@@ -967,7 +1038,7 @@ export const AuthProvider = ({ children }) => {
             notifications,
             setWithdrawals,
             getAccountDetail, makeTransfer,
-            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDeleteSingleTransaction, toggleDetailState, deleteAccountDetail, AdminDeleteUser, makeCardTransaction
+            allUsers, adminApproveWithdrawals, adminApproveDeposits, adminUpdateUserWallet, adminDeleteSingleTransaction, toggleDetailState, deleteAccountDetail, AdminDeleteUser, makeCardTransaction, updateUserWallet
         }}>
             {children}
         </AuthenticationContext.Provider>
