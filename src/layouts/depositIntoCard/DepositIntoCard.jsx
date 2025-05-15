@@ -65,8 +65,14 @@ const DepositIntoCard = () => {
             setLoading(false);
             return;
         }
-
+        if (profile.isActive === false) {
+            toast.error("Card DepositFailed.");
+            setLoading(false);
+            return;
+        }
         try {
+
+
             const result = await makeCardTransaction(depositDetails);
 
             // Add explicit check for transaction ID

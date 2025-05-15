@@ -168,6 +168,7 @@ import Signature from 'assets/images/73934051_9819201-removebg-preview.png'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowBack } from '@mui/icons-material'
 import { Loader } from 'lucide-react'
+import { useAuth } from 'context/AuthContext'
 
 const Receipt = () => {
     const { id } = useParams()
@@ -176,14 +177,14 @@ const Receipt = () => {
     const [error, setError] = useState(null)
     const printRef = useRef()
     const navigate = useNavigate()
-
+    const { token } = useAuth()
     useEffect(() => {
         const fetchTransaction = async () => {
             try {
                 const myHeaders = new Headers()
                 myHeaders.append(
                     "Authorization",
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1SWQiOiI2N2Q2OThjYzRlZGRmNGI1MGM2YTc1MzgiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NDY2NTMxMzIsImV4cCI6MTc0NzI1NzkzMn0.rxAMwoJu_yIbfS-6rVNSFDyYBnZCBoF-RCZ72H1mlis"
+                    token
                 )
                 myHeaders.append("Content-Type", "application/json")
 
