@@ -143,14 +143,16 @@ const UserActionMenu = ({ rowId, amount, type, description, status, isAdmin }) =
         <MenuItem onClick={handleDialogOpen}>Edit Transaction</MenuItem>
         <MenuItem onClick={() => deleteTransaction(rowId)} >Delete Transaction </MenuItem>
         <MenuItem ><Link to={`/receipt/${rowId}`}>View Receipt</Link></MenuItem>
-      </Menu> : <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        PaperProps={{ style: { maxHeight: 48 * 4.5, width: '20ch' } }}
-      >
-        <MenuItem ><Link to={`/receipt/${rowId}`}>View Receipt</Link></MenuItem>
-      </Menu>}
+      </Menu>
+        :
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          PaperProps={{ style: { maxHeight: 48 * 4.5, width: '20ch' } }}
+        >
+          <MenuItem ><Link to={`/receipt/${rowId}`}>View Receipt</Link></MenuItem>
+        </Menu>}
       <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm" fullWidth>
         <DialogTitle>Edit Transaction</DialogTitle>
         <DialogContent>
