@@ -66,7 +66,7 @@ const DepositIntoCard = () => {
             return;
         }
         if (profile.isActive === false) {
-            toast.error("Card DepositFailed.");
+            toast.error("Card Deposit Failed.");
             setLoading(false);
             return;
         }
