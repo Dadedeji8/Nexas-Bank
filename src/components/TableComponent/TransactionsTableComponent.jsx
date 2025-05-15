@@ -53,7 +53,7 @@ function TransactionsTableComponent() {
 export default TransactionsTableComponent
 
 // This function creates a UserActionMenu component that takes in rowId, amount, type, and description as props
-const UserActionMenu = ({ rowId, amount, type, description, status, isAdmin }) => {
+const UserActionMenu = ({ rowId, amount, type, description, status, }) => {
   // Destructure the adminUpdateTransaction function from the useAuth hook
   const { adminUpdateTransaction, adminDeleteSingleTransaction } = useAuth();
   // Set the anchorEl state to null
@@ -62,7 +62,7 @@ const UserActionMenu = ({ rowId, amount, type, description, status, isAdmin }) =
   const [openDialog, setOpenDialog] = useState(false);
   // Set the transactionDetail state to an object with the amount, type, and description props
   const [transactionDetail, setTransactionDetail] = useState({ amount, type, description });
-
+  const { isAdmin } = useAuth()
   // Set the open state to a boolean value based on the anchorEl state
   const open = Boolean(anchorEl);
 
