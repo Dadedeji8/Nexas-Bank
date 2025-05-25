@@ -318,7 +318,7 @@ const Receipt = () => {
                     <p style={{ marginBlockEnd: '5px' }}>Account Number:{transactionData.account.code}</p>
                     <p style={{ marginBlockEnd: '5px' }}>Amount: ${transactionData.amount.toLocaleString()}.00</p>
                     <p style={{ marginBlockEnd: '5px' }}>Bank: {transactionData.account.channel}</p>
-                    <p style={{ marginBlockEnd: '5px' }}>Transaction Type: {transactionData.type} transaction</p>
+                    <p style={{ marginBlockEnd: '5px' }}>Transaction Type: {transactionData.type === 'card' ? 'debit' : transactionData.type}</p>
                     <p style={{ marginBlockEnd: '5px' }}>Description: {transactionData.description == 'Transfer to card from External wallet' ? 'Deposit to Debit Card' : transactionData.description}</p>
                     <p style={{ marginBlockEnd: '5px' }}>Status: {transactionData.status}</p>
                 </div>
