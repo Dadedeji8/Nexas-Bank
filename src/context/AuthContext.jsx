@@ -69,6 +69,16 @@ export const AuthProvider = ({ children }) => {
 
     }, [token]);
 
+    // Helper function to handle authentication errors
+    const handleAuthError = (error) => {
+        if (error.message && (error.message.includes('401') || error.message.includes('Unauthorized'))) {
+            console.log('Authentication failed, clearing token and redirecting to login');
+            logout();
+        } else {
+            console.error('API Error:', error);
+        }
+    };
+
     function getProfile() {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", token);
@@ -82,6 +92,11 @@ export const AuthProvider = ({ children }) => {
         fetch(`${endpoint}/user/profile`, requestOptions)
             .then((response) => {
                 if (!response.ok) {
+                    if (response.status === 401) {
+                        // Token is invalid or expired, clear auth data
+                        logout();
+                        return;
+                    }
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 return response.json();
@@ -98,7 +113,9 @@ export const AuthProvider = ({ children }) => {
                 setIsActive(result.isActive)
                 localStorage.setItem("profile", JSON.stringify(result));
             })
-            .catch((error) => console.error("Error fetching profile:", error));
+            .catch((error) => {
+                handleAuthError(error);
+            });
     }
     async function updateProfile(data, onSuccess, onError) {
         const token = localStorage.getItem("token");
@@ -190,7 +207,7 @@ export const AuthProvider = ({ children }) => {
                 const filteredTransactions = result.transactions.filter((transaction) => !transaction.delete);
                 setTransactionsHistory(filteredTransactions)
             })
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
     }
 
     function getWithdrawals({ id, userId }) {
@@ -216,7 +233,7 @@ export const AuthProvider = ({ children }) => {
         fetch(api, requestOptions)
             .then((response) => response.json())
             .then((result) => setWithdrawals(result.withdrawals))
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
     }
 
     function adminApproveWithdrawals({ id, status, reason }) {
@@ -425,7 +442,7 @@ export const AuthProvider = ({ children }) => {
         fetch(api, requestOptions)
             .then((response) => response.json())
             .then((result) => setDeposits(result.deposits))
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
     }
 
     // const login = async (data) => {
@@ -549,7 +566,7 @@ export const AuthProvider = ({ children }) => {
                 console.log(result)
                 getDeposits({})
             })
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
     }
     // making new deposit below
     const makeWithdrawel = (data) => {
@@ -581,7 +598,7 @@ export const AuthProvider = ({ children }) => {
                 console.log(result)
                 getWithdrawals({})
             })
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
     }
 
     const logout = () => {
@@ -590,6 +607,7 @@ export const AuthProvider = ({ children }) => {
         setToken(null);
         setProfile(null);
         setIsAdmin(false);
+        setIsActive('unset');
     };
     const getNotification = () => {
         const myHeaders = new Headers();
@@ -607,7 +625,7 @@ export const AuthProvider = ({ children }) => {
             .then((result) => { setNotifications(result?.notifications) }
 
             )
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
     }
 
     const getAccountDetail = async (accountNumber) => {
