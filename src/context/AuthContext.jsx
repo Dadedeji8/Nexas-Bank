@@ -50,23 +50,40 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (!token) {
+            setLoading(false);
             return;
         }
-        getProfile();
-        getWithdrawals({});
-        getTransactions({});
-        getDeposits({});
-        getNotification();
 
-        if (isAdmin) {
+        const loadUserData = async () => {
+            try {
+                // Create an array of all the API calls we need to make
+                const apiCalls = [
+                    getProfile(),
+                    getWithdrawals({}),
+                    getTransactions({}),
+                    getDeposits({}),
+                    getNotification()
+                ];
 
-            // only admin
-            getAllProfile({});
-            getAllAccountDetails()
-        }
+                // Add admin-specific calls if user is admin
+                if (isAdmin) {
+                    apiCalls.push(getAllProfile({}));
+                    apiCalls.push(getAllAccountDetails());
+                }
 
-        setLoading(false);
+                // Wait for all API calls to complete
+                await Promise.allSettled(apiCalls);
 
+                // Set loading to false only after all calls complete
+                setLoading(false);
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                // Still set loading to false even if there's an error
+                setLoading(false);
+            }
+        };
+
+        loadUserData();
     }, [token]);
 
     // Helper function to handle authentication errors
@@ -177,7 +194,7 @@ export const AuthProvider = ({ children }) => {
         fetch(api, requestOptions)
             .then((response) => response.json())
             .then((result) => setAllUsers(result.users))
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
     }
 
     function getTransactions({ id, userId }) {
@@ -261,7 +278,7 @@ export const AuthProvider = ({ children }) => {
                 console.log(result)
                 getWithdrawals({})
             })
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
     }
 
     function adminApproveDeposits({ id, status }) {
@@ -288,7 +305,7 @@ export const AuthProvider = ({ children }) => {
                 console.log(result)
                 getDeposits({})
             })
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
         return
     }
 
@@ -415,7 +432,7 @@ export const AuthProvider = ({ children }) => {
                 console.log(result)
                 getAllProfile({})
             })
-            .catch((error) => console.error(error));
+            .catch((error) => handleAuthError(error));
         return
     }
 
@@ -622,9 +639,9 @@ export const AuthProvider = ({ children }) => {
 
         fetch(`${endpoint}/notification`, requestOptions)
             .then((response) => { return response.json() })
-            .then((result) => { setNotifications(result?.notifications) }
-
-            )
+            .then((result) => {
+                setNotifications(result?.notifications)
+            })
             .catch((error) => handleAuthError(error));
     }
 
